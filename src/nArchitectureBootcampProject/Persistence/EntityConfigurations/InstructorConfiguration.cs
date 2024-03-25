@@ -8,7 +8,7 @@ public class InstructorConfiguration : IEntityTypeConfiguration<Instructor>
 {
     public void Configure(EntityTypeBuilder<Instructor> builder)
     {
-        builder.ToTable("Instructors").HasKey(i => i.Id);
+        builder.ToTable("Instructors");
 
         builder.Property(i => i.Id).HasColumnName("Id").IsRequired();
         builder.Property(i => i.CompanyName).HasColumnName("CompanyName");
@@ -16,6 +16,5 @@ public class InstructorConfiguration : IEntityTypeConfiguration<Instructor>
         builder.Property(i => i.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(i => i.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasQueryFilter(i => !i.DeletedDate.HasValue);
     }
 }

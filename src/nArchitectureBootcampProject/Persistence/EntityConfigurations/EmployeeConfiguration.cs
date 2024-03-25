@@ -8,7 +8,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        builder.ToTable("Employees").HasKey(e => e.Id);
+        builder.ToTable("Employees");
 
         builder.Property(e => e.Id).HasColumnName("Id").IsRequired();
         builder.Property(e => e.Position).HasColumnName("Position");
@@ -16,6 +16,5 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(e => e.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasQueryFilter(e => !e.DeletedDate.HasValue);
     }
 }
