@@ -2,17 +2,22 @@ using Application.Features.Applications.Constants;
 using Application.Features.Applications.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
-using ApplicationEntity = Domain.Entities.Application;
+using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Caching;
 using NArchitecture.Core.Application.Pipelines.Logging;
 using NArchitecture.Core.Application.Pipelines.Transaction;
-using MediatR;
 using static Application.Features.Applications.Constants.ApplicationsOperationClaims;
+using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.Update;
 
-public class UpdateApplicationCommand : IRequest<UpdatedApplicationResponse>, ISecuredRequest, ICacheRemoverRequest, ILoggableRequest, ITransactionalRequest
+public class UpdateApplicationCommand
+    : IRequest<UpdatedApplicationResponse>,
+        ISecuredRequest,
+        ICacheRemoverRequest,
+        ILoggableRequest,
+        ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid ApplicantId { get; set; }
@@ -31,17 +36,26 @@ public class UpdateApplicationCommand : IRequest<UpdatedApplicationResponse>, IS
         private readonly IApplicationRepository _applicationRepository;
         private readonly ApplicationBusinessRules _applicationBusinessRules;
 
-        public UpdateApplicationCommandHandler(IMapper mapper, IApplicationRepository applicationRepository,
-                                         ApplicationBusinessRules applicationBusinessRules)
+        public UpdateApplicationCommandHandler(
+            IMapper mapper,
+            IApplicationRepository applicationRepository,
+            ApplicationBusinessRules applicationBusinessRules
+        )
         {
             _mapper = mapper;
             _applicationRepository = applicationRepository;
             _applicationBusinessRules = applicationBusinessRules;
         }
 
-        public async Task<UpdatedApplicationResponse> Handle(UpdateApplicationCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedApplicationResponse> Handle(
+            UpdateApplicationCommand request,
+            CancellationToken cancellationToken
+        )
         {
-            ApplicationEntity? application = await _applicationRepository.GetAsync(predicate: a => a.Id == request.Id, cancellationToken: cancellationToken);
+            ApplicationEntity? application = await _applicationRepository.GetAsync(
+                predicate: a => a.Id == request.Id,
+                cancellationToken: cancellationToken
+            );
             await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
             application = _mapper.Map(request, application);
 

@@ -6,10 +6,7 @@ public class ApplicationState : Entity<Guid>
 {
     public string Name { get; set; }
 
-    public ApplicationState()
-    {
-        
-    }
+    public ApplicationState() { }
 
     public ApplicationState(Guid id, string name)
     {

@@ -5,8 +5,8 @@ using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
 using AutoMapper;
 using NArchitecture.Core.Application.Responses;
-using ApplicationEntity = Domain.Entities.Application;
 using NArchitecture.Core.Persistence.Paging;
+using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Profiles;
 

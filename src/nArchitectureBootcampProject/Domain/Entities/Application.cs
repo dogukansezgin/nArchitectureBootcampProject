@@ -12,10 +12,7 @@ public class Application : Entity<Guid>
     public virtual Bootcamp? Bootcamp { get; set; }
     public virtual ApplicationState? ApplicationState { get; set; }
 
-    public Application()
-    {
-        
-    }
+    public Application() { }
 
     public Application(Guid id, Guid applicantId, Guid bootcampId, Guid applicationStateId)
     {

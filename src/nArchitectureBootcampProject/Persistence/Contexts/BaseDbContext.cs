@@ -1,8 +1,8 @@
 using System.Reflection;
 using Domain.Entities;
-using ApplicationEntity = Domain.Entities.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ApplicationEntity = Domain.Entities.Application;
 
 namespace Persistence.Contexts;
 

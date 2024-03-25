@@ -13,10 +13,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
     public virtual ICollection<OtpAuthenticator> OtpAuthenticators { get; set; } = default!;
     public virtual ICollection<EmailAuthenticator> EmailAuthenticators { get; set; } = default!;
 
-    public User()
-    {
-        
-    }
+    public User() { }
 
     public User(Guid id, string userName, string firstName, string lastName, DateTime dateOfBirth, string nationalIdentity)
     {

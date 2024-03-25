@@ -9,10 +9,8 @@ public class Blacklist : Entity<Guid>
     public DateTime Date { get; set; }
 
     public virtual Applicant? Applicant { get; set; }
-    public Blacklist()
-    {
-        
-    }
+
+    public Blacklist() { }
 
     public Blacklist(Guid id, Guid applicantId, string reason, DateTime date)
     {

@@ -20,8 +20,6 @@ public class BlacklistConfiguration : IEntityTypeConfiguration<Blacklist>
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
 
-        builder.HasOne(x => x.Applicant)
-            .WithMany()
-            .HasForeignKey(x => x.ApplicantId);
+        builder.HasOne(x => x.Applicant).WithMany().HasForeignKey(x => x.ApplicantId);
     }
 }

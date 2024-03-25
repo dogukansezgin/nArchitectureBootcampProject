@@ -1,6 +1,16 @@
 using System.Reflection;
+using Application.Services.Applicants;
+using Application.Services.Applications;
+using Application.Services.ApplicationStates;
 using Application.Services.AuthenticatorService;
 using Application.Services.AuthService;
+using Application.Services.Blacklists;
+using Application.Services.BootcampImages;
+using Application.Services.Bootcamps;
+using Application.Services.BootcampStates;
+using Application.Services.Employees;
+using Application.Services.InstructorImages;
+using Application.Services.Instructors;
 using Application.Services.UsersService;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,16 +29,6 @@ using NArchitecture.Core.Localization.Resource.Yaml.DependencyInjection;
 using NArchitecture.Core.Mailing;
 using NArchitecture.Core.Mailing.MailKit;
 using NArchitecture.Core.Security.DependencyInjection;
-using Application.Services.Applicants;
-using Application.Services.Employees;
-using Application.Services.Instructors;
-using Application.Services.Applications;
-using Application.Services.ApplicationStates;
-using Application.Services.Blacklists;
-using Application.Services.InstructorImages;
-using Application.Services.Bootcamps;
-using Application.Services.BootcampImages;
-using Application.Services.BootcampStates;
 
 namespace Application;
 

@@ -22,11 +22,7 @@ public class BootcampConfiguration : IEntityTypeConfiguration<Bootcamp>
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
 
-        builder.HasOne(x => x.Instructor)
-            .WithMany()
-            .HasForeignKey(x => x.InstructorId);
-        builder.HasOne(x => x.BootcampState)
-            .WithMany()
-            .HasForeignKey(x => x.BootcampStateId);
+        builder.HasOne(x => x.Instructor).WithMany().HasForeignKey(x => x.InstructorId);
+        builder.HasOne(x => x.BootcampState).WithMany().HasForeignKey(x => x.BootcampStateId);
     }
 }

@@ -9,10 +9,7 @@ public class BootcampImage : Entity<Guid>
 
     public virtual Bootcamp Bootcamp { get; set; }
 
-    public BootcampImage()
-    {
-        
-    }
+    public BootcampImage() { }
 
     public BootcampImage(Guid id, Guid bootcampId, string ımagePath)
     {

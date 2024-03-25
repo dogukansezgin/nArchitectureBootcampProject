@@ -2,10 +2,10 @@ using Application.Features.Applications.Constants;
 using Application.Features.Applications.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
-using ApplicationEntity = Domain.Entities.Application;
-using NArchitecture.Core.Application.Pipelines.Authorization;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using static Application.Features.Applications.Constants.ApplicationsOperationClaims;
+using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetById;
 
@@ -21,7 +21,11 @@ public class GetByIdApplicationQuery : IRequest<GetByIdApplicationResponse>, ISe
         private readonly IApplicationRepository _applicationRepository;
         private readonly ApplicationBusinessRules _applicationBusinessRules;
 
-        public GetByIdApplicationQueryHandler(IMapper mapper, IApplicationRepository applicationRepository, ApplicationBusinessRules applicationBusinessRules)
+        public GetByIdApplicationQueryHandler(
+            IMapper mapper,
+            IApplicationRepository applicationRepository,
+            ApplicationBusinessRules applicationBusinessRules
+        )
         {
             _mapper = mapper;
             _applicationRepository = applicationRepository;
@@ -30,7 +34,10 @@ public class GetByIdApplicationQuery : IRequest<GetByIdApplicationResponse>, ISe
 
         public async Task<GetByIdApplicationResponse> Handle(GetByIdApplicationQuery request, CancellationToken cancellationToken)
         {
-            ApplicationEntity? application = await _applicationRepository.GetAsync(predicate: a => a.Id == request.Id, cancellationToken: cancellationToken);
+            ApplicationEntity? application = await _applicationRepository.GetAsync(
+                predicate: a => a.Id == request.Id,
+                cancellationToken: cancellationToken
+            );
             await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
 
             GetByIdApplicationResponse response = _mapper.Map<GetByIdApplicationResponse>(application);

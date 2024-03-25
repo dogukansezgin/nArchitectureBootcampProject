@@ -3,6 +3,4 @@ using NArchitecture.Core.Persistence.Repositories;
 
 namespace Application.Services.Repositories;
 
-public interface IBootcampImageRepository : IAsyncRepository<BootcampImage, Guid>, IRepository<BootcampImage, Guid>
-{
-}
+public interface IBootcampImageRepository : IAsyncRepository<BootcampImage, Guid>, IRepository<BootcampImage, Guid> { }

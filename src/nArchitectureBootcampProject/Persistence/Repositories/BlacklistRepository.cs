@@ -7,7 +7,6 @@ namespace Persistence.Repositories;
 
 public class BlacklistRepository : EfRepositoryBase<Blacklist, Guid, BaseDbContext>, IBlacklistRepository
 {
-    public BlacklistRepository(BaseDbContext context) : base(context)
-    {
-    }
+    public BlacklistRepository(BaseDbContext context)
+        : base(context) { }
 }

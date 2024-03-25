@@ -7,7 +7,6 @@ namespace Persistence.Repositories;
 
 public class InstructorImageRepository : EfRepositoryBase<InstructorImage, Guid, BaseDbContext>, IInstructorImageRepository
 {
-    public InstructorImageRepository(BaseDbContext context) : base(context)
-    {
-    }
+    public InstructorImageRepository(BaseDbContext context)
+        : base(context) { }
 }

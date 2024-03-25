@@ -1,6 +1,6 @@
-using ApplicationEntity = Domain.Entities.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ApplicationEntity = Domain.Entities.Application;
 
 namespace Persistence.EntityConfigurations;
 
@@ -20,14 +20,8 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<ApplicationEnti
 
         builder.HasQueryFilter(a => !a.DeletedDate.HasValue);
 
-        builder.HasOne(x => x.Applicant)
-            .WithMany()
-            .HasForeignKey(x => x.ApplicantId);
-        builder.HasOne(x => x.Bootcamp)
-            .WithMany()
-            .HasForeignKey(x => x.BootcampId);
-        builder.HasOne(x => x.ApplicationState)
-            .WithMany()
-            .HasForeignKey(x => x.ApplicationStateId);
+        builder.HasOne(x => x.Applicant).WithMany().HasForeignKey(x => x.ApplicantId);
+        builder.HasOne(x => x.Bootcamp).WithMany().HasForeignKey(x => x.BootcampId);
+        builder.HasOne(x => x.ApplicationState).WithMany().HasForeignKey(x => x.ApplicationStateId);
     }
 }

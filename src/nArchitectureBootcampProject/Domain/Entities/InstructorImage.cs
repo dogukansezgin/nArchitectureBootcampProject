@@ -9,10 +9,7 @@ public class InstructorImage : Entity<Guid>
 
     public virtual Instructor Instructor { get; set; }
 
-    public InstructorImage()
-    {
-        
-    }
+    public InstructorImage() { }
 
     public InstructorImage(Guid id, Guid instructorId, string imagePath)
     {

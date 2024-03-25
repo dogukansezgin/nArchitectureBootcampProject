@@ -1,9 +1,9 @@
+using System.Linq.Expressions;
 using Application.Features.InstructorImages.Rules;
 using Application.Services.Repositories;
-using NArchitecture.Core.Persistence.Paging;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
+using NArchitecture.Core.Persistence.Paging;
 
 namespace Application.Services.InstructorImages;
 
@@ -12,7 +12,10 @@ public class InstructorImageManager : IInstructorImageService
     private readonly IInstructorImageRepository _instructorImageRepository;
     private readonly InstructorImageBusinessRules _instructorImageBusinessRules;
 
-    public InstructorImageManager(IInstructorImageRepository instructorImageRepository, InstructorImageBusinessRules instructorImageBusinessRules)
+    public InstructorImageManager(
+        IInstructorImageRepository instructorImageRepository,
+        InstructorImageBusinessRules instructorImageBusinessRules
+    )
     {
         _instructorImageRepository = instructorImageRepository;
         _instructorImageBusinessRules = instructorImageBusinessRules;
@@ -26,7 +29,13 @@ public class InstructorImageManager : IInstructorImageService
         CancellationToken cancellationToken = default
     )
     {
-        InstructorImage? instructorImage = await _instructorImageRepository.GetAsync(predicate, include, withDeleted, enableTracking, cancellationToken);
+        InstructorImage? instructorImage = await _instructorImageRepository.GetAsync(
+            predicate,
+            include,
+            withDeleted,
+            enableTracking,
+            cancellationToken
+        );
         return instructorImage;
     }
 
