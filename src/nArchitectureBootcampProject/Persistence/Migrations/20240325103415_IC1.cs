@@ -26,7 +26,8 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationStates", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "BootcampStates",
@@ -41,14 +42,14 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BootcampStates", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "OperationClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -57,7 +58,8 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OperationClaims", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -80,7 +82,8 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Applicants",
@@ -97,8 +100,10 @@ namespace Persistence.Migrations
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "EmailAuthenticators",
@@ -119,8 +124,10 @@ namespace Persistence.Migrations
                         name: "FK_EmailAuthenticators_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Employees",
@@ -137,8 +144,10 @@ namespace Persistence.Migrations
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Instructors",
@@ -155,8 +164,10 @@ namespace Persistence.Migrations
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "OtpAuthenticators",
@@ -177,8 +188,10 @@ namespace Persistence.Migrations
                         name: "FK_OtpAuthenticators_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "RefreshTokens",
@@ -204,8 +217,10 @@ namespace Persistence.Migrations
                         name: "FK_RefreshTokens_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "UserOperationClaims",
@@ -225,13 +240,16 @@ namespace Persistence.Migrations
                         name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
                         column: x => x.OperationClaimId,
                         principalTable: "OperationClaims",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_UserOperationClaims_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Blacklists",
@@ -252,8 +270,10 @@ namespace Persistence.Migrations
                         name: "FK_Blacklists_Applicants_ApplicantId",
                         column: x => x.ApplicantId,
                         principalTable: "Applicants",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Bootcamps",
@@ -276,13 +296,16 @@ namespace Persistence.Migrations
                         name: "FK_Bootcamps_BootcampStates_BootcampStateId",
                         column: x => x.BootcampStateId,
                         principalTable: "BootcampStates",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Bootcamps_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "InstructorImages",
@@ -302,8 +325,10 @@ namespace Persistence.Migrations
                         name: "FK_InstructorImages_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Applications",
@@ -324,18 +349,22 @@ namespace Persistence.Migrations
                         name: "FK_Applications_Applicants_ApplicantId",
                         column: x => x.ApplicantId,
                         principalTable: "Applicants",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Applications_ApplicationStates_ApplicationStateId",
                         column: x => x.ApplicationStateId,
                         principalTable: "ApplicationStates",
-                        principalColumn: "Id");
+                        principalColumn: "Id"
+                    );
                     table.ForeignKey(
                         name: "FK_Applications_Bootcamps_BootcampId",
                         column: x => x.BootcampId,
                         principalTable: "Bootcamps",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "BootcampImages",
@@ -355,8 +384,10 @@ namespace Persistence.Migrations
                         name: "FK_BootcampImages_Bootcamps_BootcampId",
                         column: x => x.BootcampId,
                         principalTable: "Bootcamps",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.InsertData(
                 table: "OperationClaims",
@@ -446,134 +477,328 @@ namespace Persistence.Migrations
                     { 81, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "BootcampStates.Create", null },
                     { 82, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "BootcampStates.Update", null },
                     { 83, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "BootcampStates.Delete", null }
-                });
+                }
+            );
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AuthenticatorType", "CreatedDate", "DateOfBirth", "DeletedDate", "Email", "FirstName", "LastName", "NationalIdentity", "PasswordHash", "PasswordSalt", "UpdatedDate", "UserName" },
-                values: new object[] { new Guid("f8118ac7-722b-4bf1-bdf6-92b40c4f8253"), 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "narch@kodlama.io", null, null, null, new byte[] { 42, 189, 72, 249, 228, 27, 121, 180, 89, 176, 117, 71, 152, 243, 206, 144, 24, 252, 48, 136, 244, 146, 10, 41, 22, 141, 33, 242, 221, 87, 205, 70, 134, 129, 172, 162, 227, 240, 17, 58, 127, 35, 156, 161, 89, 93, 103, 68, 205, 161, 121, 142, 162, 163, 123, 67, 253, 49, 112, 147, 222, 149, 202, 20 }, new byte[] { 231, 69, 136, 22, 216, 179, 30, 167, 69, 212, 158, 34, 149, 228, 231, 223, 129, 115, 133, 191, 41, 151, 195, 50, 133, 243, 205, 85, 158, 144, 146, 19, 223, 55, 111, 157, 81, 118, 91, 161, 14, 156, 48, 132, 220, 161, 24, 250, 247, 244, 253, 180, 93, 54, 225, 216, 116, 19, 225, 107, 67, 47, 197, 155, 161, 202, 56, 181, 200, 177, 153, 226, 131, 1, 187, 180, 175, 150, 92, 209, 243, 161, 231, 136, 238, 149, 24, 66, 11, 205, 126, 22, 196, 145, 238, 23, 135, 248, 158, 104, 168, 205, 31, 242, 84, 113, 44, 21, 116, 49, 252, 21, 193, 243, 214, 9, 18, 100, 196, 23, 188, 121, 233, 16, 71, 164, 157, 85 }, null, "Admin" });
+                columns: new[]
+                {
+                    "Id",
+                    "AuthenticatorType",
+                    "CreatedDate",
+                    "DateOfBirth",
+                    "DeletedDate",
+                    "Email",
+                    "FirstName",
+                    "LastName",
+                    "NationalIdentity",
+                    "PasswordHash",
+                    "PasswordSalt",
+                    "UpdatedDate",
+                    "UserName"
+                },
+                values: new object[]
+                {
+                    new Guid("f8118ac7-722b-4bf1-bdf6-92b40c4f8253"),
+                    0,
+                    new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    null,
+                    null,
+                    "narch@kodlama.io",
+                    null,
+                    null,
+                    null,
+                    new byte[]
+                    {
+                        42,
+                        189,
+                        72,
+                        249,
+                        228,
+                        27,
+                        121,
+                        180,
+                        89,
+                        176,
+                        117,
+                        71,
+                        152,
+                        243,
+                        206,
+                        144,
+                        24,
+                        252,
+                        48,
+                        136,
+                        244,
+                        146,
+                        10,
+                        41,
+                        22,
+                        141,
+                        33,
+                        242,
+                        221,
+                        87,
+                        205,
+                        70,
+                        134,
+                        129,
+                        172,
+                        162,
+                        227,
+                        240,
+                        17,
+                        58,
+                        127,
+                        35,
+                        156,
+                        161,
+                        89,
+                        93,
+                        103,
+                        68,
+                        205,
+                        161,
+                        121,
+                        142,
+                        162,
+                        163,
+                        123,
+                        67,
+                        253,
+                        49,
+                        112,
+                        147,
+                        222,
+                        149,
+                        202,
+                        20
+                    },
+                    new byte[]
+                    {
+                        231,
+                        69,
+                        136,
+                        22,
+                        216,
+                        179,
+                        30,
+                        167,
+                        69,
+                        212,
+                        158,
+                        34,
+                        149,
+                        228,
+                        231,
+                        223,
+                        129,
+                        115,
+                        133,
+                        191,
+                        41,
+                        151,
+                        195,
+                        50,
+                        133,
+                        243,
+                        205,
+                        85,
+                        158,
+                        144,
+                        146,
+                        19,
+                        223,
+                        55,
+                        111,
+                        157,
+                        81,
+                        118,
+                        91,
+                        161,
+                        14,
+                        156,
+                        48,
+                        132,
+                        220,
+                        161,
+                        24,
+                        250,
+                        247,
+                        244,
+                        253,
+                        180,
+                        93,
+                        54,
+                        225,
+                        216,
+                        116,
+                        19,
+                        225,
+                        107,
+                        67,
+                        47,
+                        197,
+                        155,
+                        161,
+                        202,
+                        56,
+                        181,
+                        200,
+                        177,
+                        153,
+                        226,
+                        131,
+                        1,
+                        187,
+                        180,
+                        175,
+                        150,
+                        92,
+                        209,
+                        243,
+                        161,
+                        231,
+                        136,
+                        238,
+                        149,
+                        24,
+                        66,
+                        11,
+                        205,
+                        126,
+                        22,
+                        196,
+                        145,
+                        238,
+                        23,
+                        135,
+                        248,
+                        158,
+                        104,
+                        168,
+                        205,
+                        31,
+                        242,
+                        84,
+                        113,
+                        44,
+                        21,
+                        116,
+                        49,
+                        252,
+                        21,
+                        193,
+                        243,
+                        214,
+                        9,
+                        18,
+                        100,
+                        196,
+                        23,
+                        188,
+                        121,
+                        233,
+                        16,
+                        71,
+                        164,
+                        157,
+                        85
+                    },
+                    null,
+                    "Admin"
+                }
+            );
 
             migrationBuilder.InsertData(
                 table: "UserOperationClaims",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "OperationClaimId", "UpdatedDate", "UserId" },
-                values: new object[] { new Guid("cdb76d18-a7b9-48b1-a73c-c5fb201050f1"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 1, null, new Guid("f8118ac7-722b-4bf1-bdf6-92b40c4f8253") });
+                values: new object[]
+                {
+                    new Guid("cdb76d18-a7b9-48b1-a73c-c5fb201050f1"),
+                    new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    null,
+                    1,
+                    null,
+                    new Guid("f8118ac7-722b-4bf1-bdf6-92b40c4f8253")
+                }
+            );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Applications_ApplicantId",
-                table: "Applications",
-                column: "ApplicantId");
+            migrationBuilder.CreateIndex(name: "IX_Applications_ApplicantId", table: "Applications", column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_ApplicationStateId",
                 table: "Applications",
-                column: "ApplicationStateId");
+                column: "ApplicationStateId"
+            );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Applications_BootcampId",
-                table: "Applications",
-                column: "BootcampId");
+            migrationBuilder.CreateIndex(name: "IX_Applications_BootcampId", table: "Applications", column: "BootcampId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Blacklists_ApplicantId",
-                table: "Blacklists",
-                column: "ApplicantId");
+            migrationBuilder.CreateIndex(name: "IX_Blacklists_ApplicantId", table: "Blacklists", column: "ApplicantId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_BootcampImages_BootcampId",
-                table: "BootcampImages",
-                column: "BootcampId");
+            migrationBuilder.CreateIndex(name: "IX_BootcampImages_BootcampId", table: "BootcampImages", column: "BootcampId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Bootcamps_BootcampStateId",
-                table: "Bootcamps",
-                column: "BootcampStateId");
+            migrationBuilder.CreateIndex(name: "IX_Bootcamps_BootcampStateId", table: "Bootcamps", column: "BootcampStateId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Bootcamps_InstructorId",
-                table: "Bootcamps",
-                column: "InstructorId");
+            migrationBuilder.CreateIndex(name: "IX_Bootcamps_InstructorId", table: "Bootcamps", column: "InstructorId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_EmailAuthenticators_UserId",
-                table: "EmailAuthenticators",
-                column: "UserId");
+            migrationBuilder.CreateIndex(name: "IX_EmailAuthenticators_UserId", table: "EmailAuthenticators", column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstructorImages_InstructorId",
                 table: "InstructorImages",
-                column: "InstructorId");
+                column: "InstructorId"
+            );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_OtpAuthenticators_UserId",
-                table: "OtpAuthenticators",
-                column: "UserId");
+            migrationBuilder.CreateIndex(name: "IX_OtpAuthenticators_UserId", table: "OtpAuthenticators", column: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_RefreshTokens_UserId",
-                table: "RefreshTokens",
-                column: "UserId");
+            migrationBuilder.CreateIndex(name: "IX_RefreshTokens_UserId", table: "RefreshTokens", column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserOperationClaims_OperationClaimId",
                 table: "UserOperationClaims",
-                column: "OperationClaimId");
+                column: "OperationClaimId"
+            );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaims_UserId",
-                table: "UserOperationClaims",
-                column: "UserId");
+            migrationBuilder.CreateIndex(name: "IX_UserOperationClaims_UserId", table: "UserOperationClaims", column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Applications");
+            migrationBuilder.DropTable(name: "Applications");
 
-            migrationBuilder.DropTable(
-                name: "Blacklists");
+            migrationBuilder.DropTable(name: "Blacklists");
 
-            migrationBuilder.DropTable(
-                name: "BootcampImages");
+            migrationBuilder.DropTable(name: "BootcampImages");
 
-            migrationBuilder.DropTable(
-                name: "EmailAuthenticators");
+            migrationBuilder.DropTable(name: "EmailAuthenticators");
 
-            migrationBuilder.DropTable(
-                name: "Employees");
+            migrationBuilder.DropTable(name: "Employees");
 
-            migrationBuilder.DropTable(
-                name: "InstructorImages");
+            migrationBuilder.DropTable(name: "InstructorImages");
 
-            migrationBuilder.DropTable(
-                name: "OtpAuthenticators");
+            migrationBuilder.DropTable(name: "OtpAuthenticators");
 
-            migrationBuilder.DropTable(
-                name: "RefreshTokens");
+            migrationBuilder.DropTable(name: "RefreshTokens");
 
-            migrationBuilder.DropTable(
-                name: "UserOperationClaims");
+            migrationBuilder.DropTable(name: "UserOperationClaims");
 
-            migrationBuilder.DropTable(
-                name: "ApplicationStates");
+            migrationBuilder.DropTable(name: "ApplicationStates");
 
-            migrationBuilder.DropTable(
-                name: "Applicants");
+            migrationBuilder.DropTable(name: "Applicants");
 
-            migrationBuilder.DropTable(
-                name: "Bootcamps");
+            migrationBuilder.DropTable(name: "Bootcamps");
 
-            migrationBuilder.DropTable(
-                name: "OperationClaims");
+            migrationBuilder.DropTable(name: "OperationClaims");
 
-            migrationBuilder.DropTable(
-                name: "BootcampStates");
+            migrationBuilder.DropTable(name: "BootcampStates");
 
-            migrationBuilder.DropTable(
-                name: "Instructors");
+            migrationBuilder.DropTable(name: "Instructors");
 
-            migrationBuilder.DropTable(
-                name: "Users");
+            migrationBuilder.DropTable(name: "Users");
         }
     }
 }

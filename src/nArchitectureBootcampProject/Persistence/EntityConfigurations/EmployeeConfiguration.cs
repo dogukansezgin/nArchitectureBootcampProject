@@ -15,6 +15,5 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(e => e.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(e => e.DeletedDate).HasColumnName("DeletedDate");
-
     }
 }
