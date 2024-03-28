@@ -1,5 +1,6 @@
 using Application.Features.Employees.Constants;
 using Application.Features.Employees.Rules;
+using Application.Services.Employees;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -18,27 +19,19 @@ public class GetByIdEmployeeQuery : IRequest<GetByIdEmployeeResponse>, ISecuredR
     public class GetByIdEmployeeQueryHandler : IRequestHandler<GetByIdEmployeeQuery, GetByIdEmployeeResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly EmployeeBusinessRules _employeeBusinessRules;
+        private readonly IEmployeeService _employeeService;
 
         public GetByIdEmployeeQueryHandler(
-            IMapper mapper,
-            IEmployeeRepository employeeRepository,
-            EmployeeBusinessRules employeeBusinessRules
-        )
+            IMapper mapper
+, IEmployeeService employeeService)
         {
             _mapper = mapper;
-            _employeeRepository = employeeRepository;
-            _employeeBusinessRules = employeeBusinessRules;
+            _employeeService = employeeService;
         }
 
         public async Task<GetByIdEmployeeResponse> Handle(GetByIdEmployeeQuery request, CancellationToken cancellationToken)
         {
-            Employee? employee = await _employeeRepository.GetAsync(
-                predicate: e => e.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+            Employee? employee = await _employeeService.GetByIdAsync(request.Id);
 
             GetByIdEmployeeResponse response = _mapper.Map<GetByIdEmployeeResponse>(employee);
             return response;

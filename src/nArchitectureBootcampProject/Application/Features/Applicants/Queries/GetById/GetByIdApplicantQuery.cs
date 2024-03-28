@@ -1,5 +1,6 @@
 using Application.Features.Applicants.Constants;
 using Application.Features.Applicants.Rules;
+using Application.Services.Applicants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -18,27 +19,19 @@ public class GetByIdApplicantQuery : IRequest<GetByIdApplicantResponse>, ISecure
     public class GetByIdApplicantQueryHandler : IRequestHandler<GetByIdApplicantQuery, GetByIdApplicantResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicantRepository _applicantRepository;
-        private readonly ApplicantBusinessRules _applicantBusinessRules;
+        private readonly IApplicantService _applicantService;
 
         public GetByIdApplicantQueryHandler(
             IMapper mapper,
-            IApplicantRepository applicantRepository,
-            ApplicantBusinessRules applicantBusinessRules
-        )
+IApplicantService applicantService)
         {
             _mapper = mapper;
-            _applicantRepository = applicantRepository;
-            _applicantBusinessRules = applicantBusinessRules;
+            _applicantService = applicantService;
         }
 
         public async Task<GetByIdApplicantResponse> Handle(GetByIdApplicantQuery request, CancellationToken cancellationToken)
         {
-            Applicant? applicant = await _applicantRepository.GetAsync(
-                predicate: a => a.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+            Applicant? applicant = await _applicantService.GetByIdAsync(request.Id);
 
             GetByIdApplicantResponse response = _mapper.Map<GetByIdApplicantResponse>(applicant);
             return response;

@@ -1,9 +1,9 @@
-using System.Linq.Expressions;
 using Application.Features.Employees.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
+using System.Linq.Expressions;
 
 namespace Application.Services.Employees;
 
@@ -62,6 +62,8 @@ public class EmployeeManager : IEmployeeService
 
     public async Task<Employee> AddAsync(Employee employee)
     {
+        await _employeeBusinessRules.EmployeeShouldNotExist(employee);
+
         Employee addedEmployee = await _employeeRepository.AddAsync(employee);
 
         return addedEmployee;
@@ -69,6 +71,9 @@ public class EmployeeManager : IEmployeeService
 
     public async Task<Employee> UpdateAsync(Employee employee)
     {
+        await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+        await _employeeBusinessRules.EmployeeIdShouldExistWhenSelected(employee.Id);
+
         Employee updatedEmployee = await _employeeRepository.UpdateAsync(employee);
 
         return updatedEmployee;
@@ -76,8 +81,19 @@ public class EmployeeManager : IEmployeeService
 
     public async Task<Employee> DeleteAsync(Employee employee, bool permanent = false)
     {
-        Employee deletedEmployee = await _employeeRepository.DeleteAsync(employee);
+        await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+
+        Employee deletedEmployee = await _employeeRepository.DeleteAsync(employee, permanent);
 
         return deletedEmployee;
+    }
+
+    public async Task<Employee> GetByIdAsync(Guid id)
+    {
+        Employee? employee = await GetAsync(x => x.Id == id);
+
+        await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+
+        return employee;
     }
 }

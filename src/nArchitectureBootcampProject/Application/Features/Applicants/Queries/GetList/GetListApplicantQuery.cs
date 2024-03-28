@@ -1,4 +1,5 @@
 using Application.Features.Applicants.Constants;
+using Application.Services.Applicants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -26,13 +27,13 @@ public class GetListApplicantQuery : IRequest<GetListResponse<GetListApplicantLi
     public class GetListApplicantQueryHandler
         : IRequestHandler<GetListApplicantQuery, GetListResponse<GetListApplicantListItemDto>>
     {
-        private readonly IApplicantRepository _applicantRepository;
         private readonly IMapper _mapper;
+        private readonly IApplicantService _applicantService;
 
-        public GetListApplicantQueryHandler(IApplicantRepository applicantRepository, IMapper mapper)
+        public GetListApplicantQueryHandler(IMapper mapper, IApplicantService applicantService)
         {
-            _applicantRepository = applicantRepository;
             _mapper = mapper;
+            _applicantService = applicantService;
         }
 
         public async Task<GetListResponse<GetListApplicantListItemDto>> Handle(
@@ -40,7 +41,7 @@ public class GetListApplicantQuery : IRequest<GetListResponse<GetListApplicantLi
             CancellationToken cancellationToken
         )
         {
-            IPaginate<Applicant> applicants = await _applicantRepository.GetListAsync(
+            IPaginate<Applicant>? applicants = await _applicantService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

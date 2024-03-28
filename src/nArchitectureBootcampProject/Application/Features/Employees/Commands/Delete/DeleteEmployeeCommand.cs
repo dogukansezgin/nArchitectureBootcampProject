@@ -1,7 +1,5 @@
 using Application.Features.Employees.Constants;
-using Application.Features.Employees.Constants;
-using Application.Features.Employees.Rules;
-using Application.Services.Repositories;
+using Application.Services.Employees;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteEmployeeCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, EmployeesOperationClaims.Delete];
 
@@ -31,31 +30,27 @@ public class DeleteEmployeeCommand
     public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, DeletedEmployeeResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly EmployeeBusinessRules _employeeBusinessRules;
+        private readonly IEmployeeService _employeeService;
 
         public DeleteEmployeeCommandHandler(
-            IMapper mapper,
-            IEmployeeRepository employeeRepository,
-            EmployeeBusinessRules employeeBusinessRules
-        )
+            IMapper mapper
+, IEmployeeService employeeService)
         {
             _mapper = mapper;
-            _employeeRepository = employeeRepository;
-            _employeeBusinessRules = employeeBusinessRules;
+            _employeeService = employeeService;
         }
 
         public async Task<DeletedEmployeeResponse> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            Employee? employee = await _employeeRepository.GetAsync(
+            Employee? employee = await _employeeService.GetAsync(
                 predicate: e => e.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
 
-            await _employeeRepository.DeleteAsync(employee!);
+            employee = await _employeeService.DeleteAsync(employee!);
 
             DeletedEmployeeResponse response = _mapper.Map<DeletedEmployeeResponse>(employee);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

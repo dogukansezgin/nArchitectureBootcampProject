@@ -18,6 +18,8 @@ using WebAPI;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
+
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(
     mailSettings: builder.Configuration.GetSection("MailSettings").Get<MailSettings>()
@@ -94,7 +96,12 @@ if (app.Environment.IsDevelopment())
 }
 
 if (app.Environment.IsProduction())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
     app.ConfigureCustomExceptionMiddleware();
+}
 
 app.UseDbMigrationApplier();
 

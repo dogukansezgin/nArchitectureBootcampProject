@@ -1,7 +1,5 @@
 using Application.Features.Instructors.Constants;
-using Application.Features.Instructors.Constants;
-using Application.Features.Instructors.Rules;
-using Application.Services.Repositories;
+using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteInstructorCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, InstructorsOperationClaims.Delete];
 
@@ -31,31 +30,27 @@ public class DeleteInstructorCommand
     public class DeleteInstructorCommandHandler : IRequestHandler<DeleteInstructorCommand, DeletedInstructorResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IInstructorRepository _instructorRepository;
-        private readonly InstructorBusinessRules _instructorBusinessRules;
+        private readonly IInstructorService _instructorService;
 
         public DeleteInstructorCommandHandler(
-            IMapper mapper,
-            IInstructorRepository instructorRepository,
-            InstructorBusinessRules instructorBusinessRules
-        )
+            IMapper mapper
+, IInstructorService instructorService)
         {
             _mapper = mapper;
-            _instructorRepository = instructorRepository;
-            _instructorBusinessRules = instructorBusinessRules;
+            _instructorService = instructorService;
         }
 
         public async Task<DeletedInstructorResponse> Handle(DeleteInstructorCommand request, CancellationToken cancellationToken)
         {
-            Instructor? instructor = await _instructorRepository.GetAsync(
+            Instructor? instructor = await _instructorService.GetAsync(
                 predicate: i => i.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
 
-            await _instructorRepository.DeleteAsync(instructor!);
+            instructor = await _instructorService.DeleteAsync(instructor!, request.IsPermament);
 
             DeletedInstructorResponse response = _mapper.Map<DeletedInstructorResponse>(instructor);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

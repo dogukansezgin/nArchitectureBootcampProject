@@ -1,5 +1,4 @@
-using Application.Features.Instructors.Constants;
-using Application.Services.Repositories;
+using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -26,13 +25,13 @@ public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructor
     public class GetListInstructorQueryHandler
         : IRequestHandler<GetListInstructorQuery, GetListResponse<GetListInstructorListItemDto>>
     {
-        private readonly IInstructorRepository _instructorRepository;
         private readonly IMapper _mapper;
+        private readonly IInstructorService _instructorService;
 
-        public GetListInstructorQueryHandler(IInstructorRepository instructorRepository, IMapper mapper)
+        public GetListInstructorQueryHandler(IMapper mapper, IInstructorService instructorService)
         {
-            _instructorRepository = instructorRepository;
             _mapper = mapper;
+            _instructorService = instructorService;
         }
 
         public async Task<GetListResponse<GetListInstructorListItemDto>> Handle(
@@ -40,7 +39,7 @@ public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructor
             CancellationToken cancellationToken
         )
         {
-            IPaginate<Instructor> instructors = await _instructorRepository.GetListAsync(
+            IPaginate<Instructor>? instructors = await _instructorService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

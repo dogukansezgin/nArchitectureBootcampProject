@@ -1,9 +1,9 @@
-using System.Linq.Expressions;
 using Application.Features.Applicants.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
+using System.Linq.Expressions;
 
 namespace Application.Services.Applicants;
 
@@ -62,6 +62,8 @@ public class ApplicantManager : IApplicantService
 
     public async Task<Applicant> AddAsync(Applicant applicant)
     {
+        await _applicantBusinessRules.ApplicantShouldNotExist(applicant);
+
         Applicant addedApplicant = await _applicantRepository.AddAsync(applicant);
 
         return addedApplicant;
@@ -69,6 +71,9 @@ public class ApplicantManager : IApplicantService
 
     public async Task<Applicant> UpdateAsync(Applicant applicant)
     {
+        await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+        await _applicantBusinessRules.ApplicantIdShouldExistWhenSelected(applicant.Id);
+
         Applicant updatedApplicant = await _applicantRepository.UpdateAsync(applicant);
 
         return updatedApplicant;
@@ -76,8 +81,19 @@ public class ApplicantManager : IApplicantService
 
     public async Task<Applicant> DeleteAsync(Applicant applicant, bool permanent = false)
     {
-        Applicant deletedApplicant = await _applicantRepository.DeleteAsync(applicant);
+        await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+
+        Applicant deletedApplicant = await _applicantRepository.DeleteAsync(applicant, permanent);
 
         return deletedApplicant;
+    }
+
+    public async Task<Applicant> GetByIdAsync(Guid id)
+    {
+        Applicant? applicant = await GetAsync(x => x.Id == id);
+
+        await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+
+        return applicant;
     }
 }

@@ -1,6 +1,4 @@
-using Application.Features.Instructors.Constants;
-using Application.Features.Instructors.Rules;
-using Application.Services.Repositories;
+using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -18,27 +16,19 @@ public class GetByIdInstructorQuery : IRequest<GetByIdInstructorResponse>, ISecu
     public class GetByIdInstructorQueryHandler : IRequestHandler<GetByIdInstructorQuery, GetByIdInstructorResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IInstructorRepository _instructorRepository;
-        private readonly InstructorBusinessRules _instructorBusinessRules;
+        private readonly IInstructorService _instructorService;
 
         public GetByIdInstructorQueryHandler(
-            IMapper mapper,
-            IInstructorRepository instructorRepository,
-            InstructorBusinessRules instructorBusinessRules
-        )
+            IMapper mapper
+, IInstructorService instructorService)
         {
             _mapper = mapper;
-            _instructorRepository = instructorRepository;
-            _instructorBusinessRules = instructorBusinessRules;
+            _instructorService = instructorService;
         }
 
         public async Task<GetByIdInstructorResponse> Handle(GetByIdInstructorQuery request, CancellationToken cancellationToken)
         {
-            Instructor? instructor = await _instructorRepository.GetAsync(
-                predicate: i => i.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+            Instructor? instructor = await _instructorService.GetByIdAsync(request.Id);
 
             GetByIdInstructorResponse response = _mapper.Map<GetByIdInstructorResponse>(instructor);
             return response;

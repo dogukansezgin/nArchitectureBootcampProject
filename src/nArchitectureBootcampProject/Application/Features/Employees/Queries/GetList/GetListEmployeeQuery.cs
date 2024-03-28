@@ -1,4 +1,5 @@
 using Application.Features.Employees.Constants;
+using Application.Services.Employees;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -25,13 +26,13 @@ public class GetListEmployeeQuery : IRequest<GetListResponse<GetListEmployeeList
 
     public class GetListEmployeeQueryHandler : IRequestHandler<GetListEmployeeQuery, GetListResponse<GetListEmployeeListItemDto>>
     {
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
+        private readonly IEmployeeService _employeeService;
 
-        public GetListEmployeeQueryHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+        public GetListEmployeeQueryHandler(IMapper mapper, IEmployeeService employeeService)
         {
-            _employeeRepository = employeeRepository;
             _mapper = mapper;
+            _employeeService = employeeService;
         }
 
         public async Task<GetListResponse<GetListEmployeeListItemDto>> Handle(
@@ -39,7 +40,7 @@ public class GetListEmployeeQuery : IRequest<GetListResponse<GetListEmployeeList
             CancellationToken cancellationToken
         )
         {
-            IPaginate<Employee> employees = await _employeeRepository.GetListAsync(
+            IPaginate<Employee>? employees = await _employeeService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

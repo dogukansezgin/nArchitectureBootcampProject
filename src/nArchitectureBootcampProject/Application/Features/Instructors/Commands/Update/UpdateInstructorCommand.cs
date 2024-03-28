@@ -1,6 +1,5 @@
 using Application.Features.Instructors.Constants;
-using Application.Features.Instructors.Rules;
-using Application.Services.Repositories;
+using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -20,6 +19,14 @@ public class UpdateInstructorCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    //public string NewPassword { get; set; } // Düzenlenecek
+    public string UserName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+    public string? NationalIdentity { get; set; }
     public string CompanyName { get; set; }
 
     public string[] Roles => [Admin, Write, InstructorsOperationClaims.Update];
@@ -31,30 +38,26 @@ public class UpdateInstructorCommand
     public class UpdateInstructorCommandHandler : IRequestHandler<UpdateInstructorCommand, UpdatedInstructorResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IInstructorRepository _instructorRepository;
-        private readonly InstructorBusinessRules _instructorBusinessRules;
+        private readonly IInstructorService _instructorService;
 
         public UpdateInstructorCommandHandler(
-            IMapper mapper,
-            IInstructorRepository instructorRepository,
-            InstructorBusinessRules instructorBusinessRules
-        )
+            IMapper mapper
+, IInstructorService instructorService)
         {
             _mapper = mapper;
-            _instructorRepository = instructorRepository;
-            _instructorBusinessRules = instructorBusinessRules;
+            _instructorService = instructorService;
         }
 
         public async Task<UpdatedInstructorResponse> Handle(UpdateInstructorCommand request, CancellationToken cancellationToken)
         {
-            Instructor? instructor = await _instructorRepository.GetAsync(
+            Instructor? instructor = await _instructorService.GetAsync(
                 predicate: i => i.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+
             instructor = _mapper.Map(request, instructor);
 
-            await _instructorRepository.UpdateAsync(instructor!);
+            instructor = await _instructorService.UpdateAsync(instructor!);
 
             UpdatedInstructorResponse response = _mapper.Map<UpdatedInstructorResponse>(instructor);
             return response;

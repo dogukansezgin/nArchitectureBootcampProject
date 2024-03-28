@@ -2,7 +2,10 @@
 using Application.Features.Auth.Commands.EnableOtpAuthenticator;
 using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.RefreshToken;
-using Application.Features.Auth.Commands.Register;
+using Application.Features.Auth.Commands.Register.ApplicantRegister;
+using Application.Features.Auth.Commands.Register.EmployeeRegister;
+using Application.Features.Auth.Commands.Register.InstructorRegister;
+using Application.Features.Auth.Commands.Register.UserRegister;
 using Application.Features.Auth.Commands.RevokeToken;
 using Application.Features.Auth.Commands.VerifyEmailAuthenticator;
 using Application.Features.Auth.Commands.VerifyOtpAuthenticator;
@@ -40,10 +43,37 @@ public class AuthController : BaseController
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
+    public async Task<IActionResult> Register([FromBody] Application.Features.Auth.Commands.Register.UserRegister.UserForRegisterDto userForRegisterDto)
     {
         RegisterCommand registerCommand = new() { UserForRegisterDto = userForRegisterDto, IpAddress = getIpAddress() };
         RegisteredResponse result = await Mediator.Send(registerCommand);
+        setRefreshTokenToCookie(result.RefreshToken);
+        return Created(uri: "", result.AccessToken);
+    }
+
+    [HttpPost("Register/Applicant")]
+    public async Task<IActionResult> RegisterApplicant([FromBody] ApplicantForRegisterDto applicantForRegisterDto)
+    {
+        ApplicantRegisterCommand registerCommand = new() { ApplicantForRegisterDto = applicantForRegisterDto, IpAddress = getIpAddress() };
+        ApplicantRegisteredResponse result = await Mediator.Send(registerCommand);
+        setRefreshTokenToCookie(result.RefreshToken);
+        return Created(uri: "", result.AccessToken);
+    }
+
+    [HttpPost("Register/Employee")]
+    public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeForRegisterDto employeeForRegisterDto)
+    {
+        EmployeeRegisterCommand registerCommand = new() { EmployeeForRegisterDto = employeeForRegisterDto, IpAddress = getIpAddress() };
+        EmployeeRegisteredResponse result = await Mediator.Send(registerCommand);
+        setRefreshTokenToCookie(result.RefreshToken);
+        return Created(uri: "", result.AccessToken);
+    }
+
+    [HttpPost("Register/Instructor")]
+    public async Task<IActionResult> RegisterInstructor([FromBody] InstructorForRegisterDto instructorForRegisterDto)
+    {
+        InstructorRegisterCommand registerCommand = new() { InstructorForRegisterDto = instructorForRegisterDto, IpAddress = getIpAddress() };
+        InstructorRegisteredResponse result = await Mediator.Send(registerCommand);
         setRefreshTokenToCookie(result.RefreshToken);
         return Created(uri: "", result.AccessToken);
     }

@@ -1,7 +1,5 @@
 using Application.Features.Applicants.Constants;
-using Application.Features.Applicants.Constants;
-using Application.Features.Applicants.Rules;
-using Application.Services.Repositories;
+using Application.Services.Applicants;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteApplicantCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, ApplicantsOperationClaims.Delete];
 
@@ -31,31 +30,28 @@ public class DeleteApplicantCommand
     public class DeleteApplicantCommandHandler : IRequestHandler<DeleteApplicantCommand, DeletedApplicantResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicantRepository _applicantRepository;
-        private readonly ApplicantBusinessRules _applicantBusinessRules;
+        private readonly IApplicantService _applicantService;
 
         public DeleteApplicantCommandHandler(
             IMapper mapper,
-            IApplicantRepository applicantRepository,
-            ApplicantBusinessRules applicantBusinessRules
-        )
+            IApplicantService applicantService
+            )
         {
             _mapper = mapper;
-            _applicantRepository = applicantRepository;
-            _applicantBusinessRules = applicantBusinessRules;
+            _applicantService = applicantService;
         }
 
         public async Task<DeletedApplicantResponse> Handle(DeleteApplicantCommand request, CancellationToken cancellationToken)
         {
-            Applicant? applicant = await _applicantRepository.GetAsync(
+            Applicant? applicant = await _applicantService.GetAsync(
                 predicate: a => a.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
 
-            await _applicantRepository.DeleteAsync(applicant!);
+            applicant = await _applicantService.DeleteAsync(applicant!, request.IsPermament);
 
             DeletedApplicantResponse response = _mapper.Map<DeletedApplicantResponse>(applicant);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

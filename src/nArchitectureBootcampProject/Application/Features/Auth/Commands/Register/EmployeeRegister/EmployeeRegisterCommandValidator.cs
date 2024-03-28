@@ -1,14 +1,13 @@
-﻿using System.Text.RegularExpressions;
-using FluentValidation;
+﻿using FluentValidation;
+using System.Text.RegularExpressions;
 
-namespace Application.Features.Auth.Commands.Register;
-
-public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+namespace Application.Features.Auth.Commands.Register.EmployeeRegister;
+public class EmployeeRegisterCommandValidator : AbstractValidator<EmployeeRegisterCommand>
 {
-    public RegisterCommandValidator()
+    public EmployeeRegisterCommandValidator()
     {
-        RuleFor(c => c.UserForRegisterDto.Email).NotEmpty().EmailAddress();
-        RuleFor(c => c.UserForRegisterDto.Password)
+        RuleFor(c => c.EmployeeForRegisterDto.Email).NotEmpty().EmailAddress();
+        RuleFor(c => c.EmployeeForRegisterDto.Password)
             .NotEmpty()
             .MinimumLength(6)
             .Must(StrongPassword)

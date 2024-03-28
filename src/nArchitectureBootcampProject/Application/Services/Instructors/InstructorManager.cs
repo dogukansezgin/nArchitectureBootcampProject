@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Application.Features.Applicants.Rules;
 using Application.Features.Instructors.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
@@ -62,6 +63,8 @@ public class InstructorManager : IInstructorService
 
     public async Task<Instructor> AddAsync(Instructor instructor)
     {
+        await _instructorBusinessRules.InstructorShouldNotExist(instructor);
+
         Instructor addedInstructor = await _instructorRepository.AddAsync(instructor);
 
         return addedInstructor;
@@ -69,6 +72,9 @@ public class InstructorManager : IInstructorService
 
     public async Task<Instructor> UpdateAsync(Instructor instructor)
     {
+        await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+        await _instructorBusinessRules.InstructorIdShouldExistWhenSelected(instructor.Id);
+
         Instructor updatedInstructor = await _instructorRepository.UpdateAsync(instructor);
 
         return updatedInstructor;
@@ -76,8 +82,19 @@ public class InstructorManager : IInstructorService
 
     public async Task<Instructor> DeleteAsync(Instructor instructor, bool permanent = false)
     {
-        Instructor deletedInstructor = await _instructorRepository.DeleteAsync(instructor);
+        await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+
+        Instructor deletedInstructor = await _instructorRepository.DeleteAsync(instructor, permanent);
 
         return deletedInstructor;
+    }
+
+    public async Task<Instructor> GetByIdAsync(Guid id)
+    {
+        Instructor? instructor = await GetAsync(x => x.Id == id);
+
+        await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+
+        return instructor;
     }
 }

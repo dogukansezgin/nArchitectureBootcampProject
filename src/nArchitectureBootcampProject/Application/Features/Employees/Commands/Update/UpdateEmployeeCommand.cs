@@ -1,5 +1,6 @@
 using Application.Features.Employees.Constants;
 using Application.Features.Employees.Rules;
+using Application.Services.Employees;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -20,6 +21,14 @@ public class UpdateEmployeeCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    //public string NewPassword { get; set; } // Düzenlenecek
+    public string UserName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+    public string? NationalIdentity { get; set; }
     public string Position { get; set; }
 
     public string[] Roles => [Admin, Write, EmployeesOperationClaims.Update];
@@ -31,30 +40,26 @@ public class UpdateEmployeeCommand
     public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, UpdatedEmployeeResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly EmployeeBusinessRules _employeeBusinessRules;
+        private readonly IEmployeeService _employeeService;
 
         public UpdateEmployeeCommandHandler(
-            IMapper mapper,
-            IEmployeeRepository employeeRepository,
-            EmployeeBusinessRules employeeBusinessRules
-        )
+            IMapper mapper
+, IEmployeeService employeeService)
         {
             _mapper = mapper;
-            _employeeRepository = employeeRepository;
-            _employeeBusinessRules = employeeBusinessRules;
+            _employeeService = employeeService;
         }
 
         public async Task<UpdatedEmployeeResponse> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
-            Employee? employee = await _employeeRepository.GetAsync(
+            Employee? employee = await _employeeService.GetAsync(
                 predicate: e => e.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+
             employee = _mapper.Map(request, employee);
 
-            await _employeeRepository.UpdateAsync(employee!);
+            employee = await _employeeService.UpdateAsync(employee!);
 
             UpdatedEmployeeResponse response = _mapper.Map<UpdatedEmployeeResponse>(employee);
             return response;

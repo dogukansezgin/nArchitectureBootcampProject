@@ -1,7 +1,7 @@
-using System.Linq.Expressions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
+using System.Linq.Expressions;
 
 namespace Application.Services.Applicants;
 
@@ -27,4 +27,6 @@ public interface IApplicantService
     Task<Applicant> AddAsync(Applicant applicant);
     Task<Applicant> UpdateAsync(Applicant applicant);
     Task<Applicant> DeleteAsync(Applicant applicant, bool permanent = false);
+    Task<Applicant> GetByIdAsync(Guid id);
+
 }

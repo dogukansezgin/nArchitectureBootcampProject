@@ -27,4 +27,5 @@ public interface IEmployeeService
     Task<Employee> AddAsync(Employee employee);
     Task<Employee> UpdateAsync(Employee employee);
     Task<Employee> DeleteAsync(Employee employee, bool permanent = false);
+    Task<Employee> GetByIdAsync(Guid id);
 }

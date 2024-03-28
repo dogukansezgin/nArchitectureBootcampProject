@@ -30,13 +30,27 @@ public class InstructorBusinessRules : BaseBusinessRules
             await throwBusinessException(InstructorsBusinessMessages.InstructorNotExists);
     }
 
-    public async Task InstructorIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)
+    public async Task InstructorIdShouldExistWhenSelected(Guid id)
     {
         Instructor? instructor = await _instructorRepository.GetAsync(
             predicate: i => i.Id == id,
-            enableTracking: false,
-            cancellationToken: cancellationToken
+            enableTracking: false
         );
         await InstructorShouldExistWhenSelected(instructor);
+    }
+
+    public async Task InstructorShouldExist(Guid id)
+    {
+        var isExist = _instructorRepository.Get(x => x.Id == id) is null;
+        if (isExist) await throwBusinessException(InstructorsBusinessMessages.InstructorNotExists);
+    }
+
+    public async Task InstructorShouldNotExist(Instructor instructor)
+    {
+        var isExistId = await _instructorRepository.GetAsync(x => x.Id == instructor.Id) is not null;
+        var isExistUserName = await _instructorRepository.GetAsync(x => x.UserName.Trim() == instructor.UserName.Trim()) is not null;
+        var isExistNationalId = await _instructorRepository.GetAsync(x => x.NationalIdentity.Trim() == instructor.NationalIdentity.Trim()) is not null;
+        var isExistEmail = await _instructorRepository.GetAsync(x => x.Email.Trim() == instructor.Email.Trim()) is not null;
+        if (isExistId || isExistUserName || isExistNationalId || isExistEmail) await throwBusinessException(InstructorsBusinessMessages.InstructorExists);
     }
 }

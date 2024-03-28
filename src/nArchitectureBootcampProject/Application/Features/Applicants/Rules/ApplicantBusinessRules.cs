@@ -1,4 +1,5 @@
 using Application.Features.Applicants.Constants;
+using Application.Services.Applicants;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -9,13 +10,13 @@ namespace Application.Features.Applicants.Rules;
 
 public class ApplicantBusinessRules : BaseBusinessRules
 {
-    private readonly IApplicantRepository _applicantRepository;
     private readonly ILocalizationService _localizationService;
+    private readonly IApplicantRepository _applicantRepository;
 
-    public ApplicantBusinessRules(IApplicantRepository applicantRepository, ILocalizationService localizationService)
+    public ApplicantBusinessRules(ILocalizationService localizationService, IApplicantRepository applicantRepository)
     {
-        _applicantRepository = applicantRepository;
         _localizationService = localizationService;
+        _applicantRepository = applicantRepository;
     }
 
     private async Task throwBusinessException(string messageKey)
@@ -30,13 +31,29 @@ public class ApplicantBusinessRules : BaseBusinessRules
             await throwBusinessException(ApplicantsBusinessMessages.ApplicantNotExists);
     }
 
-    public async Task ApplicantIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)
+    public async Task ApplicantIdShouldExistWhenSelected(Guid id)
     {
         Applicant? applicant = await _applicantRepository.GetAsync(
             predicate: a => a.Id == id,
-            enableTracking: false,
-            cancellationToken: cancellationToken
+            enableTracking: false
         );
         await ApplicantShouldExistWhenSelected(applicant);
     }
+
+    public async Task ApplicantShouldExist(Guid id)
+    {
+        Applicant? applicant = await _applicantRepository.GetAsync(x => x.Id == id);
+        if (applicant == null) await throwBusinessException(ApplicantsBusinessMessages.ApplicantNotExists);
+    }
+
+    public async Task ApplicantShouldNotExist(Applicant applicant)
+    {
+        var isExistId = await _applicantRepository.GetAsync(x => x.Id == applicant.Id) is not null;
+        var isExistUserName = await _applicantRepository.GetAsync(x => x.UserName.Trim() == applicant.UserName.Trim()) is not null;
+        var isExistNationalId = await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+        var isExistEmail = await _applicantRepository.GetAsync(x => x.Email.Trim() == applicant.Email.Trim()) is not null;
+
+        if (isExistId || isExistUserName || isExistNationalId || isExistEmail) await throwBusinessException(ApplicantsBusinessMessages.ApplicantExists);
+    }
+
 }

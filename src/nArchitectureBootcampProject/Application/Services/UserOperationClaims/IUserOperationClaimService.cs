@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
+using NArchitecture.Core.Persistence.Repositories;
 
 namespace Application.Services.UserOperationClaims;
 
@@ -27,6 +28,7 @@ public interface IUserOperationClaimService
     );
 
     Task<UserOperationClaim> AddAsync(UserOperationClaim userOperationClaim);
+    Task<ICollection<UserOperationClaim>> AddRangeAsync(ICollection<UserOperationClaim> entity);
     Task<UserOperationClaim> UpdateAsync(UserOperationClaim userOperationClaim);
     Task<UserOperationClaim> DeleteAsync(UserOperationClaim userOperationClaim, bool permanent = false);
 }

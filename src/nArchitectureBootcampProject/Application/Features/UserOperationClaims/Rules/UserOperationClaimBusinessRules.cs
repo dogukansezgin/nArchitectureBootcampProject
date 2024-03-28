@@ -4,6 +4,7 @@ using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
+using NArchitecture.Core.Security.Entities;
 
 namespace Application.Features.UserOperationClaims.Rules;
 
@@ -53,6 +54,21 @@ public class UserOperationClaimBusinessRules : BaseBusinessRules
         );
         if (doesExist)
             await throwBusinessException(UserOperationClaimsMessages.UserOperationClaimAlreadyExists);
+    }
+
+    public async Task<ICollection<UserOperationClaim>> UserShouldNotHasOperationClaimAlreadyWhenInsertRange(ICollection<UserOperationClaim> userOperationClaims)
+    {
+        foreach (var item in userOperationClaims)
+        {
+            bool doesExist = await _userOperationClaimRepository.AnyAsync(u => 
+                u.UserId == item.UserId && u.OperationClaimId == item.OperationClaimId);
+
+            if (doesExist) userOperationClaims.Remove(item);
+        }
+
+        if(userOperationClaims.Count <= 0) await throwBusinessException(UserOperationClaimsMessages.UserOperationClaimAlreadyExists);
+
+        return userOperationClaims;
     }
 
     public async Task UserShouldNotHasOperationClaimAlreadyWhenUpdated(Guid id, Guid userId, int operationClaimId)
