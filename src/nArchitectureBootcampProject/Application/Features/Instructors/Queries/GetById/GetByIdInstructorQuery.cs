@@ -18,9 +18,7 @@ public class GetByIdInstructorQuery : IRequest<GetByIdInstructorResponse>, ISecu
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
 
-        public GetByIdInstructorQueryHandler(
-            IMapper mapper
-, IInstructorService instructorService)
+        public GetByIdInstructorQueryHandler(IMapper mapper, IInstructorService instructorService)
         {
             _mapper = mapper;
             _instructorService = instructorService;

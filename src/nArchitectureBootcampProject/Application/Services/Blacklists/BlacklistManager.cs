@@ -62,6 +62,9 @@ public class BlacklistManager : IBlacklistService
 
     public async Task<Blacklist> AddAsync(Blacklist blacklist)
     {
+        await _blacklistBusinessRules.BlacklistForeignKeysShouldExist(blacklist);
+        await _blacklistBusinessRules.BlacklistApplicantCheck(blacklist.Id);
+
         Blacklist addedBlacklist = await _blacklistRepository.AddAsync(blacklist);
 
         return addedBlacklist;
@@ -69,6 +72,10 @@ public class BlacklistManager : IBlacklistService
 
     public async Task<Blacklist> UpdateAsync(Blacklist blacklist)
     {
+        await _blacklistBusinessRules.BlacklistForeignKeysShouldExist(blacklist);
+        await _blacklistBusinessRules.BlacklistApplicantCheck(blacklist.Id);
+        await _blacklistBusinessRules.BlacklistIdShouldExistWhenSelected(blacklist.Id);
+
         Blacklist updatedBlacklist = await _blacklistRepository.UpdateAsync(blacklist);
 
         return updatedBlacklist;
@@ -76,8 +83,19 @@ public class BlacklistManager : IBlacklistService
 
     public async Task<Blacklist> DeleteAsync(Blacklist blacklist, bool permanent = false)
     {
-        Blacklist deletedBlacklist = await _blacklistRepository.DeleteAsync(blacklist);
+        await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+
+        Blacklist deletedBlacklist = await _blacklistRepository.DeleteAsync(blacklist, permanent);
 
         return deletedBlacklist;
+    }
+
+    public async Task<Blacklist> GetByIdAsync(Guid id)
+    {
+        Blacklist? blacklist = await _blacklistRepository.GetAsync(x => x.Id == id);
+
+        await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+
+        return blacklist;
     }
 }

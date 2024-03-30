@@ -39,9 +39,7 @@ public class CreateEmployeeCommand
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
 
-        public CreateEmployeeCommandHandler(
-            IMapper mapper,
-            IEmployeeService employeeService)
+        public CreateEmployeeCommandHandler(IMapper mapper, IEmployeeService employeeService)
         {
             _mapper = mapper;
             _employeeService = employeeService;

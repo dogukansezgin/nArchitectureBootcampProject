@@ -1,6 +1,5 @@
 using Application.Features.Applications.Constants;
-using Application.Features.Applications.Rules;
-using Application.Services.Repositories;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
@@ -32,18 +31,12 @@ public class CreateApplicationCommand
     public class CreateApplicationCommandHandler : IRequestHandler<CreateApplicationCommand, CreatedApplicationResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationRepository _applicationRepository;
-        private readonly ApplicationBusinessRules _applicationBusinessRules;
+        private readonly IApplicationService _applicationService;
 
-        public CreateApplicationCommandHandler(
-            IMapper mapper,
-            IApplicationRepository applicationRepository,
-            ApplicationBusinessRules applicationBusinessRules
-        )
+        public CreateApplicationCommandHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
-            _applicationRepository = applicationRepository;
-            _applicationBusinessRules = applicationBusinessRules;
+            _applicationService = applicationService;
         }
 
         public async Task<CreatedApplicationResponse> Handle(
@@ -53,7 +46,7 @@ public class CreateApplicationCommand
         {
             ApplicationEntity application = _mapper.Map<ApplicationEntity>(request);
 
-            await _applicationRepository.AddAsync(application);
+            await _applicationService.AddAsync(application);
 
             CreatedApplicationResponse response = _mapper.Map<CreatedApplicationResponse>(application);
             return response;

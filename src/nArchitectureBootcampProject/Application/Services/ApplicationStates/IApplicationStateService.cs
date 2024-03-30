@@ -27,4 +27,5 @@ public interface IApplicationStateService
     Task<ApplicationState> AddAsync(ApplicationState applicationState);
     Task<ApplicationState> UpdateAsync(ApplicationState applicationState);
     Task<ApplicationState> DeleteAsync(ApplicationState applicationState, bool permanent = false);
+    Task<ApplicationState> GetByIdAsync(Guid id);
 }

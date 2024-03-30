@@ -40,10 +40,7 @@ public class CreateApplicantCommand
         private readonly IMapper _mapper;
         private readonly IApplicantService _applicantService;
 
-        public CreateApplicantCommandHandler(
-            IMapper mapper,
-            IApplicantService applicantService
-            )
+        public CreateApplicantCommandHandler(IMapper mapper, IApplicantService applicantService)
         {
             _mapper = mapper;
             _applicantService = applicantService;

@@ -32,26 +32,26 @@ public class EmployeeBusinessRules : BaseBusinessRules
 
     public async Task EmployeeIdShouldExistWhenSelected(Guid id)
     {
-        Employee? employee = await _employeeRepository.GetAsync(
-            predicate: e => e.Id == id,
-            enableTracking: false
-        );
+        Employee? employee = await _employeeRepository.GetAsync(predicate: e => e.Id == id, enableTracking: false);
         await EmployeeShouldExistWhenSelected(employee);
     }
 
     public async Task EmployeeShouldExist(Guid id)
     {
         var isExist = _employeeRepository.Get(x => x.Id == id) is null;
-        if (isExist) await throwBusinessException(EmployeesBusinessMessages.EmployeeNotExists);
+        if (isExist)
+            await throwBusinessException(EmployeesBusinessMessages.EmployeeNotExists);
     }
 
     public async Task EmployeeShouldNotExist(Employee employee)
     {
         var isExistId = await _employeeRepository.GetAsync(x => x.Id == employee.Id) is not null;
         var isExistUserName = await _employeeRepository.GetAsync(x => x.UserName.Trim() == employee.UserName.Trim()) is not null;
-        var isExistNationalId = await _employeeRepository.GetAsync(x => x.NationalIdentity.Trim() == employee.NationalIdentity.Trim()) is not null;
+        var isExistNationalId =
+            await _employeeRepository.GetAsync(x => x.NationalIdentity.Trim() == employee.NationalIdentity.Trim()) is not null;
         var isExistEmail = await _employeeRepository.GetAsync(x => x.Email.Trim() == employee.Email.Trim()) is not null;
 
-        if (isExistId || isExistUserName || isExistNationalId || isExistEmail) await throwBusinessException(EmployeesBusinessMessages.EmployeeExists);
+        if (isExistId || isExistUserName || isExistNationalId || isExistEmail)
+            await throwBusinessException(EmployeesBusinessMessages.EmployeeExists);
     }
 }

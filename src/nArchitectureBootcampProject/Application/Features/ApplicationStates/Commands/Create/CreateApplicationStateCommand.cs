@@ -1,6 +1,5 @@
 using Application.Features.ApplicationStates.Constants;
-using Application.Features.ApplicationStates.Rules;
-using Application.Services.Repositories;
+using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -31,18 +30,12 @@ public class CreateApplicationStateCommand
         : IRequestHandler<CreateApplicationStateCommand, CreatedApplicationStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationStateRepository _applicationStateRepository;
-        private readonly ApplicationStateBusinessRules _applicationStateBusinessRules;
+        private readonly IApplicationStateService _applicationStateService;
 
-        public CreateApplicationStateCommandHandler(
-            IMapper mapper,
-            IApplicationStateRepository applicationStateRepository,
-            ApplicationStateBusinessRules applicationStateBusinessRules
-        )
+        public CreateApplicationStateCommandHandler(IMapper mapper, IApplicationStateService applicationStateService)
         {
             _mapper = mapper;
-            _applicationStateRepository = applicationStateRepository;
-            _applicationStateBusinessRules = applicationStateBusinessRules;
+            _applicationStateService = applicationStateService;
         }
 
         public async Task<CreatedApplicationStateResponse> Handle(
@@ -52,7 +45,7 @@ public class CreateApplicationStateCommand
         {
             ApplicationState applicationState = _mapper.Map<ApplicationState>(request);
 
-            await _applicationStateRepository.AddAsync(applicationState);
+            await _applicationStateService.AddAsync(applicationState);
 
             CreatedApplicationStateResponse response = _mapper.Map<CreatedApplicationStateResponse>(applicationState);
             return response;

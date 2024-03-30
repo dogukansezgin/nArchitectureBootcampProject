@@ -1,6 +1,4 @@
-using Application.Features.Applications.Constants;
-using Application.Features.Applications.Rules;
-using Application.Services.Repositories;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
@@ -18,27 +16,17 @@ public class GetByIdApplicationQuery : IRequest<GetByIdApplicationResponse>, ISe
     public class GetByIdApplicationQueryHandler : IRequestHandler<GetByIdApplicationQuery, GetByIdApplicationResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationRepository _applicationRepository;
-        private readonly ApplicationBusinessRules _applicationBusinessRules;
+        private readonly IApplicationService _applicationService;
 
-        public GetByIdApplicationQueryHandler(
-            IMapper mapper,
-            IApplicationRepository applicationRepository,
-            ApplicationBusinessRules applicationBusinessRules
-        )
+        public GetByIdApplicationQueryHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
-            _applicationRepository = applicationRepository;
-            _applicationBusinessRules = applicationBusinessRules;
+            _applicationService = applicationService;
         }
 
         public async Task<GetByIdApplicationResponse> Handle(GetByIdApplicationQuery request, CancellationToken cancellationToken)
         {
-            ApplicationEntity? application = await _applicationRepository.GetAsync(
-                predicate: a => a.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+            ApplicationEntity? application = await _applicationService.GetByIdAsync(request.Id);
 
             GetByIdApplicationResponse response = _mapper.Map<GetByIdApplicationResponse>(application);
             return response;

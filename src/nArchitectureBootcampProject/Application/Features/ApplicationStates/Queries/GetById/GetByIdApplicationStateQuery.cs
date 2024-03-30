@@ -1,6 +1,4 @@
-using Application.Features.ApplicationStates.Constants;
-using Application.Features.ApplicationStates.Rules;
-using Application.Services.Repositories;
+using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -19,18 +17,12 @@ public class GetByIdApplicationStateQuery : IRequest<GetByIdApplicationStateResp
         : IRequestHandler<GetByIdApplicationStateQuery, GetByIdApplicationStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationStateRepository _applicationStateRepository;
-        private readonly ApplicationStateBusinessRules _applicationStateBusinessRules;
+        private readonly IApplicationStateService _applicationStateService;
 
-        public GetByIdApplicationStateQueryHandler(
-            IMapper mapper,
-            IApplicationStateRepository applicationStateRepository,
-            ApplicationStateBusinessRules applicationStateBusinessRules
-        )
+        public GetByIdApplicationStateQueryHandler(IMapper mapper, IApplicationStateService applicationStateService)
         {
             _mapper = mapper;
-            _applicationStateRepository = applicationStateRepository;
-            _applicationStateBusinessRules = applicationStateBusinessRules;
+            _applicationStateService = applicationStateService;
         }
 
         public async Task<GetByIdApplicationStateResponse> Handle(
@@ -38,11 +30,7 @@ public class GetByIdApplicationStateQuery : IRequest<GetByIdApplicationStateResp
             CancellationToken cancellationToken
         )
         {
-            ApplicationState? applicationState = await _applicationStateRepository.GetAsync(
-                predicate: a => a.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+            ApplicationState? applicationState = await _applicationStateService.GetByIdAsync(request.Id);
 
             GetByIdApplicationStateResponse response = _mapper.Map<GetByIdApplicationStateResponse>(applicationState);
             return response;

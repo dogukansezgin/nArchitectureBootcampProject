@@ -10,6 +10,7 @@ using NArchitecture.Core.Security.Hashing;
 using NArchitecture.Core.Security.JWT;
 
 namespace Application.Features.Auth.Commands.Register.InstructorRegister;
+
 public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
 {
     public InstructorForRegisterDto InstructorForRegisterDto { get; set; }
@@ -20,6 +21,7 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
         InstructorForRegisterDto = null!;
         IpAddress = string.Empty;
     }
+
     public InstructorRegisterCommand(InstructorForRegisterDto instructorForRegisterDto, string ipAddress)
     {
         InstructorForRegisterDto = instructorForRegisterDto;
@@ -34,7 +36,13 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
         private readonly IOperationClaimService _operationClaimService;
         private readonly AuthBusinessRules _authBusinessRules;
 
-        public InstructorRegisterCommandHandler(IInstructorService instructorService, IAuthService authService, AuthBusinessRules authBusinessRules, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public InstructorRegisterCommandHandler(
+            IInstructorService instructorService,
+            IAuthService authService,
+            AuthBusinessRules authBusinessRules,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _instructorService = instructorService;
             _authService = authService;
@@ -43,7 +51,10 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
             _operationClaimService = operationClaimService;
         }
 
-        public async Task<InstructorRegisteredResponse> Handle(InstructorRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<InstructorRegisteredResponse> Handle(
+            InstructorRegisterCommand request,
+            CancellationToken cancellationToken
+        )
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.InstructorForRegisterDto.Email);
 
@@ -51,7 +62,7 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
                 request.InstructorForRegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
-                );
+            );
 
             Instructor newInstructor =
                 new()
@@ -83,12 +94,12 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
             Domain.Entities.RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
                 createdInstructor,
                 request.IpAddress
-                );
+            );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            InstructorRegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            InstructorRegisteredResponse registeredResponse =
+                new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
             return registeredResponse;
         }
     }
 }
-

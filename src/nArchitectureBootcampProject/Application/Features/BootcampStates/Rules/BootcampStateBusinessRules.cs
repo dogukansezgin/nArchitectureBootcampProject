@@ -30,12 +30,11 @@ public class BootcampStateBusinessRules : BaseBusinessRules
             await throwBusinessException(BootcampStatesBusinessMessages.BootcampStateNotExists);
     }
 
-    public async Task BootcampStateIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)
+    public async Task BootcampStateIdShouldExistWhenSelected(Guid id)
     {
         BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(
             predicate: bs => bs.Id == id,
-            enableTracking: false,
-            cancellationToken: cancellationToken
+            enableTracking: false
         );
         await BootcampStateShouldExistWhenSelected(bootcampState);
     }

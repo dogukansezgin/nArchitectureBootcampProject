@@ -27,4 +27,5 @@ public interface IApplicationService
     Task<ApplicationEntity> AddAsync(ApplicationEntity application);
     Task<ApplicationEntity> UpdateAsync(ApplicationEntity application);
     Task<ApplicationEntity> DeleteAsync(ApplicationEntity application, bool permanent = false);
+    Task<ApplicationEntity> GetByIdAsync(Guid id);
 }

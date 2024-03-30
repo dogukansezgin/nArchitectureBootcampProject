@@ -1,6 +1,5 @@
 using Application.Features.BootcampStates.Constants;
-using Application.Features.BootcampStates.Rules;
-using Application.Services.Repositories;
+using Application.Services.BootcampStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -31,18 +30,12 @@ public class UpdateBootcampStateCommand
     public class UpdateBootcampStateCommandHandler : IRequestHandler<UpdateBootcampStateCommand, UpdatedBootcampStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampStateRepository _bootcampStateRepository;
-        private readonly BootcampStateBusinessRules _bootcampStateBusinessRules;
+        private readonly IBootcampStateService _bootcampStateService;
 
-        public UpdateBootcampStateCommandHandler(
-            IMapper mapper,
-            IBootcampStateRepository bootcampStateRepository,
-            BootcampStateBusinessRules bootcampStateBusinessRules
-        )
+        public UpdateBootcampStateCommandHandler(IMapper mapper, IBootcampStateService bootcampStateService)
         {
             _mapper = mapper;
-            _bootcampStateRepository = bootcampStateRepository;
-            _bootcampStateBusinessRules = bootcampStateBusinessRules;
+            _bootcampStateService = bootcampStateService;
         }
 
         public async Task<UpdatedBootcampStateResponse> Handle(
@@ -50,14 +43,14 @@ public class UpdateBootcampStateCommand
             CancellationToken cancellationToken
         )
         {
-            BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(
+            BootcampState? bootcampState = await _bootcampStateService.GetAsync(
                 predicate: bs => bs.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+
             bootcampState = _mapper.Map(request, bootcampState);
 
-            await _bootcampStateRepository.UpdateAsync(bootcampState!);
+            await _bootcampStateService.UpdateAsync(bootcampState!);
 
             UpdatedBootcampStateResponse response = _mapper.Map<UpdatedBootcampStateResponse>(bootcampState);
             return response;

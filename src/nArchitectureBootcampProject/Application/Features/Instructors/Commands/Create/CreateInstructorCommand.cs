@@ -39,9 +39,7 @@ public class CreateInstructorCommand
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
 
-        public CreateInstructorCommandHandler(
-            IMapper mapper
-, IInstructorService instructorService)
+        public CreateInstructorCommandHandler(IMapper mapper, IInstructorService instructorService)
         {
             _mapper = mapper;
             _instructorService = instructorService;

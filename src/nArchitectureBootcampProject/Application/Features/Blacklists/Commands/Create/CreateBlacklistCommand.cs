@@ -1,6 +1,5 @@
 using Application.Features.Blacklists.Constants;
-using Application.Features.Blacklists.Rules;
-using Application.Services.Repositories;
+using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -32,25 +31,19 @@ public class CreateBlacklistCommand
     public class CreateBlacklistCommandHandler : IRequestHandler<CreateBlacklistCommand, CreatedBlacklistResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBlacklistRepository _blacklistRepository;
-        private readonly BlacklistBusinessRules _blacklistBusinessRules;
+        private readonly IBlacklistService _blacklistService;
 
-        public CreateBlacklistCommandHandler(
-            IMapper mapper,
-            IBlacklistRepository blacklistRepository,
-            BlacklistBusinessRules blacklistBusinessRules
-        )
+        public CreateBlacklistCommandHandler(IMapper mapper, IBlacklistService blacklistService)
         {
             _mapper = mapper;
-            _blacklistRepository = blacklistRepository;
-            _blacklistBusinessRules = blacklistBusinessRules;
+            _blacklistService = blacklistService;
         }
 
         public async Task<CreatedBlacklistResponse> Handle(CreateBlacklistCommand request, CancellationToken cancellationToken)
         {
             Blacklist blacklist = _mapper.Map<Blacklist>(request);
 
-            await _blacklistRepository.AddAsync(blacklist);
+            await _blacklistService.AddAsync(blacklist);
 
             CreatedBlacklistResponse response = _mapper.Map<CreatedBlacklistResponse>(blacklist);
             return response;

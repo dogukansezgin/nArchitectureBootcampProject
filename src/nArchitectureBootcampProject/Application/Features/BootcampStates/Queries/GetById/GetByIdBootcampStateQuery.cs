@@ -1,6 +1,4 @@
-using Application.Features.BootcampStates.Constants;
-using Application.Features.BootcampStates.Rules;
-using Application.Services.Repositories;
+using Application.Services.BootcampStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -18,18 +16,12 @@ public class GetByIdBootcampStateQuery : IRequest<GetByIdBootcampStateResponse>,
     public class GetByIdBootcampStateQueryHandler : IRequestHandler<GetByIdBootcampStateQuery, GetByIdBootcampStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampStateRepository _bootcampStateRepository;
-        private readonly BootcampStateBusinessRules _bootcampStateBusinessRules;
+        private readonly IBootcampStateService _bootcampStateService;
 
-        public GetByIdBootcampStateQueryHandler(
-            IMapper mapper,
-            IBootcampStateRepository bootcampStateRepository,
-            BootcampStateBusinessRules bootcampStateBusinessRules
-        )
+        public GetByIdBootcampStateQueryHandler(IMapper mapper, IBootcampStateService bootcampStateService)
         {
             _mapper = mapper;
-            _bootcampStateRepository = bootcampStateRepository;
-            _bootcampStateBusinessRules = bootcampStateBusinessRules;
+            _bootcampStateService = bootcampStateService;
         }
 
         public async Task<GetByIdBootcampStateResponse> Handle(
@@ -37,11 +29,7 @@ public class GetByIdBootcampStateQuery : IRequest<GetByIdBootcampStateResponse>,
             CancellationToken cancellationToken
         )
         {
-            BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(
-                predicate: bs => bs.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+            BootcampState? bootcampState = await _bootcampStateService.GetByIdAsync(request.Id);
 
             GetByIdBootcampStateResponse response = _mapper.Map<GetByIdBootcampStateResponse>(bootcampState);
             return response;

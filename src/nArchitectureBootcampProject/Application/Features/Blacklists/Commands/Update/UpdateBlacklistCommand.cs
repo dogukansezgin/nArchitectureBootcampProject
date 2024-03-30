@@ -1,6 +1,5 @@
 using Application.Features.Blacklists.Constants;
-using Application.Features.Blacklists.Rules;
-using Application.Services.Repositories;
+using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -33,30 +32,24 @@ public class UpdateBlacklistCommand
     public class UpdateBlacklistCommandHandler : IRequestHandler<UpdateBlacklistCommand, UpdatedBlacklistResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBlacklistRepository _blacklistRepository;
-        private readonly BlacklistBusinessRules _blacklistBusinessRules;
+        private readonly IBlacklistService _blacklistService;
 
-        public UpdateBlacklistCommandHandler(
-            IMapper mapper,
-            IBlacklistRepository blacklistRepository,
-            BlacklistBusinessRules blacklistBusinessRules
-        )
+        public UpdateBlacklistCommandHandler(IMapper mapper, IBlacklistService blacklistService)
         {
             _mapper = mapper;
-            _blacklistRepository = blacklistRepository;
-            _blacklistBusinessRules = blacklistBusinessRules;
+            _blacklistService = blacklistService;
         }
 
         public async Task<UpdatedBlacklistResponse> Handle(UpdateBlacklistCommand request, CancellationToken cancellationToken)
         {
-            Blacklist? blacklist = await _blacklistRepository.GetAsync(
+            Blacklist? blacklist = await _blacklistService.GetAsync(
                 predicate: b => b.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+
             blacklist = _mapper.Map(request, blacklist);
 
-            await _blacklistRepository.UpdateAsync(blacklist!);
+            await _blacklistService.UpdateAsync(blacklist!);
 
             UpdatedBlacklistResponse response = _mapper.Map<UpdatedBlacklistResponse>(blacklist);
             return response;

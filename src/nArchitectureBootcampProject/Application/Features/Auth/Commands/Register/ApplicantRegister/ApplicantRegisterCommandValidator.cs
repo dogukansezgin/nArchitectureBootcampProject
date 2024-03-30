@@ -1,7 +1,8 @@
-﻿using FluentValidation;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using FluentValidation;
 
 namespace Application.Features.Auth.Commands.Register.ApplicantRegister;
+
 public class ApplicantRegisterCommandValidator : AbstractValidator<ApplicantRegisterCommand>
 {
     public ApplicantRegisterCommandValidator()

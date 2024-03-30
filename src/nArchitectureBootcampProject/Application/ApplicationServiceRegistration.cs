@@ -69,8 +69,7 @@ public static class ApplicationServiceRegistration
 
         services.AddSecurityServices<Guid, int>();
 
-        services.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-            .Where(t => t.ServiceType.Name.EndsWith("Manager"));
+        services.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.ServiceType.Name.EndsWith("Manager"));
 
         return services;
     }
@@ -91,8 +90,7 @@ public static class ApplicationServiceRegistration
         return services;
     }
 
-    public static IServiceCollection RegisterAssemblyTypes
-    (this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection RegisterAssemblyTypes(this IServiceCollection services, Assembly assembly)
     {
         var types = assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract);
         foreach (Type? type in types)

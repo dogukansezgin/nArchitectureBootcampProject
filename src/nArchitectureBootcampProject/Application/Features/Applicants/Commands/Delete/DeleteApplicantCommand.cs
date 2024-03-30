@@ -32,10 +32,7 @@ public class DeleteApplicantCommand
         private readonly IMapper _mapper;
         private readonly IApplicantService _applicantService;
 
-        public DeleteApplicantCommandHandler(
-            IMapper mapper,
-            IApplicantService applicantService
-            )
+        public DeleteApplicantCommandHandler(IMapper mapper, IApplicantService applicantService)
         {
             _mapper = mapper;
             _applicantService = applicantService;

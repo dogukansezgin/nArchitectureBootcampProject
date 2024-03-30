@@ -27,5 +27,5 @@ public interface IInstructorService
     Task<Instructor> AddAsync(Instructor instructor);
     Task<Instructor> UpdateAsync(Instructor instructor);
     Task<Instructor> DeleteAsync(Instructor instructor, bool permanent = false);
-    Task<Instructor> GetByIdAsync( Guid id );
+    Task<Instructor> GetByIdAsync(Guid id);
 }

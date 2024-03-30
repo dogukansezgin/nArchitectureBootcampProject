@@ -1,5 +1,6 @@
 using Application.Features.ApplicationStates.Constants;
 using Application.Features.ApplicationStates.Rules;
+using Application.Services.ApplicationStates;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -32,18 +33,12 @@ public class UpdateApplicationStateCommand
         : IRequestHandler<UpdateApplicationStateCommand, UpdatedApplicationStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationStateRepository _applicationStateRepository;
-        private readonly ApplicationStateBusinessRules _applicationStateBusinessRules;
+        private readonly IApplicationStateService _applicationStateService;
 
-        public UpdateApplicationStateCommandHandler(
-            IMapper mapper,
-            IApplicationStateRepository applicationStateRepository,
-            ApplicationStateBusinessRules applicationStateBusinessRules
-        )
+        public UpdateApplicationStateCommandHandler(IMapper mapper, IApplicationStateService applicationStateService)
         {
             _mapper = mapper;
-            _applicationStateRepository = applicationStateRepository;
-            _applicationStateBusinessRules = applicationStateBusinessRules;
+            _applicationStateService = applicationStateService;
         }
 
         public async Task<UpdatedApplicationStateResponse> Handle(
@@ -51,14 +46,14 @@ public class UpdateApplicationStateCommand
             CancellationToken cancellationToken
         )
         {
-            ApplicationState? applicationState = await _applicationStateRepository.GetAsync(
+            ApplicationState? applicationState = await _applicationStateService.GetAsync(
                 predicate: a => a.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+
             applicationState = _mapper.Map(request, applicationState);
 
-            await _applicationStateRepository.UpdateAsync(applicationState!);
+            await _applicationStateService.UpdateAsync(applicationState!);
 
             UpdatedApplicationStateResponse response = _mapper.Map<UpdatedApplicationStateResponse>(applicationState);
             return response;

@@ -32,9 +32,7 @@ public class DeleteEmployeeCommand
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
 
-        public DeleteEmployeeCommandHandler(
-            IMapper mapper
-, IEmployeeService employeeService)
+        public DeleteEmployeeCommandHandler(IMapper mapper, IEmployeeService employeeService)
         {
             _mapper = mapper;
             _employeeService = employeeService;

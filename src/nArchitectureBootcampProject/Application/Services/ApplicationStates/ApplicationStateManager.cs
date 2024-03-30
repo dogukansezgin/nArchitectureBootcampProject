@@ -65,6 +65,8 @@ public class ApplicationStateManager : IApplicationStateService
 
     public async Task<ApplicationState> AddAsync(ApplicationState applicationState)
     {
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+
         ApplicationState addedApplicationState = await _applicationStateRepository.AddAsync(applicationState);
 
         return addedApplicationState;
@@ -72,6 +74,9 @@ public class ApplicationStateManager : IApplicationStateService
 
     public async Task<ApplicationState> UpdateAsync(ApplicationState applicationState)
     {
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+        await _applicationStateBusinessRules.ApplicationStateIdShouldExistWhenSelected(applicationState.Id);
+
         ApplicationState updatedApplicationState = await _applicationStateRepository.UpdateAsync(applicationState);
 
         return updatedApplicationState;
@@ -79,8 +84,19 @@ public class ApplicationStateManager : IApplicationStateService
 
     public async Task<ApplicationState> DeleteAsync(ApplicationState applicationState, bool permanent = false)
     {
-        ApplicationState deletedApplicationState = await _applicationStateRepository.DeleteAsync(applicationState);
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+
+        ApplicationState deletedApplicationState = await _applicationStateRepository.DeleteAsync(applicationState, permanent);
 
         return deletedApplicationState;
+    }
+
+    public async Task<ApplicationState> GetByIdAsync(Guid id)
+    {
+        ApplicationState? applicationState = await _applicationStateRepository.GetAsync(x => x.Id == id);
+
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+
+        return applicationState;
     }
 }

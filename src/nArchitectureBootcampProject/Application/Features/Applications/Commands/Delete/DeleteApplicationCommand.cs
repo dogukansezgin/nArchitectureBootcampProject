@@ -1,6 +1,5 @@
 using Application.Features.Applications.Constants;
-using Application.Features.Applications.Rules;
-using Application.Services.Repositories;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
@@ -20,6 +19,7 @@ public class DeleteApplicationCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, ApplicationsOperationClaims.Delete];
 
@@ -30,18 +30,12 @@ public class DeleteApplicationCommand
     public class DeleteApplicationCommandHandler : IRequestHandler<DeleteApplicationCommand, DeletedApplicationResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationRepository _applicationRepository;
-        private readonly ApplicationBusinessRules _applicationBusinessRules;
+        private readonly IApplicationService _applicationService;
 
-        public DeleteApplicationCommandHandler(
-            IMapper mapper,
-            IApplicationRepository applicationRepository,
-            ApplicationBusinessRules applicationBusinessRules
-        )
+        public DeleteApplicationCommandHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
-            _applicationRepository = applicationRepository;
-            _applicationBusinessRules = applicationBusinessRules;
+            _applicationService = applicationService;
         }
 
         public async Task<DeletedApplicationResponse> Handle(
@@ -49,15 +43,15 @@ public class DeleteApplicationCommand
             CancellationToken cancellationToken
         )
         {
-            ApplicationEntity? application = await _applicationRepository.GetAsync(
+            ApplicationEntity? application = await _applicationService.GetAsync(
                 predicate: a => a.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
 
-            await _applicationRepository.DeleteAsync(application!);
+            await _applicationService.DeleteAsync(application!, request.IsPermament);
 
             DeletedApplicationResponse response = _mapper.Map<DeletedApplicationResponse>(application);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

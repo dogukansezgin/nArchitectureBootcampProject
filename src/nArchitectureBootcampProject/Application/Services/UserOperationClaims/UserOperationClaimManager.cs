@@ -77,9 +77,13 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 
     public async Task<ICollection<UserOperationClaim>> AddRangeAsync(ICollection<UserOperationClaim> userOperationClaims)
     {
-        userOperationClaims = await _userUserOperationClaimBusinessRules.UserShouldNotHasOperationClaimAlreadyWhenInsertRange(userOperationClaims);
+        userOperationClaims = await _userUserOperationClaimBusinessRules.UserShouldNotHasOperationClaimAlreadyWhenInsertRange(
+            userOperationClaims
+        );
 
-        ICollection<UserOperationClaim> addedUserOperationClaims = await _userUserOperationClaimRepository.AddRangeAsync(userOperationClaims);
+        ICollection<UserOperationClaim> addedUserOperationClaims = await _userUserOperationClaimRepository.AddRangeAsync(
+            userOperationClaims
+        );
 
         return addedUserOperationClaims;
     }
@@ -107,5 +111,4 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 
         return deletedUserOperationClaim;
     }
-
 }

@@ -33,27 +33,27 @@ public class ApplicantBusinessRules : BaseBusinessRules
 
     public async Task ApplicantIdShouldExistWhenSelected(Guid id)
     {
-        Applicant? applicant = await _applicantRepository.GetAsync(
-            predicate: a => a.Id == id,
-            enableTracking: false
-        );
+        Applicant? applicant = await _applicantRepository.GetAsync(predicate: a => a.Id == id, enableTracking: false);
         await ApplicantShouldExistWhenSelected(applicant);
     }
 
     public async Task ApplicantShouldExist(Guid id)
     {
         Applicant? applicant = await _applicantRepository.GetAsync(x => x.Id == id);
-        if (applicant == null) await throwBusinessException(ApplicantsBusinessMessages.ApplicantNotExists);
+        if (applicant == null)
+            await throwBusinessException(ApplicantsBusinessMessages.ApplicantNotExists);
     }
 
     public async Task ApplicantShouldNotExist(Applicant applicant)
     {
         var isExistId = await _applicantRepository.GetAsync(x => x.Id == applicant.Id) is not null;
-        var isExistUserName = await _applicantRepository.GetAsync(x => x.UserName.Trim() == applicant.UserName.Trim()) is not null;
-        var isExistNationalId = await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+        var isExistUserName =
+            await _applicantRepository.GetAsync(x => x.UserName.Trim() == applicant.UserName.Trim()) is not null;
+        var isExistNationalId =
+            await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
         var isExistEmail = await _applicantRepository.GetAsync(x => x.Email.Trim() == applicant.Email.Trim()) is not null;
 
-        if (isExistId || isExistUserName || isExistNationalId || isExistEmail) await throwBusinessException(ApplicantsBusinessMessages.ApplicantExists);
+        if (isExistId || isExistUserName || isExistNationalId || isExistEmail)
+            await throwBusinessException(ApplicantsBusinessMessages.ApplicantExists);
     }
-
 }

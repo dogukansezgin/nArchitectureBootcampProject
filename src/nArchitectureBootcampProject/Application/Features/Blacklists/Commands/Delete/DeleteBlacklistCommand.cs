@@ -1,7 +1,5 @@
 using Application.Features.Blacklists.Constants;
-using Application.Features.Blacklists.Constants;
-using Application.Features.Blacklists.Rules;
-using Application.Services.Repositories;
+using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteBlacklistCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, BlacklistsOperationClaims.Delete];
 
@@ -31,31 +30,25 @@ public class DeleteBlacklistCommand
     public class DeleteBlacklistCommandHandler : IRequestHandler<DeleteBlacklistCommand, DeletedBlacklistResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBlacklistRepository _blacklistRepository;
-        private readonly BlacklistBusinessRules _blacklistBusinessRules;
+        private readonly IBlacklistService _blacklistService;
 
-        public DeleteBlacklistCommandHandler(
-            IMapper mapper,
-            IBlacklistRepository blacklistRepository,
-            BlacklistBusinessRules blacklistBusinessRules
-        )
+        public DeleteBlacklistCommandHandler(IMapper mapper, IBlacklistService blacklistService)
         {
             _mapper = mapper;
-            _blacklistRepository = blacklistRepository;
-            _blacklistBusinessRules = blacklistBusinessRules;
+            _blacklistService = blacklistService;
         }
 
         public async Task<DeletedBlacklistResponse> Handle(DeleteBlacklistCommand request, CancellationToken cancellationToken)
         {
-            Blacklist? blacklist = await _blacklistRepository.GetAsync(
+            Blacklist? blacklist = await _blacklistService.GetAsync(
                 predicate: b => b.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
 
-            await _blacklistRepository.DeleteAsync(blacklist!);
+            await _blacklistService.DeleteAsync(blacklist!, request.IsPermament);
 
             DeletedBlacklistResponse response = _mapper.Map<DeletedBlacklistResponse>(blacklist);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

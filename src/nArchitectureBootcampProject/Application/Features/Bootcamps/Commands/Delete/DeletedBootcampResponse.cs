@@ -5,4 +5,5 @@ namespace Application.Features.Bootcamps.Commands.Delete;
 public class DeletedBootcampResponse : IResponse
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 }

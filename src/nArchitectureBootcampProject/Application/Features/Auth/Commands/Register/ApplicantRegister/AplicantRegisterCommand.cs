@@ -9,6 +9,7 @@ using NArchitecture.Core.Security.Hashing;
 using NArchitecture.Core.Security.JWT;
 
 namespace Application.Features.Auth.Commands.Register.ApplicantRegister;
+
 public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
 {
     public ApplicantForRegisterDto ApplicantForRegisterDto { get; set; }
@@ -19,6 +20,7 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
         ApplicantForRegisterDto = null!;
         IpAddress = string.Empty;
     }
+
     public ApplicantRegisterCommand(ApplicantForRegisterDto applicantForRegisterDto, string ipAddress)
     {
         ApplicantForRegisterDto = applicantForRegisterDto;
@@ -33,7 +35,13 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
         private readonly IOperationClaimService _operationClaimService;
         private readonly AuthBusinessRules _authBusinessRules;
 
-        public ApplicantRegisterCommandHandler(IApplicantService applicantService, IAuthService authService, AuthBusinessRules authBusinessRules, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public ApplicantRegisterCommandHandler(
+            IApplicantService applicantService,
+            IAuthService authService,
+            AuthBusinessRules authBusinessRules,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _applicantService = applicantService;
             _authService = authService;
@@ -42,7 +50,10 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
             _operationClaimService = operationClaimService;
         }
 
-        public async Task<ApplicantRegisteredResponse> Handle(ApplicantRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicantRegisteredResponse> Handle(
+            ApplicantRegisterCommand request,
+            CancellationToken cancellationToken
+        )
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.ApplicantForRegisterDto.Email);
 
@@ -50,7 +61,7 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
                 request.ApplicantForRegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
-                );
+            );
 
             Applicant newApplicant =
                 new()
@@ -65,27 +76,28 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                 };
-            Applicant createdApplicant = await _applicantService.AddAsync( newApplicant );
+            Applicant createdApplicant = await _applicantService.AddAsync(newApplicant);
 
             ICollection<UserOperationClaim> userOperationClaims = [];
 
             var operationClaims = await _operationClaimService.GetListAsync(x => x.Name.Contains("Applicants"));
             foreach (var item in operationClaims.Items)
             {
-                userOperationClaims.Add(new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id } );
+                userOperationClaims.Add(new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id });
             }
 
-            userOperationClaims = await _userOperationClaimService.AddRangeAsync( userOperationClaims );
+            userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdApplicant);
 
             Domain.Entities.RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
                 createdApplicant,
                 request.IpAddress
-                );
+            );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            ApplicantRegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            ApplicantRegisteredResponse registeredResponse =
+                new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
             return registeredResponse;
         }
     }

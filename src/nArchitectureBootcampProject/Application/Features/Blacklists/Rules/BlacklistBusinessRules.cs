@@ -1,3 +1,4 @@
+using Application.Features.Applicants.Rules;
 using Application.Features.Blacklists.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
@@ -11,11 +12,17 @@ public class BlacklistBusinessRules : BaseBusinessRules
 {
     private readonly IBlacklistRepository _blacklistRepository;
     private readonly ILocalizationService _localizationService;
+    private readonly ApplicantBusinessRules _applicantBusinessRules;
 
-    public BlacklistBusinessRules(IBlacklistRepository blacklistRepository, ILocalizationService localizationService)
+    public BlacklistBusinessRules(
+        IBlacklistRepository blacklistRepository,
+        ILocalizationService localizationService,
+        ApplicantBusinessRules applicantBusinessRules
+    )
     {
         _blacklistRepository = blacklistRepository;
         _localizationService = localizationService;
+        _applicantBusinessRules = applicantBusinessRules;
     }
 
     private async Task throwBusinessException(string messageKey)
@@ -30,13 +37,24 @@ public class BlacklistBusinessRules : BaseBusinessRules
             await throwBusinessException(BlacklistsBusinessMessages.BlacklistNotExists);
     }
 
-    public async Task BlacklistIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)
+    public async Task BlacklistIdShouldExistWhenSelected(Guid id)
     {
-        Blacklist? blacklist = await _blacklistRepository.GetAsync(
-            predicate: b => b.Id == id,
-            enableTracking: false,
-            cancellationToken: cancellationToken
-        );
+        Blacklist? blacklist = await _blacklistRepository.GetAsync(predicate: b => b.Id == id, enableTracking: false);
         await BlacklistShouldExistWhenSelected(blacklist);
+    }
+
+    public async Task BlacklistForeignKeysShouldExist(Blacklist? blacklist)
+    {
+        await BlacklistShouldExistWhenSelected(blacklist);
+
+        await _applicantBusinessRules.ApplicantIdShouldExistWhenSelected(blacklist.ApplicantId);
+    }
+
+    public async Task BlacklistApplicantCheck(Guid applicantId)
+    {
+        Blacklist? blacklist = await _blacklistRepository.GetAsync(x => x.ApplicantId == applicantId);
+
+        if (blacklist != null)
+            await throwBusinessException(BlacklistsBusinessMessages.ApplicantBlacklisted);
     }
 }

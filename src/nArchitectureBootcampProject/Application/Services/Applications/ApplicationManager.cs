@@ -62,6 +62,9 @@ public class ApplicationManager : IApplicationService
 
     public async Task<ApplicationEntity> AddAsync(ApplicationEntity application)
     {
+        await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
+        await _applicationBusinessRules.ApplicationApplicantShouldNotExistInBlacklist(application);
+
         ApplicationEntity addedApplication = await _applicationRepository.AddAsync(application);
 
         return addedApplication;
@@ -69,6 +72,10 @@ public class ApplicationManager : IApplicationService
 
     public async Task<ApplicationEntity> UpdateAsync(ApplicationEntity application)
     {
+        await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
+        await _applicationBusinessRules.ApplicationShouldNotExist(application);
+        await _applicationBusinessRules.ApplicationIdShouldExistWhenSelected(application.Id);
+
         ApplicationEntity updatedApplication = await _applicationRepository.UpdateAsync(application);
 
         return updatedApplication;
@@ -76,8 +83,19 @@ public class ApplicationManager : IApplicationService
 
     public async Task<ApplicationEntity> DeleteAsync(ApplicationEntity application, bool permanent = false)
     {
-        ApplicationEntity deletedApplication = await _applicationRepository.DeleteAsync(application);
+        await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+
+        ApplicationEntity deletedApplication = await _applicationRepository.DeleteAsync(application, permanent);
 
         return deletedApplication;
+    }
+
+    public async Task<ApplicationEntity> GetByIdAsync(Guid id)
+    {
+        ApplicationEntity? application = await _applicationRepository.GetAsync(x => x.Id == id);
+
+        await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+
+        return application;
     }
 }

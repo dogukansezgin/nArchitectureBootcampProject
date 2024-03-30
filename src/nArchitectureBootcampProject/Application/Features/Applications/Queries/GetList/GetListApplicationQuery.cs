@@ -1,5 +1,4 @@
-using Application.Features.Applications.Constants;
-using Application.Services.Repositories;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
@@ -26,13 +25,13 @@ public class GetListApplicationQuery : IRequest<GetListResponse<GetListApplicati
     public class GetListApplicationQueryHandler
         : IRequestHandler<GetListApplicationQuery, GetListResponse<GetListApplicationListItemDto>>
     {
-        private readonly IApplicationRepository _applicationRepository;
         private readonly IMapper _mapper;
+        private readonly IApplicationService _applicationService;
 
-        public GetListApplicationQueryHandler(IApplicationRepository applicationRepository, IMapper mapper)
+        public GetListApplicationQueryHandler(IMapper mapper, IApplicationService applicationService)
         {
-            _applicationRepository = applicationRepository;
             _mapper = mapper;
+            _applicationService = applicationService;
         }
 
         public async Task<GetListResponse<GetListApplicationListItemDto>> Handle(
@@ -40,7 +39,7 @@ public class GetListApplicationQuery : IRequest<GetListResponse<GetListApplicati
             CancellationToken cancellationToken
         )
         {
-            IPaginate<ApplicationEntity> applications = await _applicationRepository.GetListAsync(
+            IPaginate<ApplicationEntity>? applications = await _applicationService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

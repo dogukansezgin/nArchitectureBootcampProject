@@ -27,4 +27,5 @@ public interface IBootcampStateService
     Task<BootcampState> AddAsync(BootcampState bootcampState);
     Task<BootcampState> UpdateAsync(BootcampState bootcampState);
     Task<BootcampState> DeleteAsync(BootcampState bootcampState, bool permanent = false);
+    Task<BootcampState> GetByIdAsync(Guid id);
 }

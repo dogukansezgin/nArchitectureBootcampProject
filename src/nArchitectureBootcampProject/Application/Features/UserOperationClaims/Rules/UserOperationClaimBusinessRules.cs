@@ -56,17 +56,22 @@ public class UserOperationClaimBusinessRules : BaseBusinessRules
             await throwBusinessException(UserOperationClaimsMessages.UserOperationClaimAlreadyExists);
     }
 
-    public async Task<ICollection<UserOperationClaim>> UserShouldNotHasOperationClaimAlreadyWhenInsertRange(ICollection<UserOperationClaim> userOperationClaims)
+    public async Task<ICollection<UserOperationClaim>> UserShouldNotHasOperationClaimAlreadyWhenInsertRange(
+        ICollection<UserOperationClaim> userOperationClaims
+    )
     {
         foreach (var item in userOperationClaims)
         {
-            bool doesExist = await _userOperationClaimRepository.AnyAsync(u => 
-                u.UserId == item.UserId && u.OperationClaimId == item.OperationClaimId);
+            bool doesExist = await _userOperationClaimRepository.AnyAsync(u =>
+                u.UserId == item.UserId && u.OperationClaimId == item.OperationClaimId
+            );
 
-            if (doesExist) userOperationClaims.Remove(item);
+            if (doesExist)
+                userOperationClaims.Remove(item);
         }
 
-        if(userOperationClaims.Count <= 0) await throwBusinessException(UserOperationClaimsMessages.UserOperationClaimAlreadyExists);
+        if (userOperationClaims.Count <= 0)
+            await throwBusinessException(UserOperationClaimsMessages.UserOperationClaimAlreadyExists);
 
         return userOperationClaims;
     }

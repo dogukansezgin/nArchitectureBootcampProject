@@ -33,12 +33,11 @@ public class ApplicationStateBusinessRules : BaseBusinessRules
             await throwBusinessException(ApplicationStatesBusinessMessages.ApplicationStateNotExists);
     }
 
-    public async Task ApplicationStateIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)
+    public async Task ApplicationStateIdShouldExistWhenSelected(Guid id)
     {
         ApplicationState? applicationState = await _applicationStateRepository.GetAsync(
             predicate: a => a.Id == id,
-            enableTracking: false,
-            cancellationToken: cancellationToken
+            enableTracking: false
         );
         await ApplicationStateShouldExistWhenSelected(applicationState);
     }

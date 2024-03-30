@@ -1,5 +1,6 @@
 using Application.Features.BootcampStates.Constants;
 using Application.Features.BootcampStates.Rules;
+using Application.Services.BootcampStates;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -30,18 +31,12 @@ public class CreateBootcampStateCommand
     public class CreateBootcampStateCommandHandler : IRequestHandler<CreateBootcampStateCommand, CreatedBootcampStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampStateRepository _bootcampStateRepository;
-        private readonly BootcampStateBusinessRules _bootcampStateBusinessRules;
+        private readonly IBootcampStateService _bootcampStateService;
 
-        public CreateBootcampStateCommandHandler(
-            IMapper mapper,
-            IBootcampStateRepository bootcampStateRepository,
-            BootcampStateBusinessRules bootcampStateBusinessRules
-        )
+        public CreateBootcampStateCommandHandler(IMapper mapper, IBootcampStateService bootcampStateService)
         {
             _mapper = mapper;
-            _bootcampStateRepository = bootcampStateRepository;
-            _bootcampStateBusinessRules = bootcampStateBusinessRules;
+            _bootcampStateService = bootcampStateService;
         }
 
         public async Task<CreatedBootcampStateResponse> Handle(
@@ -51,7 +46,7 @@ public class CreateBootcampStateCommand
         {
             BootcampState bootcampState = _mapper.Map<BootcampState>(request);
 
-            await _bootcampStateRepository.AddAsync(bootcampState);
+            await _bootcampStateService.AddAsync(bootcampState);
 
             CreatedBootcampStateResponse response = _mapper.Map<CreatedBootcampStateResponse>(bootcampState);
             return response;

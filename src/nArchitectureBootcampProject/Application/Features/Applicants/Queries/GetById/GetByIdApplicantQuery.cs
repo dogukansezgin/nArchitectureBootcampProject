@@ -21,9 +21,7 @@ public class GetByIdApplicantQuery : IRequest<GetByIdApplicantResponse>, ISecure
         private readonly IMapper _mapper;
         private readonly IApplicantService _applicantService;
 
-        public GetByIdApplicantQueryHandler(
-            IMapper mapper,
-IApplicantService applicantService)
+        public GetByIdApplicantQueryHandler(IMapper mapper, IApplicantService applicantService)
         {
             _mapper = mapper;
             _applicantService = applicantService;

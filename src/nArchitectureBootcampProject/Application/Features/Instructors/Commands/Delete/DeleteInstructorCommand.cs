@@ -32,9 +32,7 @@ public class DeleteInstructorCommand
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
 
-        public DeleteInstructorCommandHandler(
-            IMapper mapper
-, IInstructorService instructorService)
+        public DeleteInstructorCommandHandler(IMapper mapper, IInstructorService instructorService)
         {
             _mapper = mapper;
             _instructorService = instructorService;

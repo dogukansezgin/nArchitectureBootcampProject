@@ -1,5 +1,4 @@
-using Application.Features.BootcampStates.Constants;
-using Application.Services.Repositories;
+using Application.Services.BootcampStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -29,13 +28,13 @@ public class GetListBootcampStateQuery
     public class GetListBootcampStateQueryHandler
         : IRequestHandler<GetListBootcampStateQuery, GetListResponse<GetListBootcampStateListItemDto>>
     {
-        private readonly IBootcampStateRepository _bootcampStateRepository;
         private readonly IMapper _mapper;
+        private readonly IBootcampStateService _bootcampStateService;
 
-        public GetListBootcampStateQueryHandler(IBootcampStateRepository bootcampStateRepository, IMapper mapper)
+        public GetListBootcampStateQueryHandler(IMapper mapper, IBootcampStateService bootcampStateService)
         {
-            _bootcampStateRepository = bootcampStateRepository;
             _mapper = mapper;
+            _bootcampStateService = bootcampStateService;
         }
 
         public async Task<GetListResponse<GetListBootcampStateListItemDto>> Handle(
@@ -43,7 +42,7 @@ public class GetListBootcampStateQuery
             CancellationToken cancellationToken
         )
         {
-            IPaginate<BootcampState> bootcampStates = await _bootcampStateRepository.GetListAsync(
+            IPaginate<BootcampState>? bootcampStates = await _bootcampStateService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

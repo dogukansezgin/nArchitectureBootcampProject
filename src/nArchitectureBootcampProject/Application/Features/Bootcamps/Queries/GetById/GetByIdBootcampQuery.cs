@@ -1,6 +1,4 @@
-using Application.Features.Bootcamps.Constants;
-using Application.Features.Bootcamps.Rules;
-using Application.Services.Repositories;
+using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -18,27 +16,17 @@ public class GetByIdBootcampQuery : IRequest<GetByIdBootcampResponse>, ISecuredR
     public class GetByIdBootcampQueryHandler : IRequestHandler<GetByIdBootcampQuery, GetByIdBootcampResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampRepository _bootcampRepository;
-        private readonly BootcampBusinessRules _bootcampBusinessRules;
+        private readonly IBootcampService _bootcampService;
 
-        public GetByIdBootcampQueryHandler(
-            IMapper mapper,
-            IBootcampRepository bootcampRepository,
-            BootcampBusinessRules bootcampBusinessRules
-        )
+        public GetByIdBootcampQueryHandler(IMapper mapper, IBootcampService bootcampService)
         {
             _mapper = mapper;
-            _bootcampRepository = bootcampRepository;
-            _bootcampBusinessRules = bootcampBusinessRules;
+            _bootcampService = bootcampService;
         }
 
         public async Task<GetByIdBootcampResponse> Handle(GetByIdBootcampQuery request, CancellationToken cancellationToken)
         {
-            Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
-                predicate: b => b.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+            Bootcamp? bootcamp = await _bootcampService.GetByIdAsync(request.Id);
 
             GetByIdBootcampResponse response = _mapper.Map<GetByIdBootcampResponse>(bootcamp);
             return response;

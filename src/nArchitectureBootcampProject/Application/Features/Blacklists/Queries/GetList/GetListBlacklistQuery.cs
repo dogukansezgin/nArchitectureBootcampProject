@@ -1,5 +1,4 @@
-using Application.Features.Blacklists.Constants;
-using Application.Services.Repositories;
+using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -26,13 +25,13 @@ public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistLi
     public class GetListBlacklistQueryHandler
         : IRequestHandler<GetListBlacklistQuery, GetListResponse<GetListBlacklistListItemDto>>
     {
-        private readonly IBlacklistRepository _blacklistRepository;
         private readonly IMapper _mapper;
+        private readonly IBlacklistService _blacklistService;
 
-        public GetListBlacklistQueryHandler(IBlacklistRepository blacklistRepository, IMapper mapper)
+        public GetListBlacklistQueryHandler(IMapper mapper, IBlacklistService blacklistService)
         {
-            _blacklistRepository = blacklistRepository;
             _mapper = mapper;
+            _blacklistService = blacklistService;
         }
 
         public async Task<GetListResponse<GetListBlacklistListItemDto>> Handle(
@@ -40,7 +39,7 @@ public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistLi
             CancellationToken cancellationToken
         )
         {
-            IPaginate<Blacklist> blacklists = await _blacklistRepository.GetListAsync(
+            IPaginate<Blacklist>? blacklists = await _blacklistService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

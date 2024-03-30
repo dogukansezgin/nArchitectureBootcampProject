@@ -1,6 +1,5 @@
 using Application.Features.Applications.Constants;
-using Application.Features.Applications.Rules;
-using Application.Services.Repositories;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
@@ -33,18 +32,12 @@ public class UpdateApplicationCommand
     public class UpdateApplicationCommandHandler : IRequestHandler<UpdateApplicationCommand, UpdatedApplicationResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IApplicationRepository _applicationRepository;
-        private readonly ApplicationBusinessRules _applicationBusinessRules;
+        private readonly IApplicationService _applicationService;
 
-        public UpdateApplicationCommandHandler(
-            IMapper mapper,
-            IApplicationRepository applicationRepository,
-            ApplicationBusinessRules applicationBusinessRules
-        )
+        public UpdateApplicationCommandHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
-            _applicationRepository = applicationRepository;
-            _applicationBusinessRules = applicationBusinessRules;
+            _applicationService = applicationService;
         }
 
         public async Task<UpdatedApplicationResponse> Handle(
@@ -52,14 +45,14 @@ public class UpdateApplicationCommand
             CancellationToken cancellationToken
         )
         {
-            ApplicationEntity? application = await _applicationRepository.GetAsync(
+            ApplicationEntity? application = await _applicationService.GetAsync(
                 predicate: a => a.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+
             application = _mapper.Map(request, application);
 
-            await _applicationRepository.UpdateAsync(application!);
+            await _applicationService.UpdateAsync(application!);
 
             UpdatedApplicationResponse response = _mapper.Map<UpdatedApplicationResponse>(application);
             return response;

@@ -2,6 +2,7 @@
 using NArchitecture.Core.Security.JWT;
 
 namespace Application.Features.Auth.Commands.Register.EmployeeRegister;
+
 public class EmployeeRegisteredResponse : IResponse
 {
     public AccessToken AccessToken { get; set; }

@@ -1,5 +1,4 @@
-using Application.Features.ApplicationStates.Constants;
-using Application.Services.Repositories;
+using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -29,13 +28,13 @@ public class GetListApplicationStateQuery
     public class GetListApplicationStateQueryHandler
         : IRequestHandler<GetListApplicationStateQuery, GetListResponse<GetListApplicationStateListItemDto>>
     {
-        private readonly IApplicationStateRepository _applicationStateRepository;
         private readonly IMapper _mapper;
+        private readonly IApplicationStateService _applicationStateService;
 
-        public GetListApplicationStateQueryHandler(IApplicationStateRepository applicationStateRepository, IMapper mapper)
+        public GetListApplicationStateQueryHandler(IMapper mapper, IApplicationStateService applicationStateService)
         {
-            _applicationStateRepository = applicationStateRepository;
             _mapper = mapper;
+            _applicationStateService = applicationStateService;
         }
 
         public async Task<GetListResponse<GetListApplicationStateListItemDto>> Handle(
@@ -43,7 +42,7 @@ public class GetListApplicationStateQuery
             CancellationToken cancellationToken
         )
         {
-            IPaginate<ApplicationState> applicationStates = await _applicationStateRepository.GetListAsync(
+            IPaginate<ApplicationState>? applicationStates = await _applicationStateService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken

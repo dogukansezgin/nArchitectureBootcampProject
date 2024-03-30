@@ -1,7 +1,5 @@
 using Application.Features.Bootcamps.Constants;
-using Application.Features.Bootcamps.Constants;
-using Application.Features.Bootcamps.Rules;
-using Application.Services.Repositories;
+using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteBootcampCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, BootcampsOperationClaims.Delete];
 
@@ -31,31 +30,25 @@ public class DeleteBootcampCommand
     public class DeleteBootcampCommandHandler : IRequestHandler<DeleteBootcampCommand, DeletedBootcampResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampRepository _bootcampRepository;
-        private readonly BootcampBusinessRules _bootcampBusinessRules;
+        private readonly IBootcampService _bootcampService;
 
-        public DeleteBootcampCommandHandler(
-            IMapper mapper,
-            IBootcampRepository bootcampRepository,
-            BootcampBusinessRules bootcampBusinessRules
-        )
+        public DeleteBootcampCommandHandler(IMapper mapper, IBootcampService bootcampService)
         {
             _mapper = mapper;
-            _bootcampRepository = bootcampRepository;
-            _bootcampBusinessRules = bootcampBusinessRules;
+            _bootcampService = bootcampService;
         }
 
         public async Task<DeletedBootcampResponse> Handle(DeleteBootcampCommand request, CancellationToken cancellationToken)
         {
-            Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
+            Bootcamp? bootcamp = await _bootcampService.GetAsync(
                 predicate: b => b.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
 
-            await _bootcampRepository.DeleteAsync(bootcamp!);
+            await _bootcampService.DeleteAsync(bootcamp!, request.IsPermament);
 
             DeletedBootcampResponse response = _mapper.Map<DeletedBootcampResponse>(bootcamp);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

@@ -65,6 +65,8 @@ public class BootcampStateManager : IBootcampStateService
 
     public async Task<BootcampState> AddAsync(BootcampState bootcampState)
     {
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+
         BootcampState addedBootcampState = await _bootcampStateRepository.AddAsync(bootcampState);
 
         return addedBootcampState;
@@ -72,6 +74,9 @@ public class BootcampStateManager : IBootcampStateService
 
     public async Task<BootcampState> UpdateAsync(BootcampState bootcampState)
     {
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+        await _bootcampStateBusinessRules.BootcampStateIdShouldExistWhenSelected(bootcampState.Id);
+
         BootcampState updatedBootcampState = await _bootcampStateRepository.UpdateAsync(bootcampState);
 
         return updatedBootcampState;
@@ -79,8 +84,19 @@ public class BootcampStateManager : IBootcampStateService
 
     public async Task<BootcampState> DeleteAsync(BootcampState bootcampState, bool permanent = false)
     {
-        BootcampState deletedBootcampState = await _bootcampStateRepository.DeleteAsync(bootcampState);
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+
+        BootcampState deletedBootcampState = await _bootcampStateRepository.DeleteAsync(bootcampState, permanent);
 
         return deletedBootcampState;
+    }
+
+    public async Task<BootcampState> GetByIdAsync(Guid id)
+    {
+        BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(x => x.Id == id);
+
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+
+        return bootcampState;
     }
 }

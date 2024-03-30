@@ -62,6 +62,9 @@ public class BootcampManager : IBootcampService
 
     public async Task<Bootcamp> AddAsync(Bootcamp bootcamp)
     {
+        await _bootcampBusinessRules.BootcampForeignKeysShouldExist(bootcamp);
+        await _bootcampBusinessRules.BootcampShouldNotExist(bootcamp);
+
         Bootcamp addedBootcamp = await _bootcampRepository.AddAsync(bootcamp);
 
         return addedBootcamp;
@@ -69,6 +72,10 @@ public class BootcampManager : IBootcampService
 
     public async Task<Bootcamp> UpdateAsync(Bootcamp bootcamp)
     {
+        await _bootcampBusinessRules.BootcampForeignKeysShouldExist(bootcamp);
+        await _bootcampBusinessRules.BootcampShouldNotExist(bootcamp);
+        await _bootcampBusinessRules.BootcampIdShouldExistWhenSelected(bootcamp.Id);
+
         Bootcamp updatedBootcamp = await _bootcampRepository.UpdateAsync(bootcamp);
 
         return updatedBootcamp;
@@ -76,8 +83,19 @@ public class BootcampManager : IBootcampService
 
     public async Task<Bootcamp> DeleteAsync(Bootcamp bootcamp, bool permanent = false)
     {
-        Bootcamp deletedBootcamp = await _bootcampRepository.DeleteAsync(bootcamp);
+        await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+
+        Bootcamp deletedBootcamp = await _bootcampRepository.DeleteAsync(bootcamp, permanent);
 
         return deletedBootcamp;
+    }
+
+    public async Task<Bootcamp> GetByIdAsync(Guid id)
+    {
+        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(x => x.Id == id);
+
+        await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+
+        return bootcamp;
     }
 }

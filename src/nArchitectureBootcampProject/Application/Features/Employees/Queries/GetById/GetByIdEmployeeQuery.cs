@@ -21,9 +21,7 @@ public class GetByIdEmployeeQuery : IRequest<GetByIdEmployeeResponse>, ISecuredR
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
 
-        public GetByIdEmployeeQueryHandler(
-            IMapper mapper
-, IEmployeeService employeeService)
+        public GetByIdEmployeeQueryHandler(IMapper mapper, IEmployeeService employeeService)
         {
             _mapper = mapper;
             _employeeService = employeeService;

@@ -1,6 +1,5 @@
 using Application.Features.Bootcamps.Constants;
-using Application.Features.Bootcamps.Rules;
-using Application.Services.Repositories;
+using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -35,30 +34,24 @@ public class UpdateBootcampCommand
     public class UpdateBootcampCommandHandler : IRequestHandler<UpdateBootcampCommand, UpdatedBootcampResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampRepository _bootcampRepository;
-        private readonly BootcampBusinessRules _bootcampBusinessRules;
+        private readonly IBootcampService _bootcampService;
 
-        public UpdateBootcampCommandHandler(
-            IMapper mapper,
-            IBootcampRepository bootcampRepository,
-            BootcampBusinessRules bootcampBusinessRules
-        )
+        public UpdateBootcampCommandHandler(IMapper mapper, IBootcampService bootcampService)
         {
             _mapper = mapper;
-            _bootcampRepository = bootcampRepository;
-            _bootcampBusinessRules = bootcampBusinessRules;
+            _bootcampService = bootcampService;
         }
 
         public async Task<UpdatedBootcampResponse> Handle(UpdateBootcampCommand request, CancellationToken cancellationToken)
         {
-            Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
+            Bootcamp? bootcamp = await _bootcampService.GetAsync(
                 predicate: b => b.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+
             bootcamp = _mapper.Map(request, bootcamp);
 
-            await _bootcampRepository.UpdateAsync(bootcamp!);
+            await _bootcampService.UpdateAsync(bootcamp!);
 
             UpdatedBootcampResponse response = _mapper.Map<UpdatedBootcampResponse>(bootcamp);
             return response;

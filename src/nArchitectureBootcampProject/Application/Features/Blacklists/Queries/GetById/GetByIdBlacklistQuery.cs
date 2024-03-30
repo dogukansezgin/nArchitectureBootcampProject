@@ -1,6 +1,4 @@
-using Application.Features.Blacklists.Constants;
-using Application.Features.Blacklists.Rules;
-using Application.Services.Repositories;
+using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -18,27 +16,17 @@ public class GetByIdBlacklistQuery : IRequest<GetByIdBlacklistResponse>, ISecure
     public class GetByIdBlacklistQueryHandler : IRequestHandler<GetByIdBlacklistQuery, GetByIdBlacklistResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBlacklistRepository _blacklistRepository;
-        private readonly BlacklistBusinessRules _blacklistBusinessRules;
+        private readonly IBlacklistService _blacklistService;
 
-        public GetByIdBlacklistQueryHandler(
-            IMapper mapper,
-            IBlacklistRepository blacklistRepository,
-            BlacklistBusinessRules blacklistBusinessRules
-        )
+        public GetByIdBlacklistQueryHandler(IMapper mapper, IBlacklistService blacklistService)
         {
             _mapper = mapper;
-            _blacklistRepository = blacklistRepository;
-            _blacklistBusinessRules = blacklistBusinessRules;
+            _blacklistService = blacklistService;
         }
 
         public async Task<GetByIdBlacklistResponse> Handle(GetByIdBlacklistQuery request, CancellationToken cancellationToken)
         {
-            Blacklist? blacklist = await _blacklistRepository.GetAsync(
-                predicate: b => b.Id == request.Id,
-                cancellationToken: cancellationToken
-            );
-            await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+            Blacklist? blacklist = await _blacklistService.GetByIdAsync(request.Id);
 
             GetByIdBlacklistResponse response = _mapper.Map<GetByIdBlacklistResponse>(blacklist);
             return response;

@@ -23,7 +23,8 @@ public class UpdateApplicantCommand
     public Guid Id { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    //public string NewPassword { get; set; } // Düzenlenecek
+
+    //public string NewPassword { get; set; } // Dï¿½zenlenecek
     public string UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -42,9 +43,7 @@ public class UpdateApplicantCommand
         private readonly IMapper _mapper;
         private readonly IApplicantService _applicantService;
 
-        public UpdateApplicantCommandHandler(
-            IMapper mapper, 
-            IApplicantService applicantService)
+        public UpdateApplicantCommandHandler(IMapper mapper, IApplicantService applicantService)
         {
             _mapper = mapper;
             _applicantService = applicantService;

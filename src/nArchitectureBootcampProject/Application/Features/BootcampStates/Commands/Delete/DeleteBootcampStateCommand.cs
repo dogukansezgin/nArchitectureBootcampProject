@@ -1,7 +1,5 @@
 using Application.Features.BootcampStates.Constants;
-using Application.Features.BootcampStates.Constants;
-using Application.Features.BootcampStates.Rules;
-using Application.Services.Repositories;
+using Application.Services.BootcampStates;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -21,6 +19,7 @@ public class DeleteBootcampStateCommand
         ITransactionalRequest
 {
     public Guid Id { get; set; }
+    public bool IsPermament { get; set; }
 
     public string[] Roles => [Admin, Write, BootcampStatesOperationClaims.Delete];
 
@@ -31,18 +30,12 @@ public class DeleteBootcampStateCommand
     public class DeleteBootcampStateCommandHandler : IRequestHandler<DeleteBootcampStateCommand, DeletedBootcampStateResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IBootcampStateRepository _bootcampStateRepository;
-        private readonly BootcampStateBusinessRules _bootcampStateBusinessRules;
+        private readonly IBootcampStateService _bootcampStateService;
 
-        public DeleteBootcampStateCommandHandler(
-            IMapper mapper,
-            IBootcampStateRepository bootcampStateRepository,
-            BootcampStateBusinessRules bootcampStateBusinessRules
-        )
+        public DeleteBootcampStateCommandHandler(IMapper mapper, IBootcampStateService bootcampStateService)
         {
             _mapper = mapper;
-            _bootcampStateRepository = bootcampStateRepository;
-            _bootcampStateBusinessRules = bootcampStateBusinessRules;
+            _bootcampStateService = bootcampStateService;
         }
 
         public async Task<DeletedBootcampStateResponse> Handle(
@@ -50,15 +43,15 @@ public class DeleteBootcampStateCommand
             CancellationToken cancellationToken
         )
         {
-            BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(
+            BootcampState? bootcampState = await _bootcampStateService.GetAsync(
                 predicate: bs => bs.Id == request.Id,
                 cancellationToken: cancellationToken
             );
-            await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
 
-            await _bootcampStateRepository.DeleteAsync(bootcampState!);
+            await _bootcampStateService.DeleteAsync(bootcampState!, request.IsPermament);
 
             DeletedBootcampStateResponse response = _mapper.Map<DeletedBootcampStateResponse>(bootcampState);
+            response.IsPermament = request.IsPermament;
             return response;
         }
     }

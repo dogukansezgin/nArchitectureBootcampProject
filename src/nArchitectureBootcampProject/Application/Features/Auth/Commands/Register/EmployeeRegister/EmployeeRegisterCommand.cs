@@ -9,6 +9,7 @@ using NArchitecture.Core.Security.Hashing;
 using NArchitecture.Core.Security.JWT;
 
 namespace Application.Features.Auth.Commands.Register.EmployeeRegister;
+
 public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
 {
     public EmployeeForRegisterDto EmployeeForRegisterDto { get; set; }
@@ -19,6 +20,7 @@ public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
         EmployeeForRegisterDto = null!;
         IpAddress = string.Empty;
     }
+
     public EmployeeRegisterCommand(EmployeeForRegisterDto employeeForRegisterDto, string ipAddress)
     {
         EmployeeForRegisterDto = employeeForRegisterDto;
@@ -33,7 +35,13 @@ public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
         private readonly IOperationClaimService _operationClaimService;
         private readonly AuthBusinessRules _authBusinessRules;
 
-        public EmployeeRegisterCommandHandler(IEmployeeService employeeService, IAuthService authService, AuthBusinessRules authBusinessRules, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public EmployeeRegisterCommandHandler(
+            IEmployeeService employeeService,
+            IAuthService authService,
+            AuthBusinessRules authBusinessRules,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _employeeService = employeeService;
             _authService = authService;
@@ -50,7 +58,7 @@ public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
                 request.EmployeeForRegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
-                );
+            );
 
             Employee newEmployee =
                 new()
@@ -82,10 +90,11 @@ public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
             Domain.Entities.RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
                 createdEmployee,
                 request.IpAddress
-                );
+            );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            EmployeeRegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            EmployeeRegisteredResponse registeredResponse =
+                new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
             return registeredResponse;
         }
     }

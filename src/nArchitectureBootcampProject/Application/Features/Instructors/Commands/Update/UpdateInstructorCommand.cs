@@ -21,7 +21,8 @@ public class UpdateInstructorCommand
     public Guid Id { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    //public string NewPassword { get; set; } // Düzenlenecek
+
+    //public string NewPassword { get; set; } // Dï¿½zenlenecek
     public string UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -40,9 +41,7 @@ public class UpdateInstructorCommand
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
 
-        public UpdateInstructorCommandHandler(
-            IMapper mapper
-, IInstructorService instructorService)
+        public UpdateInstructorCommandHandler(IMapper mapper, IInstructorService instructorService)
         {
             _mapper = mapper;
             _instructorService = instructorService;
