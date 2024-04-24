@@ -2,7 +2,7 @@
 
 public class Applicant : User
 {
-    public string About { get; set; }
+    public string? About { get; set; } = "";
 
     public Applicant() { }
 

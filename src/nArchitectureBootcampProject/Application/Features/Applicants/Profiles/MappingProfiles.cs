@@ -1,6 +1,7 @@
 using Application.Features.Applicants.Commands.Create;
 using Application.Features.Applicants.Commands.Delete;
 using Application.Features.Applicants.Commands.Update;
+using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
 using Application.Features.Applicants.Queries.GetById;
 using Application.Features.Applicants.Queries.GetList;
 using AutoMapper;
@@ -23,5 +24,11 @@ public class MappingProfiles : Profile
         CreateMap<Applicant, GetByIdApplicantResponse>().ReverseMap();
         CreateMap<Applicant, GetListApplicantListItemDto>().ReverseMap();
         CreateMap<IPaginate<Applicant>, GetListResponse<GetListApplicantListItemDto>>().ReverseMap();
+
+        CreateMap<Applicant, UpdateApplicantInfoFromAuthCommand>().ReverseMap()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)) ;
+
+        CreateMap<Applicant, UpdatedApplicantInfoFromAuthResponse>().ReverseMap();
+
     }
 }

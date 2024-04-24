@@ -112,6 +112,7 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         featureOperationClaims.AddRange(
             [
                 new() { Id = ++lastId, Name = ApplicantsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ApplicantsOperationClaims.User },
                 new() { Id = ++lastId, Name = ApplicantsOperationClaims.Read },
                 new() { Id = ++lastId, Name = ApplicantsOperationClaims.Write },
                 new() { Id = ++lastId, Name = ApplicantsOperationClaims.Create },

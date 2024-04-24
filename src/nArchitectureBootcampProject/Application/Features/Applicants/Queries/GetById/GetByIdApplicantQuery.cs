@@ -1,7 +1,4 @@
-using Application.Features.Applicants.Constants;
-using Application.Features.Applicants.Rules;
 using Application.Services.Applicants;
-using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;

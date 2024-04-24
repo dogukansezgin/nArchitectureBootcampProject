@@ -1,10 +1,12 @@
-﻿using Application.Features.Auth.Rules;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Auth.Rules;
 using Application.Services.Applicants;
 using Application.Services.AuthService;
 using Application.Services.OperationClaims;
 using Application.Services.UserOperationClaims;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Persistence.Paging;
 using NArchitecture.Core.Security.Hashing;
 using NArchitecture.Core.Security.JWT;
 
@@ -78,15 +80,23 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
                 };
             Applicant createdApplicant = await _applicantService.AddAsync(newApplicant);
 
+            ICollection<OperationClaim> operationClaims = [];
             ICollection<UserOperationClaim> userOperationClaims = [];
 
-            var operationClaims = await _operationClaimService.GetListAsync(x => x.Name.Contains("Applicants"));
-            foreach (var item in operationClaims.Items)
+            foreach(var item in ApplicantsOperationClaims.InitialRoles)
             {
-                userOperationClaims.Add(new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id });
+                var operationClaim = await _operationClaimService.GetListAsync(x => x.Name.Contains(item));
+                if (operationClaim != null) operationClaims.Add(operationClaim.Items.First());
             }
 
-            userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
+            if(operationClaims != null)
+            {
+                foreach (var item in operationClaims)
+                {
+                    userOperationClaims.Add(new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id });
+                }   
+                userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
+            }
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdApplicant);
 

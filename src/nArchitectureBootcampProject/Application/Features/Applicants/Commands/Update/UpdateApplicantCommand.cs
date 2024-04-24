@@ -20,6 +20,7 @@ public class UpdateApplicantCommand
         ILoggableRequest,
         ITransactionalRequest
 {
+    // Admin kullanımı için düzenlenmeli.
     public Guid Id { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
@@ -32,7 +33,7 @@ public class UpdateApplicantCommand
     public string? NationalIdentity { get; set; }
     public string About { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicantsOperationClaims.Update];
+    public string[] Roles => [Admin];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

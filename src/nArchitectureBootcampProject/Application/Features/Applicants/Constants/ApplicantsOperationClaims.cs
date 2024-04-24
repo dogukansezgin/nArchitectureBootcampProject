@@ -1,3 +1,5 @@
+using Application.Features.Applications.Constants;
+using Application.Features.Bootcamps.Constants;
 using NArchitecture.Core.Security.Attributes;
 
 namespace Application.Features.Applicants.Constants;
@@ -8,6 +10,7 @@ public static class ApplicantsOperationClaims
     private const string _section = "Applicants";
 
     public const string Admin = $"{_section}.Admin";
+    public const string User = $"{_section}.User";
 
     public const string Read = $"{_section}.Read";
     public const string Write = $"{_section}.Write";
@@ -15,4 +18,16 @@ public static class ApplicantsOperationClaims
     public const string Create = $"{_section}.Create";
     public const string Update = $"{_section}.Update";
     public const string Delete = $"{_section}.Delete";
+
+    public static readonly string[] InitialRolesArray = {
+        User,
+        Read,
+        Update,
+        BootcampsOperationClaims.Read,
+        ApplicationsOperationClaims.Write,
+        ApplicationsOperationClaims.Read
+    };
+
+    public static readonly string[] InitialRoles = InitialRolesArray;
 }
+

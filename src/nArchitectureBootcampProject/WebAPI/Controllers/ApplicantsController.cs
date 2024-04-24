@@ -1,6 +1,7 @@
 using Application.Features.Applicants.Commands.Create;
 using Application.Features.Applicants.Commands.Delete;
 using Application.Features.Applicants.Commands.Update;
+using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
 using Application.Features.Applicants.Queries.GetById;
 using Application.Features.Applicants.Queries.GetList;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,14 @@ public class ApplicantsController : BaseController
     public async Task<IActionResult> Update([FromBody] UpdateApplicantCommand updateApplicantCommand)
     {
         UpdatedApplicantResponse response = await Mediator.Send(updateApplicantCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPut("UpdateFromAuth")]
+    public async Task<IActionResult> UpdateFromAuth([FromBody] UpdateApplicantInfoFromAuthCommand updateApplicantInfoFromAuthCommand)
+    {
+        UpdatedApplicantInfoFromAuthResponse response = await Mediator.Send(updateApplicantInfoFromAuthCommand);
 
         return Ok(response);
     }

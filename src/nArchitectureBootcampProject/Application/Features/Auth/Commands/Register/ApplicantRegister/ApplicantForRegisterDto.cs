@@ -4,5 +4,5 @@ namespace Application.Features.Auth.Commands.Register.ApplicantRegister;
 
 public class ApplicantForRegisterDto : UserForRegisterDto
 {
-    public string About { get; set; }
+    public string? About { get; set; }
 }
