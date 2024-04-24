@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Application.Features.Bootcamps.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 
@@ -92,7 +93,7 @@ public class BootcampManager : IBootcampService
 
     public async Task<Bootcamp> GetByIdAsync(Guid id)
     {
-        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(x => x.Id == id);
+        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(x => x.Id == id, include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState));
 
         await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
 

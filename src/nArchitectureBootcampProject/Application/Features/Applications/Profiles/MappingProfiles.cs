@@ -1,6 +1,8 @@
 using Application.Features.Applications.Commands.Create;
 using Application.Features.Applications.Commands.Delete;
 using Application.Features.Applications.Commands.Update;
+using Application.Features.Applications.Queries.AppliedBootcamps;
+using Application.Features.Applications.Queries.CheckApplication;
 using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
 using AutoMapper;
@@ -23,5 +25,9 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetByIdApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, GetListApplicationListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
+        CreateMap<ApplicationEntity, AppliedBootcampsResponse>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<AppliedBootcampsResponse>>().ReverseMap();
     }
 }

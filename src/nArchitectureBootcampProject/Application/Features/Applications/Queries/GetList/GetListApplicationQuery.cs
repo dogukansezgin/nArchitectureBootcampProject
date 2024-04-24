@@ -1,6 +1,7 @@
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Caching;
 using NArchitecture.Core.Application.Requests;
@@ -42,7 +43,8 @@ public class GetListApplicationQuery : IRequest<GetListResponse<GetListApplicati
             IPaginate<ApplicationEntity>? applications = await _applicationService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                include: x => x.Include(x => x.Applicant).Include(x => x.Bootcamp).Include(x => x.ApplicationState)
             );
 
             GetListResponse<GetListApplicationListItemDto> response = _mapper.Map<GetListResponse<GetListApplicationListItemDto>>(

@@ -44,7 +44,7 @@ public class BootcampsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet("get")]
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListBootcampQuery getListBootcampQuery = new() { PageRequest = pageRequest };
