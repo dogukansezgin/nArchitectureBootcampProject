@@ -65,7 +65,7 @@ public class ApplicationsController : BaseController
     [HttpGet("appliedBootcamps")]
     public async Task<IActionResult> AppliedBootcamps([FromQuery] PageRequest pageRequest, [FromQuery] Guid applicantId)
     {
-        AppliedBootcampsQuery appliedBootcampsQuery = new() { ApplicantId= applicantId, PageRequest = pageRequest };
+        AppliedBootcampsQuery appliedBootcampsQuery = new() { ApplicantId = applicantId, PageRequest = pageRequest };
         GetListResponse<AppliedBootcampsResponse> response = await Mediator.Send(appliedBootcampsQuery);
         return Ok(response);
     }

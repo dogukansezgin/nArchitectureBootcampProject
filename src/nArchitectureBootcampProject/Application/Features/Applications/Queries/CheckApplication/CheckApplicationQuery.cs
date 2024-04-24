@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.CheckApplication;
+
 public class CheckApplicationQuery : IRequest<CheckApplicationResponse>
 {
     public Guid ApplicantId { get; set; }
@@ -17,7 +18,11 @@ public class CheckApplicationQuery : IRequest<CheckApplicationResponse>
         private readonly IMapper _mapper;
         private readonly ApplicationBusinessRules _applicationBusinessRules;
 
-        public CheckApplicationQueryHandler(IApplicationService applicationService, IMapper mapper, ApplicationBusinessRules applicationBusinessRules)
+        public CheckApplicationQueryHandler(
+            IApplicationService applicationService,
+            IMapper mapper,
+            ApplicationBusinessRules applicationBusinessRules
+        )
         {
             _applicationService = applicationService;
             _mapper = mapper;
@@ -26,7 +31,10 @@ public class CheckApplicationQuery : IRequest<CheckApplicationResponse>
 
         public async Task<CheckApplicationResponse> Handle(CheckApplicationQuery request, CancellationToken cancellationToken)
         {
-            ApplicationEntity? application = await _applicationService.GetAsync(predicate: x => x.ApplicantId == request.ApplicantId && x.BootcampId == request.BootcampId, include: x => x.Include(x => x.ApplicationState));
+            ApplicationEntity? application = await _applicationService.GetAsync(
+                predicate: x => x.ApplicantId == request.ApplicantId && x.BootcampId == request.BootcampId,
+                include: x => x.Include(x => x.ApplicationState)
+            );
 
             await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
 

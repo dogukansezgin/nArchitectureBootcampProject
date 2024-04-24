@@ -83,18 +83,21 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
             ICollection<OperationClaim> operationClaims = [];
             ICollection<UserOperationClaim> userOperationClaims = [];
 
-            foreach(var item in ApplicantsOperationClaims.InitialRoles)
+            foreach (var item in ApplicantsOperationClaims.InitialRoles)
             {
                 var operationClaim = await _operationClaimService.GetListAsync(x => x.Name.Contains(item));
-                if (operationClaim != null) operationClaims.Add(operationClaim.Items.First());
+                if (operationClaim != null)
+                    operationClaims.Add(operationClaim.Items.First());
             }
 
-            if(operationClaims != null)
+            if (operationClaims != null)
             {
                 foreach (var item in operationClaims)
                 {
-                    userOperationClaims.Add(new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id });
-                }   
+                    userOperationClaims.Add(
+                        new UserOperationClaim() { UserId = createdApplicant.Id, OperationClaimId = item.Id }
+                    );
+                }
                 userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
             }
 

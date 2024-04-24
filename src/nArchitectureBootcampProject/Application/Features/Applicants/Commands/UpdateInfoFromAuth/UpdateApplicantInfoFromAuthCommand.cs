@@ -11,9 +11,11 @@ using NArchitecture.Core.Application.Pipelines.Logging;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using static Application.Features.Applicants.Constants.ApplicantsOperationClaims;
 
-
 namespace Application.Features.Applicants.Commands.UpdateInfoFromAuth;
-public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoFromAuthResponse>, ISecuredRequest,
+
+public class UpdateApplicantInfoFromAuthCommand
+    : IRequest<UpdatedApplicantInfoFromAuthResponse>,
+        ISecuredRequest,
         ICacheRemoverRequest,
         ILoggableRequest,
         ITransactionalRequest
@@ -33,12 +35,18 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => ["GetApplicants"];
 
-    public UpdateApplicantInfoFromAuthCommand()
-    {
-       
-    }
+    public UpdateApplicantInfoFromAuthCommand() { }
 
-    public UpdateApplicantInfoFromAuthCommand(Guid id, string email, string userName, string? firstName, string? lastName, DateTime? dateOfBirth, string? nationalIdentity, string about)
+    public UpdateApplicantInfoFromAuthCommand(
+        Guid id,
+        string email,
+        string userName,
+        string? firstName,
+        string? lastName,
+        DateTime? dateOfBirth,
+        string? nationalIdentity,
+        string about
+    )
     {
         Id = id;
         Email = email;
@@ -50,14 +58,20 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
         About = about;
     }
 
-    public class UpdateApplicantInfoFromAuthCommandHandler : IRequestHandler<UpdateApplicantInfoFromAuthCommand, UpdatedApplicantInfoFromAuthResponse>
+    public class UpdateApplicantInfoFromAuthCommandHandler
+        : IRequestHandler<UpdateApplicantInfoFromAuthCommand, UpdatedApplicantInfoFromAuthResponse>
     {
         private readonly IApplicantService _applicantService;
         private readonly IMapper _mapper;
         private readonly ApplicantBusinessRules _applicantBusinessRules;
         private readonly IAuthService _authService;
 
-        public UpdateApplicantInfoFromAuthCommandHandler(IApplicantService applicantService, IMapper mapper, ApplicantBusinessRules applicantBusinessRules, IAuthService authService)
+        public UpdateApplicantInfoFromAuthCommandHandler(
+            IApplicantService applicantService,
+            IMapper mapper,
+            ApplicantBusinessRules applicantBusinessRules,
+            IAuthService authService
+        )
         {
             _applicantService = applicantService;
             _mapper = mapper;
@@ -65,13 +79,16 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
             _authService = authService;
         }
 
-        public async Task<UpdatedApplicantInfoFromAuthResponse> Handle(UpdateApplicantInfoFromAuthCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedApplicantInfoFromAuthResponse> Handle(
+            UpdateApplicantInfoFromAuthCommand request,
+            CancellationToken cancellationToken
+        )
         {
             Applicant? applicant = await _applicantService.GetAsync(predicate: x => x.Id == request.Id);
 
             await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
             await _applicantBusinessRules.ApplicantShouldNotExistUpdate(applicant!);
-             
+
             applicant = _mapper.Map(request, applicant);
 
             Applicant updatedApplicant = await _applicantService.UpdateAsync(applicant!);

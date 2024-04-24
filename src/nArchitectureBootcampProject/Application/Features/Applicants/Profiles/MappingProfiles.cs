@@ -25,10 +25,10 @@ public class MappingProfiles : Profile
         CreateMap<Applicant, GetListApplicantListItemDto>().ReverseMap();
         CreateMap<IPaginate<Applicant>, GetListResponse<GetListApplicantListItemDto>>().ReverseMap();
 
-        CreateMap<Applicant, UpdateApplicantInfoFromAuthCommand>().ReverseMap()
-            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)) ;
+        CreateMap<Applicant, UpdateApplicantInfoFromAuthCommand>()
+            .ReverseMap()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
         CreateMap<Applicant, UpdatedApplicantInfoFromAuthResponse>().ReverseMap();
-
     }
 }

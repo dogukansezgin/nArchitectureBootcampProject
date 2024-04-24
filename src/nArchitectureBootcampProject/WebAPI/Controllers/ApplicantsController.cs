@@ -31,7 +31,9 @@ public class ApplicantsController : BaseController
     }
 
     [HttpPut("UpdateFromAuth")]
-    public async Task<IActionResult> UpdateFromAuth([FromBody] UpdateApplicantInfoFromAuthCommand updateApplicantInfoFromAuthCommand)
+    public async Task<IActionResult> UpdateFromAuth(
+        [FromBody] UpdateApplicantInfoFromAuthCommand updateApplicantInfoFromAuthCommand
+    )
     {
         UpdatedApplicantInfoFromAuthResponse response = await Mediator.Send(updateApplicantInfoFromAuthCommand);
 

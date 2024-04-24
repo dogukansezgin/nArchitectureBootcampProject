@@ -1,4 +1,5 @@
 ﻿namespace Application.Features.Applications.Queries.AppliedBootcamps;
+
 public class AppliedBootcampsResponse
 {
     public Guid Id { get; set; }
@@ -19,5 +20,4 @@ public class AppliedBootcampsResponse
 
     public DateTime BootcampStartDate { get; set; }
     public DateTime BootcampEndDate { get; set; }
-
 }

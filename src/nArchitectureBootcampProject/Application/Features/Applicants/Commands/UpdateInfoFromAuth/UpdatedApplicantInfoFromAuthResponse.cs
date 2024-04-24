@@ -2,6 +2,7 @@
 using NArchitecture.Core.Security.JWT;
 
 namespace Application.Features.Applicants.Commands.UpdateInfoFromAuth;
+
 public class UpdatedApplicantInfoFromAuthResponse : IResponse
 {
     public Guid Id { get; set; }

@@ -9,6 +9,7 @@ using NArchitecture.Core.Persistence.Paging;
 using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.AppliedBootcamps;
+
 public class AppliedBootcampsQuery : IRequest<GetListResponse<AppliedBootcampsResponse>>
 {
     public Guid ApplicantId { get; set; }
@@ -20,28 +21,37 @@ public class AppliedBootcampsQuery : IRequest<GetListResponse<AppliedBootcampsRe
         private readonly IMapper _mapper;
         private readonly ApplicationBusinessRules _applicationBusinessRules;
 
-        public AppliedBootcampsQueryHandler(IApplicationService applicationService, IMapper mapper, ApplicationBusinessRules applicationBusinessRules)
+        public AppliedBootcampsQueryHandler(
+            IApplicationService applicationService,
+            IMapper mapper,
+            ApplicationBusinessRules applicationBusinessRules
+        )
         {
             _applicationService = applicationService;
             _mapper = mapper;
             _applicationBusinessRules = applicationBusinessRules;
         }
 
-        public async Task<GetListResponse<AppliedBootcampsResponse>> Handle(AppliedBootcampsQuery request, CancellationToken cancellationToken)
+        public async Task<GetListResponse<AppliedBootcampsResponse>> Handle(
+            AppliedBootcampsQuery request,
+            CancellationToken cancellationToken
+        )
         {
             IPaginate<ApplicationEntity>? applications = await _applicationService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
                 predicate: x => x.ApplicantId == request.ApplicantId,
-                include: x => x
-                    .Include(x => x.Bootcamp)
+                include: x =>
+                    x.Include(x => x.Bootcamp)
                         .ThenInclude(bootcamp => bootcamp.Instructor)
-                    .Include(x => x.Bootcamp)
+                        .Include(x => x.Bootcamp)
                         .ThenInclude(bootcamp => bootcamp.BootcampState)
             );
 
-            GetListResponse<AppliedBootcampsResponse> response = _mapper.Map<GetListResponse<AppliedBootcampsResponse>>(applications);
+            GetListResponse<AppliedBootcampsResponse> response = _mapper.Map<GetListResponse<AppliedBootcampsResponse>>(
+                applications
+            );
 
             return response;
         }

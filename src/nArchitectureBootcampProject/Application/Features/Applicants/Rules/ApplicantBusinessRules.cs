@@ -63,14 +63,22 @@ public class ApplicantBusinessRules : BaseBusinessRules
         bool isExistNationalId = false;
         bool isExistEmail = false;
 
-        if (applicant.UserName is not null) 
-            isExistUserName = await _applicantRepository.GetAsync(x => x.Id != applicant.Id && x.UserName.Trim() == applicant.UserName.Trim()) is not null;
+        if (applicant.UserName is not null)
+            isExistUserName =
+                await _applicantRepository.GetAsync(x => x.Id != applicant.Id && x.UserName.Trim() == applicant.UserName.Trim())
+                    is not null;
 
         if (applicant.NationalIdentity is not null)
-            isExistNationalId = await _applicantRepository.GetAsync(x => x.Id != applicant.Id && x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+            isExistNationalId =
+                await _applicantRepository.GetAsync(x =>
+                    x.Id != applicant.Id && x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()
+                )
+                    is not null;
 
         if (applicant.Email is not null)
-            isExistEmail = await _applicantRepository.GetAsync(x => x.Id != applicant.Id && x.Email.Trim() == applicant.Email.Trim()) is not null;
+            isExistEmail =
+                await _applicantRepository.GetAsync(x => x.Id != applicant.Id && x.Email.Trim() == applicant.Email.Trim())
+                    is not null;
 
         if (isExistUserName || isExistNationalId || isExistEmail)
             await throwBusinessException(ApplicantsBusinessMessages.ApplicantExists);

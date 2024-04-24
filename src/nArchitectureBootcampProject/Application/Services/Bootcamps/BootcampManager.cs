@@ -93,7 +93,10 @@ public class BootcampManager : IBootcampService
 
     public async Task<Bootcamp> GetByIdAsync(Guid id)
     {
-        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(x => x.Id == id, include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState));
+        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
+            x => x.Id == id,
+            include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
+        );
 
         await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
 

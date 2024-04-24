@@ -19,7 +19,8 @@ public static class ApplicantsOperationClaims
     public const string Update = $"{_section}.Update";
     public const string Delete = $"{_section}.Delete";
 
-    public static readonly string[] InitialRolesArray = {
+    public static readonly string[] InitialRolesArray =
+    {
         User,
         Read,
         Update,
@@ -30,4 +31,3 @@ public static class ApplicantsOperationClaims
 
     public static readonly string[] InitialRoles = InitialRolesArray;
 }
-
