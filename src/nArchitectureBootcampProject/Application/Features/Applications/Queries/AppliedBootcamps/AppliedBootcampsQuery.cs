@@ -46,7 +46,8 @@ public class AppliedBootcampsQuery : IRequest<GetListResponse<AppliedBootcampsRe
                     x.Include(x => x.Bootcamp)
                         .ThenInclude(bootcamp => bootcamp.Instructor)
                         .Include(x => x.Bootcamp)
-                        .ThenInclude(bootcamp => bootcamp.BootcampState)
+                        .ThenInclude(bootcamp => bootcamp.BootcampState),
+                orderBy: x => x.OrderByDescending(app => app.CreatedDate)
             );
 
             GetListResponse<AppliedBootcampsResponse> response = _mapper.Map<GetListResponse<AppliedBootcampsResponse>>(

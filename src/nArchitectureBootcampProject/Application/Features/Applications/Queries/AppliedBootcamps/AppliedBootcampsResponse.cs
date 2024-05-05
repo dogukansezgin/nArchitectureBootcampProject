@@ -20,4 +20,6 @@ public class AppliedBootcampsResponse
 
     public DateTime BootcampStartDate { get; set; }
     public DateTime BootcampEndDate { get; set; }
+
+    public DateTime CreatedDate { get; set; }
 }
