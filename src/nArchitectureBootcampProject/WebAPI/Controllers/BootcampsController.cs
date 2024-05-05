@@ -1,6 +1,7 @@
 using Application.Features.Bootcamps.Commands.Create;
 using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.Update;
+using Application.Features.Bootcamps.Queries.GetAllList;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,13 @@ public class BootcampsController : BaseController
     {
         GetListBootcampQuery getListBootcampQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListBootcampListItemDto> response = await Mediator.Send(getListBootcampQuery);
+        return Ok(response);
+    }
+    [HttpGet("getUnfinished")]
+    public async Task<IActionResult> GetListUnfinished([FromQuery] PageRequest pageRequest)
+    {
+        GetListUnfinishedBootcampQuery getListUnfinishedBootcampQuery = new() { PageRequest = pageRequest }; 
+        GetListResponse<GetListBootcampListItemDto> response = await Mediator.Send(getListUnfinishedBootcampQuery);
         return Ok(response);
     }
 }

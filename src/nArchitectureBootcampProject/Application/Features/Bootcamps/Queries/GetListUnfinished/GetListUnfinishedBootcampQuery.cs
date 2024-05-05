@@ -1,18 +1,16 @@
+﻿using Application.Features.Bootcamps.Queries.GetList;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using NArchitecture.Core.Application.Pipelines.Authorization;
-using NArchitecture.Core.Application.Pipelines.Caching;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
-namespace Application.Features.Bootcamps.Queries.GetList;
-
-public class GetListBootcampQuery
+namespace Application.Features.Bootcamps.Queries.GetAllList;
+public class GetListUnfinishedBootcampQuery
     : IRequest<
         GetListResponse<GetListBootcampListItemDto>
     > /*, ISecuredRequest*/ /*, ICachableRequest*/
@@ -25,20 +23,19 @@ public class GetListBootcampQuery
     public string? CacheKey => $"GetListBootcamps({PageRequest.PageIndex},{PageRequest.PageSize})";
     public string? CacheGroupKey => "GetBootcamps";
     public TimeSpan? SlidingExpiration { get; }
-
-    public class GetListBootcampQueryHandler : IRequestHandler<GetListBootcampQuery, GetListResponse<GetListBootcampListItemDto>>
+    public class GetListUnfinishedBootcampQueryHandler : IRequestHandler<GetListUnfinishedBootcampQuery, GetListResponse<GetListBootcampListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampService _bootcampService;
 
-        public GetListBootcampQueryHandler(IMapper mapper, IBootcampService bootcampService)
+        public GetListUnfinishedBootcampQueryHandler(IMapper mapper, IBootcampService bootcampService)
         {
             _mapper = mapper;
             _bootcampService = bootcampService;
         }
 
         public async Task<GetListResponse<GetListBootcampListItemDto>> Handle(
-            GetListBootcampQuery request,
+            GetListUnfinishedBootcampQuery request,
             CancellationToken cancellationToken
         )
         {
@@ -46,7 +43,7 @@ public class GetListBootcampQuery
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                orderBy: x => x.OrderByDescending(y => y.StartDate),
+                predicate: x => x.StartDate > DateTime.Today.AddDays(15),
                 include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
             );
 

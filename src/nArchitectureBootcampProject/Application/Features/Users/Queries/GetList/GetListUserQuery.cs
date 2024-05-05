@@ -14,7 +14,7 @@ public class GetListUserQuery : IRequest<GetListResponse<GetListUserListItemDto>
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Read];
+    public string[] Roles => ["Admin", UsersOperationClaims.Read];
 
     public GetListUserQuery()
     {
