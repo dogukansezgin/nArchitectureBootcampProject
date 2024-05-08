@@ -4,6 +4,7 @@ using Application.Features.Bootcamps.Commands.Update;
 using Application.Features.Bootcamps.Queries.GetAllList;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Bootcamps.Queries.SearchAll;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
@@ -52,11 +53,20 @@ public class BootcampsController : BaseController
         GetListResponse<GetListBootcampListItemDto> response = await Mediator.Send(getListBootcampQuery);
         return Ok(response);
     }
+
     [HttpGet("getUnfinished")]
     public async Task<IActionResult> GetListUnfinished([FromQuery] PageRequest pageRequest)
     {
-        GetListUnfinishedBootcampQuery getListUnfinishedBootcampQuery = new() { PageRequest = pageRequest }; 
+        GetListUnfinishedBootcampQuery getListUnfinishedBootcampQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListBootcampListItemDto> response = await Mediator.Send(getListUnfinishedBootcampQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("searchAll")]
+    public async Task<IActionResult> SearchAll([FromQuery] PageRequest pageRequest)
+    {
+        SearchAllBootcampQuery searchAllBootcampQuery = new() { PageRequest = pageRequest };
+        GetListResponse<SearchAllBootcampListItemDto> response = await Mediator.Send(searchAllBootcampQuery);
         return Ok(response);
     }
 }

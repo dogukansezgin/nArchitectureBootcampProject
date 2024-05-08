@@ -3,6 +3,7 @@ using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.Update;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Bootcamps.Queries.SearchAll;
 using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
@@ -23,5 +24,8 @@ public class MappingProfiles : Profile
         CreateMap<Bootcamp, GetByIdBootcampResponse>().ReverseMap();
         CreateMap<Bootcamp, GetListBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListBootcampListItemDto>>().ReverseMap();
+
+        CreateMap<Bootcamp, SearchAllBootcampListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Bootcamp>, GetListResponse<SearchAllBootcampListItemDto>>().ReverseMap();
     }
 }
