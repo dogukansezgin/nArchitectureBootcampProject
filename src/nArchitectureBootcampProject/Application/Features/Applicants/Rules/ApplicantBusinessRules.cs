@@ -49,8 +49,14 @@ public class ApplicantBusinessRules : BaseBusinessRules
         var isExistId = await _applicantRepository.GetAsync(x => x.Id == applicant.Id) is not null;
         var isExistUserName =
             await _applicantRepository.GetAsync(x => x.UserName.Trim() == applicant.UserName.Trim()) is not null;
-        var isExistNationalId =
-            await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+
+        var isExistNationalId = false;
+        if (applicant.NationalIdentity != null)
+        {
+            isExistNationalId =
+                await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+        }
+
         var isExistEmail = await _applicantRepository.GetAsync(x => x.Email.Trim() == applicant.Email.Trim()) is not null;
 
         if (isExistId || isExistUserName || isExistNationalId || isExistEmail)

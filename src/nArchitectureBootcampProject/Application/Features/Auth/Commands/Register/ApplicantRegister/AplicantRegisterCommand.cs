@@ -68,12 +68,10 @@ public class ApplicantRegisterCommand : IRequest<ApplicantRegisteredResponse>
             Applicant newApplicant =
                 new()
                 {
-                    UserName = request.ApplicantForRegisterDto.UserName,
-                    FirstName = request.ApplicantForRegisterDto.FirstName,
-                    LastName = request.ApplicantForRegisterDto.LastName,
-                    DateOfBirth = request.ApplicantForRegisterDto.DateOfBirth,
-                    NationalIdentity = request.ApplicantForRegisterDto.NationalIdentity,
-                    About = request.ApplicantForRegisterDto.About,
+                    UserName = request.ApplicantForRegisterDto.FirstName.Trim() + " " 
+                               + request.ApplicantForRegisterDto.LastName.Trim(),
+                    FirstName = request.ApplicantForRegisterDto.FirstName.Trim(),
+                    LastName = request.ApplicantForRegisterDto.LastName.Trim(),
                     Email = request.ApplicantForRegisterDto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
