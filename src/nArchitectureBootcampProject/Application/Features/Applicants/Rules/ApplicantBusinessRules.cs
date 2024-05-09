@@ -54,7 +54,8 @@ public class ApplicantBusinessRules : BaseBusinessRules
         if (applicant.NationalIdentity != null)
         {
             isExistNationalId =
-                await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim()) is not null;
+                await _applicantRepository.GetAsync(x => x.NationalIdentity.Trim() == applicant.NationalIdentity.Trim())
+                    is not null;
         }
 
         var isExistEmail = await _applicantRepository.GetAsync(x => x.Email.Trim() == applicant.Email.Trim()) is not null;

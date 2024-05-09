@@ -67,11 +67,12 @@ public class InstructorRegisterCommand : IRequest<InstructorRegisteredResponse>
             Instructor newInstructor =
                 new()
                 {
-                    UserName = request.InstructorForRegisterDto.UserName,
+                    UserName =
+                        request.InstructorForRegisterDto.FirstName.Trim()
+                        + " "
+                        + request.InstructorForRegisterDto.LastName.Trim(),
                     FirstName = request.InstructorForRegisterDto.FirstName,
                     LastName = request.InstructorForRegisterDto.LastName,
-                    DateOfBirth = request.InstructorForRegisterDto.DateOfBirth,
-                    NationalIdentity = request.InstructorForRegisterDto.NationalIdentity,
                     CompanyName = request.InstructorForRegisterDto.CompanyName,
                     Email = request.InstructorForRegisterDto.Email,
                     PasswordHash = passwordHash,
