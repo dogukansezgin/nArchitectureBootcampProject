@@ -2,6 +2,4 @@
 
 namespace Application.Features.Auth.Commands.Register.ApplicantRegister;
 
-public class ApplicantForRegisterDto : UserForRegisterDto
-{
-}
+public class ApplicantForRegisterDto : UserForRegisterDto { }

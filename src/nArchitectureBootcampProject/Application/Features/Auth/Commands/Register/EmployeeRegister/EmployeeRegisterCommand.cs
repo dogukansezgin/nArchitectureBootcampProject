@@ -63,11 +63,10 @@ public class EmployeeRegisterCommand : IRequest<EmployeeRegisteredResponse>
             Employee newEmployee =
                 new()
                 {
-                    UserName = request.EmployeeForRegisterDto.UserName,
+                    UserName =
+                        request.EmployeeForRegisterDto.FirstName.Trim() + " " + request.EmployeeForRegisterDto.LastName.Trim(),
                     FirstName = request.EmployeeForRegisterDto.FirstName,
                     LastName = request.EmployeeForRegisterDto.LastName,
-                    DateOfBirth = request.EmployeeForRegisterDto.DateOfBirth,
-                    NationalIdentity = request.EmployeeForRegisterDto.NationalIdentity,
                     Position = request.EmployeeForRegisterDto.Position,
                     Email = request.EmployeeForRegisterDto.Email,
                     PasswordHash = passwordHash,
