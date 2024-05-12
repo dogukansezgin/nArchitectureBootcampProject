@@ -14,7 +14,7 @@ namespace Application.Features.Applications.Commands.Create;
 public class CreateApplicationCommand
     : IRequest<CreatedApplicationResponse>,
         ISecuredRequest,
-        ICacheRemoverRequest,
+        //ICacheRemoverRequest,
         ILoggableRequest,
         ITransactionalRequest
 {

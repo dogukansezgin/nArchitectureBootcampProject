@@ -46,7 +46,7 @@ public class GetListUnfinishedBootcampQuery
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                predicate: x => x.StartDate >= DateTime.Today.AddDays(15),
+                predicate: x => x.StartDate >= DateTime.Now.AddDays(15),
                 include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
             );
 
