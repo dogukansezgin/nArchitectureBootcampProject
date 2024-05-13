@@ -28,4 +28,5 @@ public interface IApplicationStateService
     Task<ApplicationState> UpdateAsync(ApplicationState applicationState);
     Task<ApplicationState> DeleteAsync(ApplicationState applicationState, bool permanent = false);
     Task<ApplicationState> GetByIdAsync(Guid id);
+    Task<ApplicationState> GetByNameAsync(string name);
 }

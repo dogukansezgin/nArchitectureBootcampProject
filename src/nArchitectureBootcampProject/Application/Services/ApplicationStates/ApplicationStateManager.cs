@@ -99,4 +99,13 @@ public class ApplicationStateManager : IApplicationStateService
 
         return applicationState;
     }
+
+    public async Task<ApplicationState> GetByNameAsync(string name)
+    {
+        ApplicationState? applicationState = await _applicationStateRepository.GetAsync(x => x.Name == name);
+
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+
+        return applicationState;
+    }
 }

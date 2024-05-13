@@ -2,6 +2,7 @@ using Application.Features.ApplicationStates.Commands.Create;
 using Application.Features.ApplicationStates.Commands.Delete;
 using Application.Features.ApplicationStates.Commands.Update;
 using Application.Features.ApplicationStates.Queries.GetById;
+using Application.Features.ApplicationStates.Queries.GetByName;
 using Application.Features.ApplicationStates.Queries.GetList;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
@@ -41,6 +42,13 @@ public class ApplicationStatesController : BaseController
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         GetByIdApplicationStateResponse response = await Mediator.Send(new GetByIdApplicationStateQuery { Id = id });
+        return Ok(response);
+    }
+
+    [HttpGet("getByName/{name}")]
+    public async Task<IActionResult> GetByName([FromRoute] string name)
+    {
+        GetByNameApplicationStateResponse response = await Mediator.Send(new GetByNameApplicationStateQuery { Name = name });
         return Ok(response);
     }
 

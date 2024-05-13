@@ -2,6 +2,7 @@ using Application.Features.ApplicationStates.Commands.Create;
 using Application.Features.ApplicationStates.Commands.Delete;
 using Application.Features.ApplicationStates.Commands.Update;
 using Application.Features.ApplicationStates.Queries.GetById;
+using Application.Features.ApplicationStates.Queries.GetByName;
 using Application.Features.ApplicationStates.Queries.GetList;
 using AutoMapper;
 using Domain.Entities;
@@ -21,6 +22,7 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationState, DeleteApplicationStateCommand>().ReverseMap();
         CreateMap<ApplicationState, DeletedApplicationStateResponse>().ReverseMap();
         CreateMap<ApplicationState, GetByIdApplicationStateResponse>().ReverseMap();
+        CreateMap<ApplicationState, GetByNameApplicationStateResponse>().ReverseMap();
         CreateMap<ApplicationState, GetListApplicationStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationState>, GetListResponse<GetListApplicationStateListItemDto>>().ReverseMap();
     }
