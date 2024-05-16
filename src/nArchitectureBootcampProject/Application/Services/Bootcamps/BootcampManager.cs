@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Linq.Expressions;
+using System.Text;
 using Application.Features.Bootcamps.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
@@ -102,4 +104,17 @@ public class BootcampManager : IBootcampService
 
         return bootcamp;
     }
+
+    public async Task<Bootcamp> GetByNameAsync(string name)
+    {
+        Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
+            x => EF.Functions.Collate(x.Name.ToLower(), "SQL_Latin1_General_CP1253_CI_AI").Contains(name.ToLower()),
+            include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
+        );
+
+        await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+
+        return bootcamp;
+    }
+
 }

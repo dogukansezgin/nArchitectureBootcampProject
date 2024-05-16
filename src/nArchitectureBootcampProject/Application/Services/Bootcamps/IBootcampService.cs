@@ -28,4 +28,5 @@ public interface IBootcampService
     Task<Bootcamp> UpdateAsync(Bootcamp bootcamp);
     Task<Bootcamp> DeleteAsync(Bootcamp bootcamp, bool permanent = false);
     Task<Bootcamp> GetByIdAsync(Guid id);
+    Task<Bootcamp> GetByNameAsync(string name);
 }

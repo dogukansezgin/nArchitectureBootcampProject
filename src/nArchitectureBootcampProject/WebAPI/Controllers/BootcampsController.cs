@@ -3,6 +3,7 @@ using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.Update;
 using Application.Features.Bootcamps.Queries.GetAllList;
 using Application.Features.Bootcamps.Queries.GetById;
+using Application.Features.Bootcamps.Queries.GetByName;
 using Application.Features.Bootcamps.Queries.GetList;
 using Application.Features.Bootcamps.Queries.GetListFinished;
 using Application.Features.Bootcamps.Queries.SearchAll;
@@ -40,10 +41,17 @@ public class BootcampsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("id/{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         GetByIdBootcampResponse response = await Mediator.Send(new GetByIdBootcampQuery { Id = id });
+        return Ok(response);
+    }
+
+    [HttpGet("name/{name}")]
+    public async Task<IActionResult> GetByName([FromRoute] string name)
+    {
+        GetByIdBootcampResponse response = await Mediator.Send(new GetByNameBootcampQuery { Name = name });
         return Ok(response);
     }
 
