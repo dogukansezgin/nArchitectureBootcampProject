@@ -1,4 +1,4 @@
-using Application.Services.Instructors;
+﻿using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -9,9 +9,9 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Instructors.Constants.InstructorsOperationClaims;
 
-namespace Application.Features.Instructors.Queries.GetList;
+namespace Application.Features.Instructors.Queries.GetBasicInfoList;
 
-public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructorListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,7 +23,7 @@ public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructor
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListInstructorQueryHandler
-        : IRequestHandler<GetListInstructorQuery, GetListResponse<GetListInstructorListItemDto>>
+        : IRequestHandler<GetBasicInfoListInstructorQuery, GetListResponse<GetBasicInfoInstructorListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
@@ -34,8 +34,8 @@ public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructor
             _instructorService = instructorService;
         }
 
-        public async Task<GetListResponse<GetListInstructorListItemDto>> Handle(
-            GetListInstructorQuery request,
+        public async Task<GetListResponse<GetBasicInfoInstructorListItemDto>> Handle(
+            GetBasicInfoListInstructorQuery request,
             CancellationToken cancellationToken
         )
         {
@@ -45,7 +45,7 @@ public class GetListInstructorQuery : IRequest<GetListResponse<GetListInstructor
                 cancellationToken: cancellationToken
             );
 
-            GetListResponse<GetListInstructorListItemDto> response = _mapper.Map<GetListResponse<GetListInstructorListItemDto>>(
+            GetListResponse<GetBasicInfoInstructorListItemDto> response = _mapper.Map<GetListResponse<GetBasicInfoInstructorListItemDto>>(
                 instructors
             );
             return response;

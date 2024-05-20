@@ -1,6 +1,7 @@
 using Application.Features.Instructors.Commands.Create;
 using Application.Features.Instructors.Commands.Delete;
 using Application.Features.Instructors.Commands.Update;
+using Application.Features.Instructors.Queries.GetBasicInfoList;
 using Application.Features.Instructors.Queries.GetById;
 using Application.Features.Instructors.Queries.GetList;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,14 @@ public class InstructorsController : BaseController
     {
         GetListInstructorQuery getListInstructorQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListInstructorListItemDto> response = await Mediator.Send(getListInstructorQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getBasicInfo")]
+    public async Task<IActionResult> GetBasicInfoList([FromQuery] PageRequest pageRequest)
+    {
+        GetBasicInfoListInstructorQuery getBasicInfoListInstructorQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetBasicInfoInstructorListItemDto> response = await Mediator.Send(getBasicInfoListInstructorQuery);
         return Ok(response);
     }
 }

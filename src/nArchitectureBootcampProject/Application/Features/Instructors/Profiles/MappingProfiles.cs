@@ -1,6 +1,7 @@
 using Application.Features.Instructors.Commands.Create;
 using Application.Features.Instructors.Commands.Delete;
 using Application.Features.Instructors.Commands.Update;
+using Application.Features.Instructors.Queries.GetBasicInfoList;
 using Application.Features.Instructors.Queries.GetById;
 using Application.Features.Instructors.Queries.GetList;
 using AutoMapper;
@@ -23,5 +24,7 @@ public class MappingProfiles : Profile
         CreateMap<Instructor, GetByIdInstructorResponse>().ReverseMap();
         CreateMap<Instructor, GetListInstructorListItemDto>().ReverseMap();
         CreateMap<IPaginate<Instructor>, GetListResponse<GetListInstructorListItemDto>>().ReverseMap();
+        CreateMap<Instructor, GetBasicInfoInstructorListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Instructor>, GetListResponse<GetBasicInfoInstructorListItemDto>>().ReverseMap();
     }
 }
