@@ -12,9 +12,10 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 namespace Application.Features.BootcampStates.Queries.GetList;
 
 public class GetListBootcampStateQuery
-    : IRequest<GetListResponse<GetListBootcampStateListItemDto>>,
-        ISecuredRequest,
-        ICachableRequest
+    : IRequest<GetListResponse<GetListBootcampStateListItemDto>>
+    //    ,
+    //    ISecuredRequest,
+    //    ICachableRequest
 {
     public PageRequest PageRequest { get; set; }
 

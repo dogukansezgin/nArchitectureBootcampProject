@@ -57,7 +57,7 @@ public class BootcampBusinessRules : BaseBusinessRules
 
     public async Task BootcampShouldNotExist(Bootcamp? bootcamp)
     {
-        var isExistName = _bootcampRepository.Get(x => x.Name.Trim() == bootcamp.Name.Trim()) is not null;
+        var isExistName = _bootcampRepository.Get(x => x.Name.Trim() == bootcamp.Name.Trim() && x.Id != bootcamp.Id) is not null;
 
         if (isExistName)
             await throwBusinessException(BootcampsBusinessMessages.BootcampExists);

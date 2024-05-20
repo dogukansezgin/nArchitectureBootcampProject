@@ -12,11 +12,12 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 namespace Application.Features.Bootcamps.Commands.Create;
 
 public class CreateBootcampCommand
-    : IRequest<CreatedBootcampResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<CreatedBootcampResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public string Name { get; set; }
     public Guid InstructorId { get; set; }
@@ -46,6 +47,8 @@ public class CreateBootcampCommand
             Bootcamp bootcamp = _mapper.Map<Bootcamp>(request);
 
             await _bootcampService.AddAsync(bootcamp);
+
+            bootcamp.CreatedDate = DateTime.Now;
 
             CreatedBootcampResponse response = _mapper.Map<CreatedBootcampResponse>(bootcamp);
             return response;
