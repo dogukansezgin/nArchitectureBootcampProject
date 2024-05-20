@@ -12,11 +12,12 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 namespace Application.Features.Bootcamps.Commands.Delete;
 
 public class DeleteBootcampCommand
-    : IRequest<DeletedBootcampResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedBootcampResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }

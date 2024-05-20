@@ -33,10 +33,10 @@ public class BootcampsController : BaseController
         return Ok(response);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    [HttpDelete("delete")]
+    public async Task<IActionResult> Delete([FromBody] DeleteBootcampCommand deleteBootcampCommand)
     {
-        DeletedBootcampResponse response = await Mediator.Send(new DeleteBootcampCommand { Id = id });
+        DeletedBootcampResponse response = await Mediator.Send(deleteBootcampCommand);
 
         return Ok(response);
     }
