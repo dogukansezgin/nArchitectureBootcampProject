@@ -12,7 +12,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetList;
 
-public class GetListApplicationQuery : IRequest<GetListResponse<GetListApplicationListItemDto>>, ISecuredRequest, ICachableRequest
+public class GetListApplicationQuery : IRequest<GetListResponse<GetListApplicationListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

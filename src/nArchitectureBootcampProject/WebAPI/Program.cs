@@ -103,7 +103,7 @@ if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
 }
 
-app.UseDbMigrationApplier();
+//app.UseDbMigrationApplier();
 
 app.UseAuthentication();
 app.UseAuthorization();

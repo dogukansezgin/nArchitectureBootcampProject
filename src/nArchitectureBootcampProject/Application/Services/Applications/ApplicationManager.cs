@@ -73,7 +73,7 @@ public class ApplicationManager : IApplicationService
     public async Task<ApplicationEntity> UpdateAsync(ApplicationEntity application)
     {
         await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
-        await _applicationBusinessRules.ApplicationShouldNotExist(application);
+        //await _applicationBusinessRules.ApplicationShouldNotExist(application);
         await _applicationBusinessRules.ApplicationIdShouldExistWhenSelected(application.Id);
 
         ApplicationEntity updatedApplication = await _applicationRepository.UpdateAsync(application);

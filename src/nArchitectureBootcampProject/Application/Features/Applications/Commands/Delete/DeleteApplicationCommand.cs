@@ -11,12 +11,10 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.Delete;
 
-public class DeleteApplicationCommand
-    : IRequest<DeletedApplicationResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+public class DeleteApplicationCommand : IRequest<DeletedApplicationResponse>, ISecuredRequest
+//,ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -48,7 +46,8 @@ public class DeleteApplicationCommand
                 cancellationToken: cancellationToken
             );
 
-            await _applicationService.DeleteAsync(application!, request.IsPermament);
+            //await _applicationService.DeleteAsync(application!, request.IsPermament);
+            await _applicationService.DeleteAsync(application!, true);
 
             DeletedApplicationResponse response = _mapper.Map<DeletedApplicationResponse>(application);
             response.IsPermament = request.IsPermament;
