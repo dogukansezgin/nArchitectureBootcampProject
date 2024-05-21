@@ -11,13 +11,12 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Commands.Create;
 
-public class CreateBootcampCommand
-    : IRequest<CreatedBootcampResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class CreateBootcampCommand : IRequest<CreatedBootcampResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public string Name { get; set; }
     public Guid InstructorId { get; set; }

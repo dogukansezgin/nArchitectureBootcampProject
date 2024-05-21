@@ -1,28 +1,65 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using NArchitecture.Core.Persistence.Repositories;
-using System.Reflection;
 
 namespace Persistence.Repositories;
-public abstract class EfRepositoryBase<TEntity, TEntityId, TContext> : NArchitecture.Core.Persistence.Repositories.EfRepositoryBase<TEntity, TEntityId, TContext> 
-    where TEntity : Entity<TEntityId> 
+
+public abstract class EfRepositoryBase<TEntity, TEntityId, TContext>
+    : NArchitecture.Core.Persistence.Repositories.EfRepositoryBase<TEntity, TEntityId, TContext>
+    where TEntity : Entity<TEntityId>
     where TContext : DbContext
 {
-    public EfRepositoryBase(TContext context) : base(context)
+    public EfRepositoryBase(TContext context)
+        : base(context) { }
+
+    public async Task<TEntity> RestoreAsync(TEntity entity)
     {
+        // Check if entity is soft deleted
+        if (entity.DeletedDate.HasValue)
+        {
+            entity.DeletedDate = null;
+            Context.Update(entity);
+            await Context.SaveChangesAsync();
+            return entity;
+        }
+
+        return entity;
+    }
+
+    public async Task<ICollection<TEntity>> RestoreRangeCustomAsync(ICollection<TEntity> entities)
+    {
+        foreach (TEntity entity in entities)
+        {
+            await RestoreAsync(entity);
+        }
+        return entities;
     }
 
     public new async Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false)
     {
-        await SoftDeleteInSpecificTableAsync(entity);
+        //await SoftDeleteInSpecificTableAsync(entity);
 
-        //await SetEntityAsDeletedAsync(entity, permanent);
+        await SetEntityAsDeletedAsync(entity, permanent);
 
         await Context.SaveChangesAsync();
-
         return entity;
     }
+
+    public async Task<ICollection<TEntity>> DeleteRangeCustomAsync(
+        ICollection<TEntity> entities,
+        bool permanent = false,
+        CancellationToken cancellationToken = default
+    )
+    {
+        await SetEntityAsDeletedAsync(entities, permanent);
+
+        await Context.SaveChangesAsync(cancellationToken);
+        return entities;
+    }
+
+    // Helper Methods :
 
     // To Soft Delete data from a single table
     protected async Task SoftDeleteInSpecificTableAsync(TEntity entity)
@@ -37,13 +74,22 @@ public abstract class EfRepositoryBase<TEntity, TEntityId, TContext> : NArchitec
         Context.Update(entity);
     }
 
-    // To Soft Delete data-bound data from all relevant tables
     protected new async Task SetEntityAsDeletedAsync(TEntity entity, bool permanent)
     {
         if (!permanent)
         {
-            CheckHasEntityOneToOneRelation(entity);
-            await SetEntityAsSoftDeletedAsync(entity);
+            // To Soft Delete data from a single table
+            if (entity.DeletedDate.HasValue)
+            {
+                return;
+            }
+
+            entity.DeletedDate = DateTime.UtcNow;
+            Context.Update(entity);
+
+            // To Soft Delete data-bound data from all relevant tables
+            //CheckHasEntityOneToOneRelation(entity);
+            //await SetEntityAsSoftDeletedAsync(entity);
         }
         else
         {
@@ -55,6 +101,8 @@ public abstract class EfRepositoryBase<TEntity, TEntityId, TContext> : NArchitec
     {
         foreach (TEntity entity in entities)
         {
+            //await SoftDeleteInSpecificTableAsync(entity);
+
             await SetEntityAsDeletedAsync(entity, permanent);
         }
     }
@@ -65,21 +113,24 @@ public abstract class EfRepositoryBase<TEntity, TEntityId, TContext> : NArchitec
         TEntity entity2 = entity;
         IEnumerable<IForeignKey> foreignKeys = Context.Entry(entity2).Metadata.GetForeignKeys();
 
-        if (foreignKeys.Any() && foreignKeys.All(x =>
-        {
-            if (x.DependentToPrincipal != null && !x.DependentToPrincipal.IsCollection)
+        if (
+            foreignKeys.Any()
+            && foreignKeys.All(x =>
             {
-                return true;
-            }
-            if (x.PrincipalToDependent != null && !x.PrincipalToDependent.IsCollection)
-            {
-                return true;
-            }
-            return x.DependentToPrincipal?.ForeignKey.DeclaringEntityType.ClrType == entity2.GetType();
-        }))
+                if (x.DependentToPrincipal != null && !x.DependentToPrincipal.IsCollection)
+                {
+                    return true;
+                }
+                if (x.PrincipalToDependent != null && !x.PrincipalToDependent.IsCollection)
+                {
+                    return true;
+                }
+                return x.DependentToPrincipal?.ForeignKey.DeclaringEntityType.ClrType == entity2.GetType();
+            })
+        )
         {
             //You might want to throw an exception here.
-             throw new InvalidOperationException("Entity has one-to-one relationship.");
+            throw new InvalidOperationException("Entity has one-to-one relationship.");
         }
     }
 
@@ -89,10 +140,11 @@ public abstract class EfRepositoryBase<TEntity, TEntityId, TContext> : NArchitec
         Type queryProviderType = query.Provider.GetType();
 
         // Find the CreateQuery<TElement> method using reflection
-        MethodInfo createQueryMethod = queryProviderType
-            .GetMethods()
-            .FirstOrDefault(m => m.Name == nameof(query.Provider.CreateQuery) && m.IsGenericMethod)
-            ?.MakeGenericMethod(navigationPropertyType)
+        MethodInfo createQueryMethod =
+            queryProviderType
+                .GetMethods()
+                .FirstOrDefault(m => m.Name == nameof(query.Provider.CreateQuery) && m.IsGenericMethod)
+                ?.MakeGenericMethod(navigationPropertyType)
             ?? throw new InvalidOperationException("CreateQuery<TElement> method is not found in IQueryProvider.");
 
         // Invoke the CreateQuery<TElement> method to create a new IQueryable<object>

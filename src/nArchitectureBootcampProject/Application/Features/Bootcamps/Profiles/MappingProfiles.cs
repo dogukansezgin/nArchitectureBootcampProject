@@ -1,8 +1,10 @@
 using Application.Features.Bootcamps.Commands.Create;
 using Application.Features.Bootcamps.Commands.Delete;
+using Application.Features.Bootcamps.Commands.Restore;
 using Application.Features.Bootcamps.Commands.Update;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Bootcamps.Queries.GetListDeleted;
 using Application.Features.Bootcamps.Queries.SearchAll;
 using AutoMapper;
 using Domain.Entities;
@@ -25,7 +27,13 @@ public class MappingProfiles : Profile
         CreateMap<Bootcamp, GetListBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListBootcampListItemDto>>().ReverseMap();
 
+        CreateMap<Bootcamp, GetListDeletedBootcampListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListDeletedBootcampListItemDto>>().ReverseMap();
+
         CreateMap<Bootcamp, SearchAllBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<SearchAllBootcampListItemDto>>().ReverseMap();
+
+        CreateMap<Bootcamp, RestoreBootcampCommand>().ReverseMap();
+        CreateMap<Bootcamp, RestoredBootcampResponse>().ReverseMap();
     }
 }

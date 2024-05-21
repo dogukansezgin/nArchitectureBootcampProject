@@ -93,6 +93,39 @@ public class BootcampManager : IBootcampService
         return deletedBootcamp;
     }
 
+    public async Task<ICollection<Bootcamp>> DeleteRangeAsync(ICollection<Bootcamp> bootcamps, bool permanent = false)
+    {
+        foreach (Bootcamp bootcamp in bootcamps)
+        {
+            await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+        }
+
+        ICollection<Bootcamp> deletedBootcamps = await _bootcampRepository.DeleteRangeCustomAsync(bootcamps, permanent);
+
+        return deletedBootcamps;
+    }
+
+    public async Task<Bootcamp> RestoreAsync(Bootcamp bootcamp)
+    {
+        await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+
+        Bootcamp restoredBootcamp = await _bootcampRepository.RestoreAsync(bootcamp);
+
+        return restoredBootcamp;
+    }
+
+    public async Task<ICollection<Bootcamp>> RestoreRangeAsync(ICollection<Bootcamp> bootcamps)
+    {
+        foreach (Bootcamp bootcamp in bootcamps)
+        {
+            await _bootcampBusinessRules.BootcampShouldExistWhenSelected(bootcamp);
+        }
+
+        ICollection<Bootcamp> deletedBootcamps = await _bootcampRepository.RestoreRangeCustomAsync(bootcamps);
+
+        return deletedBootcamps;
+    }
+
     public async Task<Bootcamp> GetByIdAsync(Guid id)
     {
         Bootcamp? bootcamp = await _bootcampRepository.GetAsync(
@@ -116,5 +149,4 @@ public class BootcampManager : IBootcampService
 
         return bootcamp;
     }
-
 }

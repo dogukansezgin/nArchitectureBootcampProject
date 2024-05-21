@@ -11,7 +11,7 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -45,9 +45,9 @@ public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasic
                 cancellationToken: cancellationToken
             );
 
-            GetListResponse<GetBasicInfoInstructorListItemDto> response = _mapper.Map<GetListResponse<GetBasicInfoInstructorListItemDto>>(
-                instructors
-            );
+            GetListResponse<GetBasicInfoInstructorListItemDto> response = _mapper.Map<
+                GetListResponse<GetBasicInfoInstructorListItemDto>
+            >(instructors);
             return response;
         }
     }
