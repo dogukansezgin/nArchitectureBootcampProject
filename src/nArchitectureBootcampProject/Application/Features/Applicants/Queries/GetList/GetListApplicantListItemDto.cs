@@ -12,4 +12,5 @@ public class GetListApplicantListItemDto : IDto
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string About { get; set; }
+    public DateTime CreatedDate { get; set; }
 }

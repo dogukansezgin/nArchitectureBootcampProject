@@ -21,9 +21,8 @@ public class CreateInstructorCommand
 {
     public string Email { get; set; }
     public string Password { get; set; }
-    public string UserName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string CompanyName { get; set; }
@@ -48,6 +47,7 @@ public class CreateInstructorCommand
         public async Task<CreatedInstructorResponse> Handle(CreateInstructorCommand request, CancellationToken cancellationToken)
         {
             Instructor instructor = _mapper.Map<Instructor>(request);
+            instructor.UserName = $"{request.FirstName} {request.LastName}";
 
             HashingHelper.CreatePasswordHash(
                 request.Password,

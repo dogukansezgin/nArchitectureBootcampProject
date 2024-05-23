@@ -1,5 +1,8 @@
 using Application.Features.Applicants.Constants;
+using Application.Features.Instructors.Constants;
 using Application.Services.Applicants;
+using Application.Services.OperationClaims;
+using Application.Services.UserOperationClaims;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -14,15 +17,15 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 namespace Application.Features.Applicants.Commands.Create;
 
 public class CreateApplicantCommand
-    : IRequest<CreatedApplicantResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<CreatedApplicantResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
-    public string UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
@@ -39,16 +42,21 @@ public class CreateApplicantCommand
     {
         private readonly IMapper _mapper;
         private readonly IApplicantService _applicantService;
+        private readonly IUserOperationClaimService _userOperationClaimService;
+        private readonly IOperationClaimService _operationClaimService;
 
-        public CreateApplicantCommandHandler(IMapper mapper, IApplicantService applicantService)
+        public CreateApplicantCommandHandler(IMapper mapper, IApplicantService applicantService, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
         {
             _mapper = mapper;
             _applicantService = applicantService;
+            _userOperationClaimService = userOperationClaimService;
+            _operationClaimService = operationClaimService;
         }
 
         public async Task<CreatedApplicantResponse> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
         {
             Applicant applicant = _mapper.Map<Applicant>(request);
+            applicant.UserName = $"{request.FirstName} {request.LastName}";
 
             HashingHelper.CreatePasswordHash(
                 request.Password,
@@ -59,6 +67,29 @@ public class CreateApplicantCommand
             applicant.PasswordSalt = passwordSalt;
 
             applicant = await _applicantService.AddAsync(applicant);
+
+
+            ICollection<OperationClaim> operationClaims = [];
+            ICollection<UserOperationClaim> userOperationClaims = [];
+
+            foreach (var item in ApplicantsOperationClaims.InitialRoles)
+            {
+                var operationClaim = await _operationClaimService.GetListAsync(x => x.Name.Contains(item));
+                if (operationClaim != null)
+                    operationClaims.Add(operationClaim.Items.First());
+            }
+
+            if (operationClaims != null)
+            {
+                foreach (var item in operationClaims)
+                {
+                    userOperationClaims.Add(
+                        new UserOperationClaim() { UserId = applicant.Id, OperationClaimId = item.Id }
+                    );
+                }
+                userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
+            }
+
 
             CreatedApplicantResponse response = _mapper.Map<CreatedApplicantResponse>(applicant);
             return response;

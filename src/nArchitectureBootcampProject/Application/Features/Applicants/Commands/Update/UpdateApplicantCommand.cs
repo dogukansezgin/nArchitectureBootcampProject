@@ -14,24 +14,20 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 namespace Application.Features.Applicants.Commands.Update;
 
 public class UpdateApplicantCommand
-    : IRequest<UpdatedApplicantResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<UpdatedApplicantResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
-    // Admin kullanımı için düzenlenmeli.
     public Guid Id { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
-
-    //public string NewPassword { get; set; } // D�zenlenecek
-    public string UserName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
-    public string About { get; set; }
+    public string? About { get; set; }
 
     public string[] Roles => [Admin];
 
@@ -58,6 +54,7 @@ public class UpdateApplicantCommand
             );
 
             applicant = _mapper.Map(request, applicant);
+            applicant.UserName = $"{request.FirstName} {request.LastName}";
 
             applicant = await _applicantService.UpdateAsync(applicant!);
 

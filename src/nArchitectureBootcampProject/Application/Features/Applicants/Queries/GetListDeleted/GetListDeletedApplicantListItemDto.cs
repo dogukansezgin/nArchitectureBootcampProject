@@ -1,8 +1,8 @@
-using NArchitecture.Core.Application.Responses;
+using NArchitecture.Core.Application.Dtos;
 
-namespace Application.Features.Applicants.Commands.Create;
+namespace Application.Features.Applicants.Queries.GetListDeleted;
 
-public class CreatedApplicantResponse : IResponse
+public class GetListDeletedApplicantListItemDto : IDto
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
@@ -13,4 +13,5 @@ public class CreatedApplicantResponse : IResponse
     public string? NationalIdentity { get; set; }
     public string About { get; set; }
     public DateTime CreatedDate { get; set; }
+    public DateTime DeletedDate { get; set; }
 }
