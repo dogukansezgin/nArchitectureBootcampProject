@@ -1,4 +1,4 @@
-using Application.Features.Instructors.Constants;
+﻿using Application.Features.Instructors.Constants;
 using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
@@ -9,9 +9,9 @@ using NArchitecture.Core.Application.Pipelines.Logging;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using static Application.Features.Instructors.Constants.InstructorsOperationClaims;
 
-namespace Application.Features.Instructors.Commands.Delete;
+namespace Application.Features.Instructors.Commands.Restore;
 
-public class DeleteInstructorCommand : IRequest<DeletedInstructorResponse>
+public class RestoreInstructorCommand : IRequest<RestoredInstructorResponse>
 //,
 //    ISecuredRequest,
 //    ICacheRemoverRequest,
@@ -19,38 +19,38 @@ public class DeleteInstructorCommand : IRequest<DeletedInstructorResponse>
 //    ITransactionalRequest
 {
     public Guid Id { get; set; }
-    public bool IsPermament { get; set; }
 
-    public string[] Roles => [Admin, Write, InstructorsOperationClaims.Delete];
+    public string[] Roles => [Admin, Write];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => ["GetInstructors"];
 
-    public class DeleteInstructorCommandHandler : IRequestHandler<DeleteInstructorCommand, DeletedInstructorResponse>
+    public class RestoreInstructorCommandHandler : IRequestHandler<RestoreInstructorCommand, RestoredInstructorResponse>
     {
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
 
-        public DeleteInstructorCommandHandler(IMapper mapper, IInstructorService instructorService)
+        public RestoreInstructorCommandHandler(IMapper mapper, IInstructorService instructorService)
         {
             _mapper = mapper;
             _instructorService = instructorService;
         }
 
-        public async Task<DeletedInstructorResponse> Handle(DeleteInstructorCommand request, CancellationToken cancellationToken)
+        public async Task<RestoredInstructorResponse> Handle(
+            RestoreInstructorCommand request,
+            CancellationToken cancellationToken
+        )
         {
             Instructor? instructor = await _instructorService.GetAsync(
-                predicate: i => i.Id == request.Id,
+                predicate: b => b.Id == request.Id && b.DeletedDate != null,
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
 
-            instructor = await _instructorService.DeleteAsync(instructor!, request.IsPermament);
+            await _instructorService.RestoreAsync(instructor!);
 
-            DeletedInstructorResponse response = _mapper.Map<DeletedInstructorResponse>(instructor);
-            response.IsPermament = request.IsPermament;
-            response.DeletedDate = request.IsPermament ? DateTime.UtcNow : response.DeletedDate;
+            RestoredInstructorResponse response = _mapper.Map<RestoredInstructorResponse>(instructor);
             return response;
         }
     }

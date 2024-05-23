@@ -11,18 +11,15 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.Update;
 
-public class UpdateInstructorCommand
-    : IRequest<UpdatedInstructorResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
-
-    //public string NewPassword { get; set; } // D�zenlenecek
     public string UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

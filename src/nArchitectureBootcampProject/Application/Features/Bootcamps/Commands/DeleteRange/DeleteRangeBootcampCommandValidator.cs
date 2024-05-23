@@ -7,6 +7,5 @@ public class DeleteRangeBootcampCommandValidator : AbstractValidator<DeleteRange
     public DeleteRangeBootcampCommandValidator()
     {
         RuleFor(c => c.Ids).NotEmpty();
-        RuleFor(c => c.IsPermament).NotEmpty();
     }
 }

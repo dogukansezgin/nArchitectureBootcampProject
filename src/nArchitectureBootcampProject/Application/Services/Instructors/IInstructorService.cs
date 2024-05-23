@@ -27,5 +27,8 @@ public interface IInstructorService
     Task<Instructor> AddAsync(Instructor instructor);
     Task<Instructor> UpdateAsync(Instructor instructor);
     Task<Instructor> DeleteAsync(Instructor instructor, bool permanent = false);
+    Task<ICollection<Instructor>> DeleteRangeAsync(ICollection<Instructor> instructors, bool permanent = false);
+    Task<Instructor> RestoreAsync(Instructor instructor);
+    Task<ICollection<Instructor>> RestoreRangeAsync(ICollection<Instructor> instructors);
     Task<Instructor> GetByIdAsync(Guid id);
 }

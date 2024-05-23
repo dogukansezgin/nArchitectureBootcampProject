@@ -12,4 +12,5 @@ public class CreatedInstructorResponse : IResponse
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string CompanyName { get; set; }
+    public DateTime? CreatedDate { get; set; }
 }

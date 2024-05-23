@@ -7,6 +7,5 @@ public class DeleteBootcampCommandValidator : AbstractValidator<DeleteBootcampCo
     public DeleteBootcampCommandValidator()
     {
         RuleFor(c => c.Id).NotEmpty();
-        RuleFor(c => c.IsPermament).NotEmpty();
     }
 }
