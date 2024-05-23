@@ -28,7 +28,8 @@ public class DeleteRangeInstructorCommand : IRequest<DeletedRangeInstructorRespo
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetInstructors" };
 
-    public class DeleteRangeInstructorCommandHandler : IRequestHandler<DeleteRangeInstructorCommand, DeletedRangeInstructorResponse>
+    public class DeleteRangeInstructorCommandHandler
+        : IRequestHandler<DeleteRangeInstructorCommand, DeletedRangeInstructorResponse>
     {
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;

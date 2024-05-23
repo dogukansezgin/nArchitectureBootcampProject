@@ -9,9 +9,8 @@ using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Applications.Constants.ApplicationsOperationClaims;
 
 namespace Application.Features.Applications.Commands.DeleteSelected;
-public class DeleteSelectedApplicationCommand
-    : IRequest<DeletedSelectedApplicationResponse>
-    , ISecuredRequest
+
+public class DeleteSelectedApplicationCommand : IRequest<DeletedSelectedApplicationResponse>, ISecuredRequest
 {
     public ICollection<Guid> Ids { get; set; }
 
@@ -21,15 +20,18 @@ public class DeleteSelectedApplicationCommand
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => ["GetApplications"];
 
-    public class DeleteSelectedApplicationCommandHandler : IRequestHandler<DeleteSelectedApplicationCommand, DeletedSelectedApplicationResponse>
+    public class DeleteSelectedApplicationCommandHandler
+        : IRequestHandler<DeleteSelectedApplicationCommand, DeletedSelectedApplicationResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;
+
         public DeleteSelectedApplicationCommandHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
             _applicationService = applicationService;
         }
+
         public async Task<DeletedSelectedApplicationResponse> Handle(
             DeleteSelectedApplicationCommand request,
             CancellationToken cancellationToken
@@ -52,6 +54,5 @@ public class DeleteSelectedApplicationCommand
             };
             return response;
         }
-
     }
 }

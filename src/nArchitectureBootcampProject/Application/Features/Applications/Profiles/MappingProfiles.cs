@@ -32,7 +32,7 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, AppliedBootcampsResponse>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<AppliedBootcampsResponse>>().ReverseMap();
-        CreateMap<ApplicationEntity,GetListApplicationByStateListItemDto>().ReverseMap();
+        CreateMap<ApplicationEntity, GetListApplicationByStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationByStateListItemDto>>().ReverseMap();
 
         CreateMap<ApplicationEntity, GetListByUserNameApplicationListItemDto>().ReverseMap();

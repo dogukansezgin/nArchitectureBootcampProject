@@ -47,9 +47,9 @@ public class GetListApplicationByStateQuery : IRequest<GetListResponse<GetListAp
                 include: x => x.Include(x => x.Applicant).Include(x => x.Bootcamp).Include(x => x.ApplicationState)
             );
 
-            GetListResponse<GetListApplicationByStateListItemDto> response = _mapper.Map<GetListResponse<GetListApplicationByStateListItemDto>>(
-                applications
-            );
+            GetListResponse<GetListApplicationByStateListItemDto> response = _mapper.Map<
+                GetListResponse<GetListApplicationByStateListItemDto>
+            >(applications);
             return response;
         }
     }

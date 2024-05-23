@@ -1,8 +1,8 @@
-﻿
-using NArchitecture.Core.Application.Dtos;
+﻿using NArchitecture.Core.Application.Dtos;
 
 namespace Application.Features.Applications.Queries.GetListByState;
-public class GetListApplicationByStateListItemDto:IDto
+
+public class GetListApplicationByStateListItemDto : IDto
 {
     public Guid Id { get; set; }
     public Guid ApplicantId { get; set; }

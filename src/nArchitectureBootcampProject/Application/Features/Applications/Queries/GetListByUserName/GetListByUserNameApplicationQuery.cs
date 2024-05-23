@@ -12,7 +12,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListByUserName;
 
-public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetListByUserNameApplicationListItemDto>>/*, ISecuredRequest , ICachableRequest*/
+public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetListByUserNameApplicationListItemDto>> /*, ISecuredRequest , ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -47,11 +47,10 @@ public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetLis
                 include: x => x.Include(x => x.Applicant).Include(x => x.Bootcamp).Include(x => x.ApplicationState)
             );
 
-            GetListResponse<GetListByUserNameApplicationListItemDto> response = _mapper.Map<GetListResponse<GetListByUserNameApplicationListItemDto>>(
-                applications
-            );
+            GetListResponse<GetListByUserNameApplicationListItemDto> response = _mapper.Map<
+                GetListResponse<GetListByUserNameApplicationListItemDto>
+            >(applications);
             return response;
         }
     }
 }
-

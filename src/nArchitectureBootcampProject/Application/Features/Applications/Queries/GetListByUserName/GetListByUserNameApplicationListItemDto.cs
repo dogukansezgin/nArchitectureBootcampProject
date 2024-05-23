@@ -1,6 +1,7 @@
 ﻿using NArchitecture.Core.Application.Dtos;
 
 namespace Application.Features.Applications.Queries.GetListByUserName;
+
 public class GetListByUserNameApplicationListItemDto : IDto
 {
     public Guid Id { get; set; }
@@ -14,5 +15,4 @@ public class GetListByUserNameApplicationListItemDto : IDto
 
     public Guid ApplicationStateId { get; set; }
     public string ApplicationStateName { get; set; }
-
 }

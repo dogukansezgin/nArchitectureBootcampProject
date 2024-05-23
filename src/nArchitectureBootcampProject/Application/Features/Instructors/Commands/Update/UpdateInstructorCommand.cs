@@ -11,13 +11,12 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.Update;
 
-public class UpdateInstructorCommand
-    : IRequest<UpdatedInstructorResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Email { get; set; }

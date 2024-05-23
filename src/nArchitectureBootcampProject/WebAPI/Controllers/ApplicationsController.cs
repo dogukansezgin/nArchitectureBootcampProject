@@ -41,6 +41,7 @@ public class ApplicationsController : BaseController
 
         return Ok(response);
     }
+
     [HttpPost("deleteSelected")]
     public async Task<IActionResult> DeleteSelected([FromBody] DeleteSelectedApplicationCommand deleteSelectedApplicationCommand)
     {
@@ -62,6 +63,7 @@ public class ApplicationsController : BaseController
         GetListResponse<GetListApplicationListItemDto> response = await Mediator.Send(getListApplicationQuery);
         return Ok(response);
     }
+
     [HttpGet("getByState")]
     public async Task<IActionResult> GetListByState([FromQuery] PageRequest pageRequest)
     {
@@ -69,11 +71,14 @@ public class ApplicationsController : BaseController
         GetListResponse<GetListApplicationByStateListItemDto> response = await Mediator.Send(getListApplicationByStateQuery);
         return Ok(response);
     }
+
     [HttpGet("getByUserName")]
     public async Task<IActionResult> GetListByUserName([FromQuery] PageRequest pageRequest)
     {
         GetListByUserNameApplicationQuery getListByUserNameApplicationQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListByUserNameApplicationListItemDto> response = await Mediator.Send(getListByUserNameApplicationQuery);
+        GetListResponse<GetListByUserNameApplicationListItemDto> response = await Mediator.Send(
+            getListByUserNameApplicationQuery
+        );
         return Ok(response);
     }
 

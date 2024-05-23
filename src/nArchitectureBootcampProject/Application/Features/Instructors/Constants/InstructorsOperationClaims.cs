@@ -20,7 +20,7 @@ public static class InstructorsOperationClaims
     public const string Delete = $"{_section}.Delete";
 
     public static readonly string[] InitialRolesArray =
-{
+    {
         User,
         Read,
         Update,

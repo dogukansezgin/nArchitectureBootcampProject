@@ -47,9 +47,9 @@ public class GetListDeletedInstructorQuery : IRequest<GetListResponse<GetListDel
                 predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListDeletedInstructorListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedInstructorListItemDto>>(
-                instructors
-            );
+            GetListResponse<GetListDeletedInstructorListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedInstructorListItemDto>
+            >(instructors);
             return response;
         }
     }

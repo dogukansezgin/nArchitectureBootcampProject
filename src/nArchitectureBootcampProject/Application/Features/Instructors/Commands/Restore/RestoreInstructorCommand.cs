@@ -37,7 +37,10 @@ public class RestoreInstructorCommand : IRequest<RestoredInstructorResponse>
             _instructorService = instructorService;
         }
 
-        public async Task<RestoredInstructorResponse> Handle(RestoreInstructorCommand request, CancellationToken cancellationToken)
+        public async Task<RestoredInstructorResponse> Handle(
+            RestoreInstructorCommand request,
+            CancellationToken cancellationToken
+        )
         {
             Instructor? instructor = await _instructorService.GetAsync(
                 predicate: b => b.Id == request.Id && b.DeletedDate != null,

@@ -27,7 +27,8 @@ public class RestoreRangeInstructorCommand : IRequest<RestoredRangeInstructorRes
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetInstructors" };
 
-    public class RestoreRangeInstructorCommandHandler : IRequestHandler<RestoreRangeInstructorCommand, RestoredRangeInstructorResponse>
+    public class RestoreRangeInstructorCommandHandler
+        : IRequestHandler<RestoreRangeInstructorCommand, RestoredRangeInstructorResponse>
     {
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;

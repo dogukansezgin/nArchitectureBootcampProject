@@ -11,13 +11,12 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.Delete;
 
-public class DeleteInstructorCommand
-    : IRequest<DeletedInstructorResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class DeleteInstructorCommand : IRequest<DeletedInstructorResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }

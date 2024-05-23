@@ -15,13 +15,12 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.Create;
 
-public class CreateInstructorCommand
-    : IRequest<CreatedInstructorResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class CreateInstructorCommand : IRequest<CreatedInstructorResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
@@ -44,7 +43,12 @@ public class CreateInstructorCommand
         private readonly IUserOperationClaimService _userOperationClaimService;
         private readonly IOperationClaimService _operationClaimService;
 
-        public CreateInstructorCommandHandler(IMapper mapper, IInstructorService instructorService, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public CreateInstructorCommandHandler(
+            IMapper mapper,
+            IInstructorService instructorService,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _mapper = mapper;
             _instructorService = instructorService;
@@ -67,7 +71,6 @@ public class CreateInstructorCommand
 
             instructor = await _instructorService.AddAsync(instructor);
 
-
             ICollection<OperationClaim> operationClaims = [];
             ICollection<UserOperationClaim> userOperationClaims = [];
 
@@ -82,13 +85,10 @@ public class CreateInstructorCommand
             {
                 foreach (var item in operationClaims)
                 {
-                    userOperationClaims.Add(
-                        new UserOperationClaim() { UserId = instructor.Id, OperationClaimId = item.Id }
-                    );
+                    userOperationClaims.Add(new UserOperationClaim() { UserId = instructor.Id, OperationClaimId = item.Id });
                 }
                 userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
             }
-
 
             CreatedInstructorResponse response = _mapper.Map<CreatedInstructorResponse>(instructor);
             return response;
