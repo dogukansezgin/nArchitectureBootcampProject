@@ -98,4 +98,14 @@ public class ApplicationManager : IApplicationService
 
         return application;
     }
+
+    public async Task<ICollection<ApplicationEntity>> DeleteRangeAsync(ICollection<ApplicationEntity> applications, bool permanent = false)
+    {
+        foreach (ApplicationEntity application in applications)
+        {
+            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+        }
+        ICollection<ApplicationEntity> deletedApplications = await _applicationRepository.DeleteRangeCustomAsync(applications, permanent);
+        return deletedApplications;
+    }
 }
