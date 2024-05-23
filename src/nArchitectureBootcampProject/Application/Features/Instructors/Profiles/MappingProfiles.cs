@@ -1,9 +1,11 @@
 using Application.Features.Instructors.Commands.Create;
 using Application.Features.Instructors.Commands.Delete;
+using Application.Features.Instructors.Commands.Restore;
 using Application.Features.Instructors.Commands.Update;
 using Application.Features.Instructors.Queries.GetBasicInfoList;
 using Application.Features.Instructors.Queries.GetById;
 using Application.Features.Instructors.Queries.GetList;
+using Application.Features.Instructors.Queries.GetListDeleted;
 using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
@@ -24,7 +26,14 @@ public class MappingProfiles : Profile
         CreateMap<Instructor, GetByIdInstructorResponse>().ReverseMap();
         CreateMap<Instructor, GetListInstructorListItemDto>().ReverseMap();
         CreateMap<IPaginate<Instructor>, GetListResponse<GetListInstructorListItemDto>>().ReverseMap();
+
+        CreateMap<Instructor, GetListDeletedInstructorListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Instructor>, GetListResponse<GetListDeletedInstructorListItemDto>>().ReverseMap();
+
         CreateMap<Instructor, GetBasicInfoInstructorListItemDto>().ReverseMap();
         CreateMap<IPaginate<Instructor>, GetListResponse<GetBasicInfoInstructorListItemDto>>().ReverseMap();
+
+        CreateMap<Instructor, RestoreInstructorCommand>().ReverseMap();
+        CreateMap<Instructor, RestoredInstructorResponse>().ReverseMap();
     }
 }

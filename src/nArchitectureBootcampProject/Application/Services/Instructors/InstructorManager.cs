@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Application.Features.Applicants.Rules;
+using Application.Features.Bootcamps.Rules;
 using Application.Features.Instructors.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
@@ -87,6 +88,39 @@ public class InstructorManager : IInstructorService
         Instructor deletedInstructor = await _instructorRepository.DeleteAsync(instructor, permanent);
 
         return deletedInstructor;
+    }
+
+    public async Task<ICollection<Instructor>> DeleteRangeAsync(ICollection<Instructor> instructors, bool permanent = false)
+    {
+        foreach (Instructor instructor in instructors)
+        {
+            await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+        }
+
+        ICollection<Instructor> deletedInstructors = await _instructorRepository.DeleteRangeCustomAsync(instructors, permanent);
+
+        return deletedInstructors;
+    }
+
+    public async Task<Instructor> RestoreAsync(Instructor instructor)
+    {
+        await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+
+        Instructor restoredInstructor = await _instructorRepository.RestoreAsync(instructor);
+
+        return restoredInstructor;
+    }
+
+    public async Task<ICollection<Instructor>> RestoreRangeAsync(ICollection<Instructor> instructors)
+    {
+        foreach (Instructor instructor in instructors)
+        {
+            await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
+        }
+
+        ICollection<Instructor> deletedInstructors = await _instructorRepository.RestoreRangeCustomAsync(instructors);
+
+        return deletedInstructors;
     }
 
     public async Task<Instructor> GetByIdAsync(Guid id)

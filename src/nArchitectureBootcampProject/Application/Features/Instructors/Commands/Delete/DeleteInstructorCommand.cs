@@ -12,11 +12,12 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 namespace Application.Features.Instructors.Commands.Delete;
 
 public class DeleteInstructorCommand
-    : IRequest<DeletedInstructorResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedInstructorResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -42,13 +43,15 @@ public class DeleteInstructorCommand
         {
             Instructor? instructor = await _instructorService.GetAsync(
                 predicate: i => i.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             instructor = await _instructorService.DeleteAsync(instructor!, request.IsPermament);
 
             DeletedInstructorResponse response = _mapper.Map<DeletedInstructorResponse>(instructor);
             response.IsPermament = request.IsPermament;
+            response.DeletedDate = request.IsPermament ? DateTime.UtcNow : response.DeletedDate;
             return response;
         }
     }
