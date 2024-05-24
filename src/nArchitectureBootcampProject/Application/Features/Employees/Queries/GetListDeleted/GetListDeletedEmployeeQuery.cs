@@ -11,9 +11,9 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
-namespace Application.Features.Employees.Queries.GetList;
+namespace Application.Features.Employees.Queries.GetListDeleted;
 
-public class GetListEmployeeQuery : IRequest<GetListResponse<GetListEmployeeListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -24,7 +24,7 @@ public class GetListEmployeeQuery : IRequest<GetListResponse<GetListEmployeeList
     public string? CacheGroupKey => "GetEmployees";
     public TimeSpan? SlidingExpiration { get; }
 
-    public class GetListEmployeeQueryHandler : IRequestHandler<GetListEmployeeQuery, GetListResponse<GetListEmployeeListItemDto>>
+    public class GetListEmployeeQueryHandler : IRequestHandler<GetListDeletedEmployeeQuery, GetListResponse<GetListDeletedEmployeeListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
@@ -35,18 +35,20 @@ public class GetListEmployeeQuery : IRequest<GetListResponse<GetListEmployeeList
             _employeeService = employeeService;
         }
 
-        public async Task<GetListResponse<GetListEmployeeListItemDto>> Handle(
-            GetListEmployeeQuery request,
+        public async Task<GetListResponse<GetListDeletedEmployeeListItemDto>> Handle(
+            GetListDeletedEmployeeQuery request,
             CancellationToken cancellationToken
         )
         {
             IPaginate<Employee>? employees = await _employeeService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true,
+                predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListEmployeeListItemDto> response = _mapper.Map<GetListResponse<GetListEmployeeListItemDto>>(
+            GetListResponse<GetListDeletedEmployeeListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedEmployeeListItemDto>>(
                 employees
             );
             return response;

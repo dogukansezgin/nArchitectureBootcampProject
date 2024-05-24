@@ -1,8 +1,8 @@
-using NArchitecture.Core.Application.Responses;
+using NArchitecture.Core.Application.Dtos;
 
-namespace Application.Features.Employees.Commands.Update;
+namespace Application.Features.Employees.Queries.GetListDeleted;
 
-public class UpdatedEmployeeResponse : IResponse
+public class GetListDeletedEmployeeListItemDto : IDto
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
@@ -12,5 +12,6 @@ public class UpdatedEmployeeResponse : IResponse
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string Position { get; set; }
-    public DateTime UpdatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime DeletedDate { get; set; }
 }

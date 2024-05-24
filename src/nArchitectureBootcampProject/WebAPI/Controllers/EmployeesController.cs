@@ -3,9 +3,13 @@ using Application.Features.Employees.Commands.Delete;
 using Application.Features.Employees.Commands.Update;
 using Application.Features.Employees.Queries.GetById;
 using Application.Features.Employees.Queries.GetList;
+using Application.Features.Employees.Commands.DeleteRange;
+using Application.Features.Employees.Commands.Restore;
+using Application.Features.Employees.Commands.RestoreRange;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
+using Application.Features.Employees.Queries.GetListDeleted;
 
 namespace WebAPI.Controllers;
 
@@ -13,7 +17,7 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class EmployeesController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Add([FromBody] CreateEmployeeCommand createEmployeeCommand)
     {
         CreatedEmployeeResponse response = await Mediator.Send(createEmployeeCommand);
@@ -21,7 +25,7 @@ public class EmployeesController : BaseController
         return Created(uri: "", response);
     }
 
-    [HttpPut]
+    [HttpPut("update")]
     public async Task<IActionResult> Update([FromBody] UpdateEmployeeCommand updateEmployeeCommand)
     {
         UpdatedEmployeeResponse response = await Mediator.Send(updateEmployeeCommand);
@@ -29,10 +33,35 @@ public class EmployeesController : BaseController
         return Ok(response);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    [HttpPost("delete")]
+    public async Task<IActionResult> Delete([FromBody] DeleteEmployeeCommand deleteEmployeeCommand)
     {
-        DeletedEmployeeResponse response = await Mediator.Send(new DeleteEmployeeCommand { Id = id });
+        DeletedEmployeeResponse response = await Mediator.Send(deleteEmployeeCommand);
+
+        return Ok(response);
+    }
+
+
+    [HttpPost("deleteRange")]
+    public async Task<IActionResult> DeleteRange([FromBody] DeleteRangeEmployeeCommand deleteRangeEmployeeCommand)
+    {
+        DeletedRangeEmployeeResponse response = await Mediator.Send(deleteRangeEmployeeCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPost("restore")]
+    public async Task<IActionResult> Restore([FromBody] RestoreEmployeeCommand restoreEmployeeCommand)
+    {
+        RestoredEmployeeResponse response = await Mediator.Send(restoreEmployeeCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPost("restoreRange")]
+    public async Task<IActionResult> RestoreRange([FromBody] RestoreRangeEmployeeCommand restoreRangeEmployeeCommand)
+    {
+        RestoredRangeEmployeeResponse response = await Mediator.Send(restoreRangeEmployeeCommand);
 
         return Ok(response);
     }
@@ -44,11 +73,19 @@ public class EmployeesController : BaseController
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet("get")]
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListEmployeeQuery getListEmployeeQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListEmployeeListItemDto> response = await Mediator.Send(getListEmployeeQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getDeleted")]
+    public async Task<IActionResult> GetListDeleted([FromQuery] PageRequest pageRequest)
+    {
+        GetListDeletedEmployeeQuery getListDeletedEmployeeQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetListDeletedEmployeeListItemDto> response = await Mediator.Send(getListDeletedEmployeeQuery);
         return Ok(response);
     }
 }

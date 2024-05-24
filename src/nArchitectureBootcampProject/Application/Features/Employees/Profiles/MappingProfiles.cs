@@ -1,8 +1,10 @@
 using Application.Features.Employees.Commands.Create;
 using Application.Features.Employees.Commands.Delete;
+using Application.Features.Employees.Commands.Restore;
 using Application.Features.Employees.Commands.Update;
 using Application.Features.Employees.Queries.GetById;
 using Application.Features.Employees.Queries.GetList;
+using Application.Features.Employees.Queries.GetListDeleted;
 using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
@@ -23,5 +25,11 @@ public class MappingProfiles : Profile
         CreateMap<Employee, GetByIdEmployeeResponse>().ReverseMap();
         CreateMap<Employee, GetListEmployeeListItemDto>().ReverseMap();
         CreateMap<IPaginate<Employee>, GetListResponse<GetListEmployeeListItemDto>>().ReverseMap();
+
+        CreateMap<Employee, RestoreEmployeeCommand>().ReverseMap();
+        CreateMap<Employee, RestoredEmployeeResponse>().ReverseMap();
+
+        CreateMap<Employee, GetListDeletedEmployeeListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Employee>, GetListResponse<GetListDeletedEmployeeListItemDto>>().ReverseMap();
     }
 }

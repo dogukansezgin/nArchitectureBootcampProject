@@ -12,4 +12,5 @@ public class GetListEmployeeListItemDto : IDto
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string Position { get; set; }
+    public DateTime CreatedDate { get; set; }
 }

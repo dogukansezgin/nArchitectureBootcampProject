@@ -1,5 +1,8 @@
+using Application.Features.Applicants.Constants;
 using Application.Features.Employees.Constants;
 using Application.Services.Employees;
+using Application.Services.OperationClaims;
+using Application.Services.UserOperationClaims;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -13,17 +16,17 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 namespace Application.Features.Employees.Commands.Create;
 
 public class CreateEmployeeCommand
-    : IRequest<CreatedEmployeeResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<CreatedEmployeeResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
-    public string UserName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string Position { get; set; }
@@ -38,16 +41,21 @@ public class CreateEmployeeCommand
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
+        private readonly IUserOperationClaimService _userOperationClaimService;
+        private readonly IOperationClaimService _operationClaimService;
 
-        public CreateEmployeeCommandHandler(IMapper mapper, IEmployeeService employeeService)
+        public CreateEmployeeCommandHandler(IMapper mapper, IEmployeeService employeeService, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
         {
             _mapper = mapper;
             _employeeService = employeeService;
+            _userOperationClaimService = userOperationClaimService;
+            _operationClaimService = operationClaimService;
         }
 
         public async Task<CreatedEmployeeResponse> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
             Employee employee = _mapper.Map<Employee>(request);
+            employee.UserName = $"{request.FirstName} {request.LastName}";
 
             HashingHelper.CreatePasswordHash(
                 request.Password,
@@ -58,6 +66,29 @@ public class CreateEmployeeCommand
             employee.PasswordSalt = passwordSalt;
 
             employee = await _employeeService.AddAsync(employee);
+
+
+            ICollection<OperationClaim> operationClaims = [];
+            ICollection<UserOperationClaim> userOperationClaims = [];
+
+            foreach (var item in EmployeesOperationClaims.InitialRoles)
+            {
+                var operationClaim = await _operationClaimService.GetListAsync(x => x.Name.Contains(item));
+                if (operationClaim != null)
+                    operationClaims.Add(operationClaim.Items.First());
+            }
+
+            if (operationClaims != null)
+            {
+                foreach (var item in operationClaims)
+                {
+                    userOperationClaims.Add(
+                        new UserOperationClaim() { UserId = employee.Id, OperationClaimId = item.Id }
+                    );
+                }
+                userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
+            }
+
 
             CreatedEmployeeResponse response = _mapper.Map<CreatedEmployeeResponse>(employee);
             return response;
