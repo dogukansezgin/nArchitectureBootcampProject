@@ -1,4 +1,5 @@
 using Application.Features.BootcampStates.Constants;
+using Application.Features.BootcampStates.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -37,5 +38,27 @@ public class BootcampStateBusinessRules : BaseBusinessRules
             enableTracking: false
         );
         await BootcampStateShouldExistWhenSelected(bootcampState);
+    }
+
+    public async Task BootcampStateShouldNotExist(BootcampState bootcampState)
+    {
+        var isExistName =
+            await _bootcampStateRepository.GetAsync(x => x.Name.Trim() == bootcampState.Name.Trim()) is not null;
+
+        if (isExistName)
+            await throwBusinessException(BootcampStatesBusinessMessages.BootcampStateExists);
+    }
+
+    public async Task BootcampStateShouldNotExistWhenUpdate(BootcampState bootcampState)
+    {
+        bool isExistName = false;
+
+        if (bootcampState.Name is not null)
+            isExistName =
+                await _bootcampStateRepository.GetAsync(x => x.Id != bootcampState.Id && x.Name.Trim() == bootcampState.Name.Trim())
+                    is not null;
+
+        if (isExistName)
+            await throwBusinessException(BootcampStatesBusinessMessages.BootcampStateExists);
     }
 }

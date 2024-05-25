@@ -9,9 +9,9 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.BootcampStates.Constants.BootcampStatesOperationClaims;
 
-namespace Application.Features.BootcampStates.Queries.GetList;
+namespace Application.Features.BootcampStates.Queries.GetListDeleted;
 
-public class GetListBootcampStateQuery : IRequest<GetListResponse<GetListBootcampStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedBootcampStateQuery : IRequest<GetListResponse<GetListDeletedBootcampStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,7 +23,7 @@ public class GetListBootcampStateQuery : IRequest<GetListResponse<GetListBootcam
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListBootcampStateQueryHandler
-        : IRequestHandler<GetListBootcampStateQuery, GetListResponse<GetListBootcampStateListItemDto>>
+        : IRequestHandler<GetListDeletedBootcampStateQuery, GetListResponse<GetListDeletedBootcampStateListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampStateService _bootcampStateService;
@@ -34,19 +34,21 @@ public class GetListBootcampStateQuery : IRequest<GetListResponse<GetListBootcam
             _bootcampStateService = bootcampStateService;
         }
 
-        public async Task<GetListResponse<GetListBootcampStateListItemDto>> Handle(
-            GetListBootcampStateQuery request,
+        public async Task<GetListResponse<GetListDeletedBootcampStateListItemDto>> Handle(
+            GetListDeletedBootcampStateQuery request,
             CancellationToken cancellationToken
         )
         {
             IPaginate<BootcampState>? bootcampStates = await _bootcampStateService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true,
+                predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListBootcampStateListItemDto> response = _mapper.Map<
-                GetListResponse<GetListBootcampStateListItemDto>
+            GetListResponse<GetListDeletedBootcampStateListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedBootcampStateListItemDto>
             >(bootcampStates);
             return response;
         }

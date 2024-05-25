@@ -14,11 +14,12 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 namespace Application.Features.BootcampStates.Commands.Create;
 
 public class CreateBootcampStateCommand
-    : IRequest<CreatedBootcampStateResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<CreatedBootcampStateResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public string Name { get; set; }
 

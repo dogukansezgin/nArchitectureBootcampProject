@@ -27,5 +27,8 @@ public interface IBootcampStateService
     Task<BootcampState> AddAsync(BootcampState bootcampState);
     Task<BootcampState> UpdateAsync(BootcampState bootcampState);
     Task<BootcampState> DeleteAsync(BootcampState bootcampState, bool permanent = false);
+    Task<ICollection<BootcampState>> DeleteRangeAsync(ICollection<BootcampState> bootcampStates, bool permanent = false);
+    Task<BootcampState> RestoreAsync(BootcampState bootcampState);
+    Task<ICollection<BootcampState>> RestoreRangeAsync(ICollection<BootcampState> bootcampStates);
     Task<BootcampState> GetByIdAsync(Guid id);
 }
