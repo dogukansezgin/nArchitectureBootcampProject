@@ -9,8 +9,8 @@ using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
 using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
+using Application.Features.Applications.Queries.GetListByJoin;
 using Application.Features.Applications.Queries.GetListByState;
-using Application.Features.Applications.Queries.GetListByUserName;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
@@ -108,13 +108,11 @@ public class ApplicationsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet("getByUserName")]
+    [HttpGet("getByJoin")]
     public async Task<IActionResult> GetListByUserName([FromQuery] PageRequest pageRequest)
     {
-        GetListByUserNameApplicationQuery getListByUserNameApplicationQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListByUserNameApplicationListItemDto> response = await Mediator.Send(
-            getListByUserNameApplicationQuery
-        );
+        GetListByJoinApplicationQuery getListByUserNameApplicationQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetListByJoinApplicationListItemDto> response = await Mediator.Send(getListByUserNameApplicationQuery);
         return Ok(response);
     }
 

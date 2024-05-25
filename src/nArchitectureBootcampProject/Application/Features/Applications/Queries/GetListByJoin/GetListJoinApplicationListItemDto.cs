@@ -1,8 +1,8 @@
 ﻿using NArchitecture.Core.Application.Dtos;
 
-namespace Application.Features.Applications.Queries.GetListByUserName;
+namespace Application.Features.Applications.Queries.GetListByJoin;
 
-public class GetListByUserNameApplicationListItemDto : IDto
+public class GetListByJoinApplicationListItemDto : IDto
 {
     public Guid Id { get; set; }
     public DateTime CreatedDate { get; set; }
