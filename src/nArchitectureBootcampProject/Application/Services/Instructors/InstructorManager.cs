@@ -75,6 +75,7 @@ public class InstructorManager : IInstructorService
     {
         await _instructorBusinessRules.InstructorShouldExistWhenSelected(instructor);
         await _instructorBusinessRules.InstructorIdShouldExistWhenSelected(instructor.Id);
+        await _instructorBusinessRules.InstructorShouldNotExistWhenUpdate(instructor);
 
         Instructor updatedInstructor = await _instructorRepository.UpdateAsync(instructor);
 

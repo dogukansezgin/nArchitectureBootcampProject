@@ -49,7 +49,7 @@ public class RestoreRangeApplicantCommand : IRequest<RestoredRangeApplicantRespo
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(applicants.Items);
+
             await _applicantService.RestoreRangeAsync(applicants.Items);
 
             RestoredRangeApplicantResponse response = new RestoredRangeApplicantResponse

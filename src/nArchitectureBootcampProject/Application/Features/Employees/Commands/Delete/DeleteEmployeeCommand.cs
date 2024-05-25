@@ -43,7 +43,8 @@ public class DeleteEmployeeCommand
         {
             Employee? employee = await _employeeService.GetAsync(
                 predicate: e => e.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             employee = await _employeeService.DeleteAsync(employee!);

@@ -43,7 +43,8 @@ public class DeleteApplicantCommand
         {
             Applicant? applicant = await _applicantService.GetAsync(
                 predicate: a => a.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             applicant = await _applicantService.DeleteAsync(applicant!, request.IsPermament);

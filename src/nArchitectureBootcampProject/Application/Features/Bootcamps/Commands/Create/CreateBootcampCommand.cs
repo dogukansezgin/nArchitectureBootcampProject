@@ -44,10 +44,12 @@ public class CreateBootcampCommand : IRequest<CreatedBootcampResponse>
         public async Task<CreatedBootcampResponse> Handle(CreateBootcampCommand request, CancellationToken cancellationToken)
         {
             Bootcamp bootcamp = _mapper.Map<Bootcamp>(request);
-
+            Console.WriteLine(bootcamp.CreatedDate);
             await _bootcampService.AddAsync(bootcamp);
-
+            Console.WriteLine(bootcamp.CreatedDate);
             bootcamp.CreatedDate = DateTime.Now;
+            Console.WriteLine(bootcamp.CreatedDate);
+
 
             CreatedBootcampResponse response = _mapper.Map<CreatedBootcampResponse>(bootcamp);
             return response;

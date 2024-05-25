@@ -50,7 +50,7 @@ public class DeleteRangeApplicantCommand : IRequest<DeletedRangeApplicantRespons
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(applicants.Items);
+
             await _applicantService.DeleteRangeAsync(applicants.Items, request.IsPermament);
 
             DeletedRangeApplicantResponse response = new DeletedRangeApplicantResponse

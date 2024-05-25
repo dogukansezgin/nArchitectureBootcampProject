@@ -11,6 +11,7 @@ using Application.Features.Applicants.Commands.RestoreRange;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
+using Application.Features.Applicants.Queries.GetBasicInfoList;
 
 namespace WebAPI.Controllers;
 
@@ -94,8 +95,16 @@ public class ApplicantsController : BaseController
     [HttpGet("getDeleted")]
     public async Task<IActionResult> GetListDeleted([FromQuery] PageRequest pageRequest)
     {
-        GetListDeletedApplicantQuery getListApplicantQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListDeletedApplicantListItemDto> response = await Mediator.Send(getListApplicantQuery);
+        GetListDeletedApplicantQuery getListDeletedApplicantQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetListDeletedApplicantListItemDto> response = await Mediator.Send(getListDeletedApplicantQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getBasicInfo")]
+    public async Task<IActionResult> GetBasicInfoList([FromQuery] PageRequest pageRequest)
+    {
+        GetBasicInfoListApplicantQuery getBasicInfoListApplicantQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetBasicInfoApplicantListItemDto> response = await Mediator.Send(getBasicInfoListApplicantQuery);
         return Ok(response);
     }
 }

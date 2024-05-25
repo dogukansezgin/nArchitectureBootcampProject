@@ -1,4 +1,5 @@
 using Application.Features.Instructors.Constants;
+using Application.Features.Instructors.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -36,23 +37,49 @@ public class InstructorBusinessRules : BaseBusinessRules
         await InstructorShouldExistWhenSelected(instructor);
     }
 
-    public async Task InstructorShouldExist(Guid id)
-    {
-        var isExist = _instructorRepository.Get(x => x.Id == id) is null;
-        if (isExist)
-            await throwBusinessException(InstructorsBusinessMessages.InstructorNotExists);
-    }
-
     public async Task InstructorShouldNotExist(Instructor instructor)
     {
         var isExistId = await _instructorRepository.GetAsync(x => x.Id == instructor.Id) is not null;
         var isExistUserName =
             await _instructorRepository.GetAsync(x => x.UserName.Trim() == instructor.UserName.Trim()) is not null;
-        var isExistNationalId =
-            await _instructorRepository.GetAsync(x => x.NationalIdentity.Trim() == instructor.NationalIdentity.Trim())
-                is not null;
+
+        bool isExistNationalId = false;
+        if (instructor.NationalIdentity != null) {
+            isExistNationalId =
+                await _instructorRepository.GetAsync(x => x.NationalIdentity.Trim() == instructor.NationalIdentity.Trim())
+                    is not null;
+        };
+
         var isExistEmail = await _instructorRepository.GetAsync(x => x.Email.Trim() == instructor.Email.Trim()) is not null;
+
         if (isExistId || isExistUserName || isExistNationalId || isExistEmail)
+            await throwBusinessException(InstructorsBusinessMessages.InstructorExists);
+    }
+
+    public async Task InstructorShouldNotExistWhenUpdate(Instructor instructor)
+    {
+        bool isExistUserName = false;
+        bool isExistNationalId = false;
+        bool isExistEmail = false;
+
+        if (instructor.UserName is not null)
+            isExistUserName =
+                await _instructorRepository.GetAsync(x => x.Id != instructor.Id && x.UserName.Trim() == instructor.UserName.Trim())
+                    is not null;
+
+        if (instructor.NationalIdentity is not null)
+            isExistNationalId =
+                await _instructorRepository.GetAsync(x =>
+                    x.Id != instructor.Id && x.NationalIdentity.Trim() == instructor.NationalIdentity.Trim()
+                )
+                    is not null;
+
+        if (instructor.Email is not null)
+            isExistEmail =
+                await _instructorRepository.GetAsync(x => x.Id != instructor.Id && x.Email.Trim() == instructor.Email.Trim())
+                    is not null;
+
+        if (isExistUserName || isExistNationalId || isExistEmail)
             await throwBusinessException(InstructorsBusinessMessages.InstructorExists);
     }
 }

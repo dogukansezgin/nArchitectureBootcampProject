@@ -7,7 +7,6 @@ public class CreateApplicantCommandValidator : AbstractValidator<CreateApplicant
 {
     public CreateApplicantCommandValidator()
     {
-        RuleFor(c => c.About).NotEmpty();
         RuleFor(c => c.Email)
             .NotEmpty()
             .EmailAddress()

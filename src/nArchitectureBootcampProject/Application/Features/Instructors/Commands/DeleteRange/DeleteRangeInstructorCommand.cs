@@ -51,7 +51,7 @@ public class DeleteRangeInstructorCommand : IRequest<DeletedRangeInstructorRespo
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(instructors.Items);
+
             await _instructorService.DeleteRangeAsync(instructors.Items, request.IsPermament);
 
             DeletedRangeInstructorResponse response = new DeletedRangeInstructorResponse

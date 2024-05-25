@@ -28,7 +28,7 @@ public class CreateInstructorCommand : IRequest<CreatedInstructorResponse>
     public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
-    public string? CompanyName { get; set; }
+    public string CompanyName { get; set; }
 
     public string[] Roles => [Admin, Write, InstructorsOperationClaims.Create];
 

@@ -3,6 +3,7 @@ using Application.Features.Applicants.Commands.Delete;
 using Application.Features.Applicants.Commands.Restore;
 using Application.Features.Applicants.Commands.Update;
 using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
+using Application.Features.Applicants.Queries.GetBasicInfoList;
 using Application.Features.Applicants.Queries.GetById;
 using Application.Features.Applicants.Queries.GetList;
 using Application.Features.Applicants.Queries.GetListDeleted;
@@ -29,6 +30,9 @@ public class MappingProfiles : Profile
 
         CreateMap<Applicant, GetListDeletedApplicantListItemDto>().ReverseMap();
         CreateMap<IPaginate<Applicant>, GetListResponse<GetListDeletedApplicantListItemDto>>().ReverseMap();
+
+        CreateMap<Applicant, GetBasicInfoApplicantListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Applicant>, GetListResponse<GetBasicInfoApplicantListItemDto>>().ReverseMap();
 
         CreateMap<Applicant, RestoreApplicantCommand>().ReverseMap();
         CreateMap<Applicant, RestoredApplicantResponse>().ReverseMap();

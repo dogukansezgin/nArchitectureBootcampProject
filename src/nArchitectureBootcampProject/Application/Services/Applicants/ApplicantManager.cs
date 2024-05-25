@@ -74,6 +74,7 @@ public class ApplicantManager : IApplicantService
     {
         await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
         await _applicantBusinessRules.ApplicantIdShouldExistWhenSelected(applicant.Id);
+        await _applicantBusinessRules.ApplicantShouldNotExistWhenUpdate(applicant);
 
         Applicant updatedApplicant = await _applicantRepository.UpdateAsync(applicant);
 

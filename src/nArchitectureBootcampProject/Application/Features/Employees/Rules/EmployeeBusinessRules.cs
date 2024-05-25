@@ -37,13 +37,6 @@ public class EmployeeBusinessRules : BaseBusinessRules
         await EmployeeShouldExistWhenSelected(employee);
     }
 
-    public async Task EmployeeShouldExist(Guid id)
-    {
-        var isExist = _employeeRepository.Get(x => x.Id == id) is null;
-        if (isExist)
-            await throwBusinessException(EmployeesBusinessMessages.EmployeeNotExists);
-    }
-
     public async Task EmployeeShouldNotExist(Employee employee)
     {
         var isExistId = await _employeeRepository.GetAsync(x => x.Id == employee.Id) is not null;

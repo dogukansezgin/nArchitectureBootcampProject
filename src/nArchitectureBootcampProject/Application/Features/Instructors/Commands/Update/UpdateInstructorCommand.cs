@@ -20,9 +20,8 @@ public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
-    public string UserName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string CompanyName { get; set; }
@@ -52,6 +51,7 @@ public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
             );
 
             instructor = _mapper.Map(request, instructor);
+            instructor.UserName = $"{request.FirstName} {request.LastName}";
 
             instructor = await _instructorService.UpdateAsync(instructor!);
 

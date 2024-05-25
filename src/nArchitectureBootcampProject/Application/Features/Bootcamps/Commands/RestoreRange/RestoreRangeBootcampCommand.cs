@@ -49,7 +49,7 @@ public class RestoreRangeBootcampCommand : IRequest<RestoredRangeBootcampRespons
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(bootcamps.Items);
+
             await _bootcampService.RestoreRangeAsync(bootcamps.Items);
 
             RestoredRangeBootcampResponse response = new RestoredRangeBootcampResponse

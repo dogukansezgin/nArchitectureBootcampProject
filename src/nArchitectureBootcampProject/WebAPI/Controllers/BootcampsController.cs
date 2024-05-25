@@ -11,6 +11,7 @@ using Application.Features.Bootcamps.Queries.GetList;
 using Application.Features.Bootcamps.Queries.GetListDeleted;
 using Application.Features.Bootcamps.Queries.GetListFinished;
 using Application.Features.Bootcamps.Queries.SearchAll;
+using Application.Features.Bootcamps.Queries.GetBasicInfoList;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
@@ -120,6 +121,14 @@ public class BootcampsController : BaseController
     {
         SearchAllBootcampQuery searchAllBootcampQuery = new() { PageRequest = pageRequest };
         GetListResponse<SearchAllBootcampListItemDto> response = await Mediator.Send(searchAllBootcampQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getBasicInfo")]
+    public async Task<IActionResult> GetBasicInfoList([FromQuery] PageRequest pageRequest)
+    {
+        GetBasicInfoListBootcampQuery getBasicInfoListBootcampQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetBasicInfoBootcampListItemDto> response = await Mediator.Send(getBasicInfoListBootcampQuery);
         return Ok(response);
     }
 }

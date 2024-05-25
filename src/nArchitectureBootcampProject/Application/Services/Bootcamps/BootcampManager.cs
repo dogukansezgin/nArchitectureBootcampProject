@@ -76,8 +76,8 @@ public class BootcampManager : IBootcampService
     public async Task<Bootcamp> UpdateAsync(Bootcamp bootcamp)
     {
         await _bootcampBusinessRules.BootcampForeignKeysShouldExist(bootcamp);
-        await _bootcampBusinessRules.BootcampShouldNotExist(bootcamp);
         await _bootcampBusinessRules.BootcampIdShouldExistWhenSelected(bootcamp.Id);
+        await _bootcampBusinessRules.BootcampShouldNotExist(bootcamp);
 
         Bootcamp updatedBootcamp = await _bootcampRepository.UpdateAsync(bootcamp);
 

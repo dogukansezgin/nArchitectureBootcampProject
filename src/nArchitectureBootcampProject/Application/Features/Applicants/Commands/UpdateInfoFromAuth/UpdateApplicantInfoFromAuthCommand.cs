@@ -85,7 +85,7 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
             Applicant? applicant = await _applicantService.GetAsync(predicate: x => x.Id == request.Id);
 
             await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
-            await _applicantBusinessRules.ApplicantShouldNotExistUpdate(applicant!);
+            await _applicantBusinessRules.ApplicantShouldNotExistWhenUpdate(applicant!);
 
             applicant = _mapper.Map(request, applicant);
 
