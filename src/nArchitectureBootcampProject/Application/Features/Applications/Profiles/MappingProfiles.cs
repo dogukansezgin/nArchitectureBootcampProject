@@ -5,8 +5,8 @@ using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
 using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
+using Application.Features.Applications.Queries.GetListByJoin;
 using Application.Features.Applications.Queries.GetListByState;
-using Application.Features.Applications.Queries.GetListByUserName;
 using AutoMapper;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
@@ -27,7 +27,7 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetByIdApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, GetListApplicationListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationListItemDto>>().ReverseMap();
-        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByUserNameApplicationListItemDto>>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByJoinApplicationListItemDto>>().ReverseMap();
 
         CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, AppliedBootcampsResponse>().ReverseMap();
@@ -35,6 +35,6 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetListApplicationByStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationByStateListItemDto>>().ReverseMap();
 
-        CreateMap<ApplicationEntity, GetListByUserNameApplicationListItemDto>().ReverseMap();
+        CreateMap<ApplicationEntity, GetListByJoinApplicationListItemDto>().ReverseMap();
     }
 }

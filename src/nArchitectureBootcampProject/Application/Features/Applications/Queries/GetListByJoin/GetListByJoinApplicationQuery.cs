@@ -10,9 +10,9 @@ using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Applications.Constants.ApplicationsOperationClaims;
 using ApplicationEntity = Domain.Entities.Application;
 
-namespace Application.Features.Applications.Queries.GetListByUserName;
+namespace Application.Features.Applications.Queries.GetListByJoin;
 
-public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetListByUserNameApplicationListItemDto>> /*, ISecuredRequest , ICachableRequest*/
+public class GetListByJoinApplicationQuery : IRequest<GetListResponse<GetListByJoinApplicationListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,20 +23,20 @@ public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetLis
     public string? CacheGroupKey => "GetApplications";
     public TimeSpan? SlidingExpiration { get; }
 
-    public class GetListByUserNameApplicationQueryHandler
-        : IRequestHandler<GetListByUserNameApplicationQuery, GetListResponse<GetListByUserNameApplicationListItemDto>>
+    public class GetListByJoinApplicationQueryHandler
+        : IRequestHandler<GetListByJoinApplicationQuery, GetListResponse<GetListByJoinApplicationListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;
 
-        public GetListByUserNameApplicationQueryHandler(IMapper mapper, IApplicationService applicationService)
+        public GetListByJoinApplicationQueryHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
             _applicationService = applicationService;
         }
 
-        public async Task<GetListResponse<GetListByUserNameApplicationListItemDto>> Handle(
-            GetListByUserNameApplicationQuery request,
+        public async Task<GetListResponse<GetListByJoinApplicationListItemDto>> Handle(
+            GetListByJoinApplicationQuery request,
             CancellationToken cancellationToken
         )
         {
@@ -47,8 +47,8 @@ public class GetListByUserNameApplicationQuery : IRequest<GetListResponse<GetLis
                 include: x => x.Include(x => x.Applicant).Include(x => x.Bootcamp).Include(x => x.ApplicationState)
             );
 
-            GetListResponse<GetListByUserNameApplicationListItemDto> response = _mapper.Map<
-                GetListResponse<GetListByUserNameApplicationListItemDto>
+            GetListResponse<GetListByJoinApplicationListItemDto> response = _mapper.Map<
+                GetListResponse<GetListByJoinApplicationListItemDto>
             >(applications);
             return response;
         }
