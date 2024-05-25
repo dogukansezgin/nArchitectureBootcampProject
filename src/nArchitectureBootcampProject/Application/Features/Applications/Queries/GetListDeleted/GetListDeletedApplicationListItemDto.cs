@@ -1,8 +1,8 @@
 using NArchitecture.Core.Application.Dtos;
 
-namespace Application.Features.Applications.Queries.GetList;
+namespace Application.Features.Applications.Queries.GetListDeleted;
 
-public class GetListApplicationListItemDto : IDto
+public class GetListDeletedApplicationListItemDto : IDto
 {
     public Guid Id { get; set; }
 
@@ -17,4 +17,5 @@ public class GetListApplicationListItemDto : IDto
     public string ApplicationStateName { get; set; }
 
     public DateTime CreatedDate { get; set; }
+    public DateTime DeletedDate { get; set; }
 }

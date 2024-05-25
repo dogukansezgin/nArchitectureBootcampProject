@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 using ApplicationEntity = Domain.Entities.Application;
@@ -28,5 +29,7 @@ public interface IApplicationService
     Task<ApplicationEntity> UpdateAsync(ApplicationEntity application);
     Task<ApplicationEntity> DeleteAsync(ApplicationEntity application, bool permanent = false);
     Task<ICollection<ApplicationEntity>> DeleteRangeAsync(ICollection<ApplicationEntity> applications, bool permanent = false);
+    Task<ApplicationEntity> RestoreAsync(ApplicationEntity application);
+    Task<ICollection<ApplicationEntity>> RestoreRangeAsync(ICollection<ApplicationEntity> applications);
     Task<ApplicationEntity> GetByIdAsync(Guid id);
 }

@@ -8,4 +8,5 @@ public class UpdatedApplicationResponse : IResponse
     public Guid ApplicantId { get; set; }
     public Guid BootcampId { get; set; }
     public Guid ApplicationStateId { get; set; }
+    public DateTime UpdatedDate { get; set; }
 }
