@@ -3,7 +3,7 @@ using NArchitecture.Core.Persistence.Repositories;
 
 namespace Application.Services.Repositories;
 
-public interface IBootcampStateRepository : IAsyncRepository<BootcampState, Guid>, IRepository<BootcampState, Guid> 
+public interface IBootcampStateRepository : IAsyncRepository<BootcampState, Guid>, IRepository<BootcampState, Guid>
 {
     Task<BootcampState> RestoreAsync(BootcampState bootcampState);
     Task<ICollection<BootcampState>> DeleteRangeCustomAsync(

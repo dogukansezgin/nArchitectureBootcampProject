@@ -28,7 +28,8 @@ public class RestoreRangeApplicationCommand : IRequest<RestoredRangeApplicationR
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetApplications" };
 
-    public class RestoreRangeApplicationCommandHandler : IRequestHandler<RestoreRangeApplicationCommand, RestoredRangeApplicationResponse>
+    public class RestoreRangeApplicationCommandHandler
+        : IRequestHandler<RestoreRangeApplicationCommand, RestoredRangeApplicationResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;

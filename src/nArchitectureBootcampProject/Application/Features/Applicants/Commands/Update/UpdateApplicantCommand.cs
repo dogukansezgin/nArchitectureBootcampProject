@@ -13,13 +13,12 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Commands.Update;
 
-public class UpdateApplicantCommand
-    : IRequest<UpdatedApplicantResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class UpdateApplicantCommand : IRequest<UpdatedApplicantResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Email { get; set; }

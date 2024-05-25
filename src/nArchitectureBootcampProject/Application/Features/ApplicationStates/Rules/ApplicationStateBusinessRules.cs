@@ -58,7 +58,9 @@ public class ApplicationStateBusinessRules : BaseBusinessRules
 
         if (applicationState.Name is not null)
             isExistName =
-                await _applicationStateRepository.GetAsync(x => x.Id != applicationState.Id && x.Name.Trim() == applicationState.Name.Trim())
+                await _applicationStateRepository.GetAsync(x =>
+                    x.Id != applicationState.Id && x.Name.Trim() == applicationState.Name.Trim()
+                )
                     is not null;
 
         if (isExistName)

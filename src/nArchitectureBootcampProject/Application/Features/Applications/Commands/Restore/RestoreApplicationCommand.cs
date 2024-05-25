@@ -37,7 +37,10 @@ public class RestoreApplicationCommand : IRequest<RestoredApplicationResponse>
             _applicationService = applicationService;
         }
 
-        public async Task<RestoredApplicationResponse> Handle(RestoreApplicationCommand request, CancellationToken cancellationToken)
+        public async Task<RestoredApplicationResponse> Handle(
+            RestoreApplicationCommand request,
+            CancellationToken cancellationToken
+        )
         {
             ApplicationEntity? application = await _applicationService.GetAsync(
                 predicate: b => b.Id == request.Id && b.DeletedDate != null,

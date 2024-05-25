@@ -28,7 +28,8 @@ public class DeleteRangeBootcampStateCommand : IRequest<DeletedRangeBootcampStat
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetBootcampStates" };
 
-    public class DeleteRangeBootcampStateCommandHandler : IRequestHandler<DeleteRangeBootcampStateCommand, DeletedRangeBootcampStateResponse>
+    public class DeleteRangeBootcampStateCommandHandler
+        : IRequestHandler<DeleteRangeBootcampStateCommand, DeletedRangeBootcampStateResponse>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampStateService _bootcampStateService;

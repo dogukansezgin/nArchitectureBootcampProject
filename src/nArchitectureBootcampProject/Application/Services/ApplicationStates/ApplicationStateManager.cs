@@ -92,14 +92,20 @@ public class ApplicationStateManager : IApplicationStateService
         return deletedApplicationState;
     }
 
-    public async Task<ICollection<ApplicationState>> DeleteRangeAsync(ICollection<ApplicationState> applicationstates, bool permanent = false)
+    public async Task<ICollection<ApplicationState>> DeleteRangeAsync(
+        ICollection<ApplicationState> applicationstates,
+        bool permanent = false
+    )
     {
         foreach (ApplicationState applicationstate in applicationstates)
         {
             await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationstate);
         }
 
-        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.DeleteRangeCustomAsync(applicationstates, permanent);
+        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.DeleteRangeCustomAsync(
+            applicationstates,
+            permanent
+        );
 
         return deletedApplicationStates;
     }
@@ -120,7 +126,9 @@ public class ApplicationStateManager : IApplicationStateService
             await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationstate);
         }
 
-        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.RestoreRangeCustomAsync(applicationstates);
+        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.RestoreRangeCustomAsync(
+            applicationstates
+        );
 
         return deletedApplicationStates;
     }

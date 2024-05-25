@@ -42,8 +42,7 @@ public class BootcampStateBusinessRules : BaseBusinessRules
 
     public async Task BootcampStateShouldNotExist(BootcampState bootcampState)
     {
-        var isExistName =
-            await _bootcampStateRepository.GetAsync(x => x.Name.Trim() == bootcampState.Name.Trim()) is not null;
+        var isExistName = await _bootcampStateRepository.GetAsync(x => x.Name.Trim() == bootcampState.Name.Trim()) is not null;
 
         if (isExistName)
             await throwBusinessException(BootcampStatesBusinessMessages.BootcampStateExists);
@@ -55,7 +54,9 @@ public class BootcampStateBusinessRules : BaseBusinessRules
 
         if (bootcampState.Name is not null)
             isExistName =
-                await _bootcampStateRepository.GetAsync(x => x.Id != bootcampState.Id && x.Name.Trim() == bootcampState.Name.Trim())
+                await _bootcampStateRepository.GetAsync(x =>
+                    x.Id != bootcampState.Id && x.Name.Trim() == bootcampState.Name.Trim()
+                )
                     is not null;
 
         if (isExistName)

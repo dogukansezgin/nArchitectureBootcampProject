@@ -1,9 +1,9 @@
-using Application.Features.Applications.Commands.DeleteRange;
-using Application.Features.Applications.Commands.Restore;
-using Application.Features.Applications.Commands.RestoreRange;
 using Application.Features.Applications.Commands.Create;
 using Application.Features.Applications.Commands.Delete;
+using Application.Features.Applications.Commands.DeleteRange;
 using Application.Features.Applications.Commands.DeleteSelected;
+using Application.Features.Applications.Commands.Restore;
+using Application.Features.Applications.Commands.RestoreRange;
 using Application.Features.Applications.Commands.Update;
 using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
@@ -11,10 +11,10 @@ using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
 using Application.Features.Applications.Queries.GetListByJoin;
 using Application.Features.Applications.Queries.GetListByState;
+using Application.Features.Applications.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
-using Application.Features.Applications.Queries.GetListDeleted;
 
 namespace WebAPI.Controllers;
 

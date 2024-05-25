@@ -50,7 +50,6 @@ public class CreateBootcampCommand : IRequest<CreatedBootcampResponse>
             bootcamp.CreatedDate = DateTime.Now;
             Console.WriteLine(bootcamp.CreatedDate);
 
-
             CreatedBootcampResponse response = _mapper.Map<CreatedBootcampResponse>(bootcamp);
             return response;
         }

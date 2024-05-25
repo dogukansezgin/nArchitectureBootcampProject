@@ -16,13 +16,12 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Commands.Create;
 
-public class CreateApplicantCommand
-    : IRequest<CreatedApplicantResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class CreateApplicantCommand : IRequest<CreatedApplicantResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
@@ -45,7 +44,12 @@ public class CreateApplicantCommand
         private readonly IUserOperationClaimService _userOperationClaimService;
         private readonly IOperationClaimService _operationClaimService;
 
-        public CreateApplicantCommandHandler(IMapper mapper, IApplicantService applicantService, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public CreateApplicantCommandHandler(
+            IMapper mapper,
+            IApplicantService applicantService,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _mapper = mapper;
             _applicantService = applicantService;
@@ -68,7 +72,6 @@ public class CreateApplicantCommand
 
             applicant = await _applicantService.AddAsync(applicant);
 
-
             ICollection<OperationClaim> operationClaims = [];
             ICollection<UserOperationClaim> userOperationClaims = [];
 
@@ -83,13 +86,10 @@ public class CreateApplicantCommand
             {
                 foreach (var item in operationClaims)
                 {
-                    userOperationClaims.Add(
-                        new UserOperationClaim() { UserId = applicant.Id, OperationClaimId = item.Id }
-                    );
+                    userOperationClaims.Add(new UserOperationClaim() { UserId = applicant.Id, OperationClaimId = item.Id });
                 }
                 userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
             }
-
 
             CreatedApplicantResponse response = _mapper.Map<CreatedApplicantResponse>(applicant);
             return response;

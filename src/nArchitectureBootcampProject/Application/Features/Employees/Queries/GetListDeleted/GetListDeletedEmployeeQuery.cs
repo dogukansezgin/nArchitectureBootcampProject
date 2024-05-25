@@ -13,7 +13,7 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
 namespace Application.Features.Employees.Queries.GetListDeleted;
 
-public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -24,7 +24,8 @@ public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDelet
     public string? CacheGroupKey => "GetEmployees";
     public TimeSpan? SlidingExpiration { get; }
 
-    public class GetListEmployeeQueryHandler : IRequestHandler<GetListDeletedEmployeeQuery, GetListResponse<GetListDeletedEmployeeListItemDto>>
+    public class GetListEmployeeQueryHandler
+        : IRequestHandler<GetListDeletedEmployeeQuery, GetListResponse<GetListDeletedEmployeeListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
@@ -48,9 +49,9 @@ public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDelet
                 predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListDeletedEmployeeListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedEmployeeListItemDto>>(
-                employees
-            );
+            GetListResponse<GetListDeletedEmployeeListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedEmployeeListItemDto>
+            >(employees);
             return response;
         }
     }

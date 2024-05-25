@@ -11,13 +11,12 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Commands.Delete;
 
-public class DeleteApplicationStateCommand
-    : IRequest<DeletedApplicationStateResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class DeleteApplicationStateCommand : IRequest<DeletedApplicationStateResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }

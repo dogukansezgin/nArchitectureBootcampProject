@@ -11,13 +11,12 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Commands.Create;
 
-public class CreateApplicationStateCommand
-    : IRequest<CreatedApplicationStateResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class CreateApplicationStateCommand : IRequest<CreatedApplicationStateResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public string Name { get; set; }
 

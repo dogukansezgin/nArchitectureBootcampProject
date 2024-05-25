@@ -12,7 +12,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListDeleted;
 
-public class GetListDeletedApplicationQuery : IRequest<GetListResponse<GetListDeletedApplicationListItemDto>>/*, ISecuredRequest , ICachableRequest*/
+public class GetListDeletedApplicationQuery : IRequest<GetListResponse<GetListDeletedApplicationListItemDto>> /*, ISecuredRequest , ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -49,9 +49,9 @@ public class GetListDeletedApplicationQuery : IRequest<GetListResponse<GetListDe
                 predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListDeletedApplicationListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedApplicationListItemDto>>(
-                applications
-            );
+            GetListResponse<GetListDeletedApplicationListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedApplicationListItemDto>
+            >(applications);
             return response;
         }
     }

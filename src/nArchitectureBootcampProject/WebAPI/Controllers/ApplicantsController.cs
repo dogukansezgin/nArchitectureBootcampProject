@@ -1,17 +1,17 @@
 using Application.Features.Applicants.Commands.Create;
 using Application.Features.Applicants.Commands.Delete;
-using Application.Features.Applicants.Commands.Update;
-using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
-using Application.Features.Applicants.Queries.GetById;
-using Application.Features.Applicants.Queries.GetList;
-using Application.Features.Applicants.Queries.GetListDeleted;
 using Application.Features.Applicants.Commands.DeleteRange;
 using Application.Features.Applicants.Commands.Restore;
 using Application.Features.Applicants.Commands.RestoreRange;
+using Application.Features.Applicants.Commands.Update;
+using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
+using Application.Features.Applicants.Queries.GetBasicInfoList;
+using Application.Features.Applicants.Queries.GetById;
+using Application.Features.Applicants.Queries.GetList;
+using Application.Features.Applicants.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
-using Application.Features.Applicants.Queries.GetBasicInfoList;
 
 namespace WebAPI.Controllers;
 

@@ -11,7 +11,7 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Queries.GetListDeleted;
 
-public class GetListDeletedApplicationStateQuery : IRequest<GetListResponse<GetListDeletedApplicationStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedApplicationStateQuery : IRequest<GetListResponse<GetListDeletedApplicationStateListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

@@ -12,11 +12,11 @@ using ApplicationEntity = Domain.Entities.Application;
 namespace Application.Features.Applications.Commands.Create;
 
 public class CreateApplicationCommand : IRequest<CreatedApplicationResponse>
-    //, 
-    //ISecuredRequest, 
-    //ICacheRemoverRequest,
-    //ILoggableRequest,
-    //ITransactionalRequest
+//,
+//ISecuredRequest,
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid ApplicantId { get; set; }
     public Guid BootcampId { get; set; }

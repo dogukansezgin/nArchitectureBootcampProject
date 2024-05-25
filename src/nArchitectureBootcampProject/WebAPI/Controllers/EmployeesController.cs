@@ -1,15 +1,15 @@
 using Application.Features.Employees.Commands.Create;
 using Application.Features.Employees.Commands.Delete;
-using Application.Features.Employees.Commands.Update;
-using Application.Features.Employees.Queries.GetById;
-using Application.Features.Employees.Queries.GetList;
 using Application.Features.Employees.Commands.DeleteRange;
 using Application.Features.Employees.Commands.Restore;
 using Application.Features.Employees.Commands.RestoreRange;
+using Application.Features.Employees.Commands.Update;
+using Application.Features.Employees.Queries.GetById;
+using Application.Features.Employees.Queries.GetList;
+using Application.Features.Employees.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
-using Application.Features.Employees.Queries.GetListDeleted;
 
 namespace WebAPI.Controllers;
 
@@ -40,7 +40,6 @@ public class EmployeesController : BaseController
 
         return Ok(response);
     }
-
 
     [HttpPost("deleteRange")]
     public async Task<IActionResult> DeleteRange([FromBody] DeleteRangeEmployeeCommand deleteRangeEmployeeCommand)

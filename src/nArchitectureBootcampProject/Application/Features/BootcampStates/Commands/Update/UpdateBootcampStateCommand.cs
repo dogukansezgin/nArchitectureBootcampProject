@@ -11,13 +11,12 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 
 namespace Application.Features.BootcampStates.Commands.Update;
 
-public class UpdateBootcampStateCommand
-    : IRequest<UpdatedBootcampStateResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class UpdateBootcampStateCommand : IRequest<UpdatedBootcampStateResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

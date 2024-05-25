@@ -26,7 +26,8 @@ public class RestoreApplicationStateCommand : IRequest<RestoredApplicationStateR
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => ["GetApplicationStates"];
 
-    public class RestoreApplicationStateCommandHandler : IRequestHandler<RestoreApplicationStateCommand, RestoredApplicationStateResponse>
+    public class RestoreApplicationStateCommandHandler
+        : IRequestHandler<RestoreApplicationStateCommand, RestoredApplicationStateResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationStateService _applicationStateService;
@@ -37,7 +38,10 @@ public class RestoreApplicationStateCommand : IRequest<RestoredApplicationStateR
             _applicationStateService = applicationStateService;
         }
 
-        public async Task<RestoredApplicationStateResponse> Handle(RestoreApplicationStateCommand request, CancellationToken cancellationToken)
+        public async Task<RestoredApplicationStateResponse> Handle(
+            RestoreApplicationStateCommand request,
+            CancellationToken cancellationToken
+        )
         {
             ApplicationState? applicationState = await _applicationStateService.GetAsync(
                 predicate: b => b.Id == request.Id && b.DeletedDate != null,

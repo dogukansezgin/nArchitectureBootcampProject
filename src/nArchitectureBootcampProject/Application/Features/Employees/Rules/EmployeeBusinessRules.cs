@@ -45,8 +45,9 @@ public class EmployeeBusinessRules : BaseBusinessRules
         bool isExistNationalId = false;
         if (employee.NationalIdentity != null)
         {
-        isExistNationalId =
-            await _employeeRepository.GetAsync(x => x.NationalIdentity.Trim() == employee.NationalIdentity.Trim()) is not null;
+            isExistNationalId =
+                await _employeeRepository.GetAsync(x => x.NationalIdentity.Trim() == employee.NationalIdentity.Trim())
+                    is not null;
         }
 
         var isExistEmail = await _employeeRepository.GetAsync(x => x.Email.Trim() == employee.Email.Trim()) is not null;

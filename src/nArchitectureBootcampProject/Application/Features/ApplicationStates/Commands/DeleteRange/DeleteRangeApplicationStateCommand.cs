@@ -28,7 +28,8 @@ public class DeleteRangeApplicationStateCommand : IRequest<DeletedRangeApplicati
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetApplicationStates" };
 
-    public class DeleteRangeApplicationStateCommandHandler : IRequestHandler<DeleteRangeApplicationStateCommand, DeletedRangeApplicationStateResponse>
+    public class DeleteRangeApplicationStateCommandHandler
+        : IRequestHandler<DeleteRangeApplicationStateCommand, DeletedRangeApplicationStateResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationStateService _applicationStateService;

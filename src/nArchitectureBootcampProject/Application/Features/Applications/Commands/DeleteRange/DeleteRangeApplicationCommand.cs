@@ -28,7 +28,8 @@ public class DeleteRangeApplicationCommand : IRequest<DeletedRangeApplicationRes
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetApplications" };
 
-    public class DeleteRangeApplicationCommandHandler : IRequestHandler<DeleteRangeApplicationCommand, DeletedRangeApplicationResponse>
+    public class DeleteRangeApplicationCommandHandler
+        : IRequestHandler<DeleteRangeApplicationCommand, DeletedRangeApplicationResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;

@@ -11,13 +11,12 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Commands.Delete;
 
-public class DeleteApplicantCommand
-    : IRequest<DeletedApplicantResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class DeleteApplicantCommand : IRequest<DeletedApplicantResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }

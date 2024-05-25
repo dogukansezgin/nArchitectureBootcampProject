@@ -67,7 +67,11 @@ public class ApplicationBusinessRules : BaseBusinessRules
 
     public async Task ApplicationShouldNotExist(ApplicationEntity? application)
     {
-        var isExistSameApplication = _applicationRepository.Get(x => x.Id != application.Id && x.BootcampId == application.BootcampId && x.ApplicantId == application.ApplicantId) is not null;
+        var isExistSameApplication =
+            _applicationRepository.Get(x =>
+                x.Id != application.Id && x.BootcampId == application.BootcampId && x.ApplicantId == application.ApplicantId
+            )
+                is not null;
 
         if (isExistSameApplication)
             await throwBusinessException(ApplicationsBusinessMessages.ApplicationExists);

@@ -8,7 +8,6 @@ using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
 using Application.Features.Applications.Queries.GetListByJoin;
 using Application.Features.Applications.Queries.GetListByState;
-using Application.Features.Applications.Queries.GetListByUserName;
 using Application.Features.Applications.Queries.GetListDeleted;
 using AutoMapper;
 using NArchitecture.Core.Application.Responses;
@@ -37,9 +36,6 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetListDeletedApplicationListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListDeletedApplicationListItemDto>>().ReverseMap();
 
-        CreateMap<ApplicationEntity, GetListByUserNameApplicationListItemDto>().ReverseMap();
-        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByUserNameApplicationListItemDto>>().ReverseMap();
-
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByJoinApplicationListItemDto>>().ReverseMap();
 
         CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
@@ -48,8 +44,6 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetListApplicationByStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationByStateListItemDto>>().ReverseMap();
 
-
         CreateMap<ApplicationEntity, GetListByJoinApplicationListItemDto>().ReverseMap();
-
     }
 }

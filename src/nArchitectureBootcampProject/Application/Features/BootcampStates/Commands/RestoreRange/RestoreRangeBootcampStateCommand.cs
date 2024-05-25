@@ -27,7 +27,8 @@ public class RestoreRangeBootcampStateCommand : IRequest<RestoredRangeBootcampSt
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetBootcampStates" };
 
-    public class RestoreRangeBootcampStateCommandHandler : IRequestHandler<RestoreRangeBootcampStateCommand, RestoredRangeBootcampStateResponse>
+    public class RestoreRangeBootcampStateCommandHandler
+        : IRequestHandler<RestoreRangeBootcampStateCommand, RestoredRangeBootcampStateResponse>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampStateService _bootcampStateService;

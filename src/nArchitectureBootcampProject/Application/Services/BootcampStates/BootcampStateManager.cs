@@ -92,14 +92,20 @@ public class BootcampStateManager : IBootcampStateService
         return deletedBootcampState;
     }
 
-    public async Task<ICollection<BootcampState>> DeleteRangeAsync(ICollection<BootcampState> bootcampstates, bool permanent = false)
+    public async Task<ICollection<BootcampState>> DeleteRangeAsync(
+        ICollection<BootcampState> bootcampstates,
+        bool permanent = false
+    )
     {
         foreach (BootcampState bootcampstate in bootcampstates)
         {
             await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampstate);
         }
 
-        ICollection<BootcampState> deletedBootcampStates = await _bootcampStateRepository.DeleteRangeCustomAsync(bootcampstates, permanent);
+        ICollection<BootcampState> deletedBootcampStates = await _bootcampStateRepository.DeleteRangeCustomAsync(
+            bootcampstates,
+            permanent
+        );
 
         return deletedBootcampStates;
     }

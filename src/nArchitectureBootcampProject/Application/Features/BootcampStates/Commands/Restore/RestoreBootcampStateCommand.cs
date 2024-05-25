@@ -37,7 +37,10 @@ public class RestoreBootcampStateCommand : IRequest<RestoredBootcampStateRespons
             _bootcampStateService = bootcampStateService;
         }
 
-        public async Task<RestoredBootcampStateResponse> Handle(RestoreBootcampStateCommand request, CancellationToken cancellationToken)
+        public async Task<RestoredBootcampStateResponse> Handle(
+            RestoreBootcampStateCommand request,
+            CancellationToken cancellationToken
+        )
         {
             BootcampState? bootcampState = await _bootcampStateService.GetAsync(
                 predicate: b => b.Id == request.Id && b.DeletedDate != null,

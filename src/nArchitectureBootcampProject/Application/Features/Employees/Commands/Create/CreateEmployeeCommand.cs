@@ -15,13 +15,12 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
 namespace Application.Features.Employees.Commands.Create;
 
-public class CreateEmployeeCommand
-    : IRequest<CreatedEmployeeResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class CreateEmployeeCommand : IRequest<CreatedEmployeeResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
@@ -44,7 +43,12 @@ public class CreateEmployeeCommand
         private readonly IUserOperationClaimService _userOperationClaimService;
         private readonly IOperationClaimService _operationClaimService;
 
-        public CreateEmployeeCommandHandler(IMapper mapper, IEmployeeService employeeService, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService)
+        public CreateEmployeeCommandHandler(
+            IMapper mapper,
+            IEmployeeService employeeService,
+            IUserOperationClaimService userOperationClaimService,
+            IOperationClaimService operationClaimService
+        )
         {
             _mapper = mapper;
             _employeeService = employeeService;
@@ -67,7 +71,6 @@ public class CreateEmployeeCommand
 
             employee = await _employeeService.AddAsync(employee);
 
-
             ICollection<OperationClaim> operationClaims = [];
             ICollection<UserOperationClaim> userOperationClaims = [];
 
@@ -82,13 +85,10 @@ public class CreateEmployeeCommand
             {
                 foreach (var item in operationClaims)
                 {
-                    userOperationClaims.Add(
-                        new UserOperationClaim() { UserId = employee.Id, OperationClaimId = item.Id }
-                    );
+                    userOperationClaims.Add(new UserOperationClaim() { UserId = employee.Id, OperationClaimId = item.Id });
                 }
                 userOperationClaims = await _userOperationClaimService.AddRangeAsync(userOperationClaims);
             }
-
 
             CreatedEmployeeResponse response = _mapper.Map<CreatedEmployeeResponse>(employee);
             return response;

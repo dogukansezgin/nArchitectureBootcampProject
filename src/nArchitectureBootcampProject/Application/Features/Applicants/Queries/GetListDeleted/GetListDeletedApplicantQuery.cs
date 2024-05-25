@@ -11,7 +11,7 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Queries.GetListDeleted;
 
-public class GetListDeletedApplicantQuery : IRequest<GetListResponse<GetListDeletedApplicantListItemDto>>/*, ISecuredRequest , ICachableRequest*/
+public class GetListDeletedApplicantQuery : IRequest<GetListResponse<GetListDeletedApplicantListItemDto>> /*, ISecuredRequest , ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -47,9 +47,9 @@ public class GetListDeletedApplicantQuery : IRequest<GetListResponse<GetListDele
                 predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListDeletedApplicantListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedApplicantListItemDto>>(
-                applicants
-            );
+            GetListResponse<GetListDeletedApplicantListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedApplicantListItemDto>
+            >(applicants);
             return response;
         }
     }

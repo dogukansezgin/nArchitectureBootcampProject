@@ -1,13 +1,13 @@
+using Application.Features.ApplicationStates.Commands.Create;
+using Application.Features.ApplicationStates.Commands.Delete;
 using Application.Features.ApplicationStates.Commands.DeleteRange;
 using Application.Features.ApplicationStates.Commands.Restore;
 using Application.Features.ApplicationStates.Commands.RestoreRange;
-using Application.Features.ApplicationStates.Queries.GetListDeleted;
-using Application.Features.ApplicationStates.Commands.Create;
-using Application.Features.ApplicationStates.Commands.Delete;
 using Application.Features.ApplicationStates.Commands.Update;
 using Application.Features.ApplicationStates.Queries.GetById;
 using Application.Features.ApplicationStates.Queries.GetByName;
 using Application.Features.ApplicationStates.Queries.GetList;
+using Application.Features.ApplicationStates.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
@@ -59,7 +59,9 @@ public class ApplicationStatesController : BaseController
     }
 
     [HttpPost("restoreRange")]
-    public async Task<IActionResult> RestoreRange([FromBody] RestoreRangeApplicationStateCommand restoreRangeApplicationStateCommand)
+    public async Task<IActionResult> RestoreRange(
+        [FromBody] RestoreRangeApplicationStateCommand restoreRangeApplicationStateCommand
+    )
     {
         RestoredRangeApplicationStateResponse response = await Mediator.Send(restoreRangeApplicationStateCommand);
 
@@ -92,7 +94,9 @@ public class ApplicationStatesController : BaseController
     public async Task<IActionResult> GetListDeleted([FromQuery] PageRequest pageRequest)
     {
         GetListDeletedApplicationStateQuery getListDeletedApplicationStateQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListDeletedApplicationStateListItemDto> response = await Mediator.Send(getListDeletedApplicationStateQuery);
+        GetListResponse<GetListDeletedApplicationStateListItemDto> response = await Mediator.Send(
+            getListDeletedApplicationStateQuery
+        );
         return Ok(response);
     }
 }

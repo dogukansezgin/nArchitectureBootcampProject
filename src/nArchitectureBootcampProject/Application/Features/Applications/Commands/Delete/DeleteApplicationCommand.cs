@@ -12,11 +12,11 @@ using ApplicationEntity = Domain.Entities.Application;
 namespace Application.Features.Applications.Commands.Delete;
 
 public class DeleteApplicationCommand : IRequest<DeletedApplicationResponse>
-    //, 
-    //ISecuredRequest,
-    //ICacheRemoverRequest,
-    //ILoggableRequest,
-    //ITransactionalRequest
+//,
+//ISecuredRequest,
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }

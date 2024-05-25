@@ -44,11 +44,13 @@ public class InstructorBusinessRules : BaseBusinessRules
             await _instructorRepository.GetAsync(x => x.UserName.Trim() == instructor.UserName.Trim()) is not null;
 
         bool isExistNationalId = false;
-        if (instructor.NationalIdentity != null) {
+        if (instructor.NationalIdentity != null)
+        {
             isExistNationalId =
                 await _instructorRepository.GetAsync(x => x.NationalIdentity.Trim() == instructor.NationalIdentity.Trim())
                     is not null;
-        };
+        }
+        ;
 
         var isExistEmail = await _instructorRepository.GetAsync(x => x.Email.Trim() == instructor.Email.Trim()) is not null;
 
@@ -64,7 +66,9 @@ public class InstructorBusinessRules : BaseBusinessRules
 
         if (instructor.UserName is not null)
             isExistUserName =
-                await _instructorRepository.GetAsync(x => x.Id != instructor.Id && x.UserName.Trim() == instructor.UserName.Trim())
+                await _instructorRepository.GetAsync(x =>
+                    x.Id != instructor.Id && x.UserName.Trim() == instructor.UserName.Trim()
+                )
                     is not null;
 
         if (instructor.NationalIdentity is not null)

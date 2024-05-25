@@ -11,13 +11,12 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
 namespace Application.Features.Employees.Commands.Delete;
 
-public class DeleteEmployeeCommand
-    : IRequest<DeletedEmployeeResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+public class DeleteEmployeeCommand : IRequest<DeletedEmployeeResponse>
+//,
+//    ISecuredRequest,
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
