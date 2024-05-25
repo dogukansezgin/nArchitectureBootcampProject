@@ -1,4 +1,5 @@
 using Application.Features.ApplicationStates.Constants;
+using Application.Features.ApplicationStates.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -40,5 +41,27 @@ public class ApplicationStateBusinessRules : BaseBusinessRules
             enableTracking: false
         );
         await ApplicationStateShouldExistWhenSelected(applicationState);
+    }
+
+    public async Task ApplicationStateShouldNotExist(ApplicationState applicationState)
+    {
+        var isExistName =
+            await _applicationStateRepository.GetAsync(x => x.Name.Trim() == applicationState.Name.Trim()) is not null;
+
+        if (isExistName)
+            await throwBusinessException(ApplicationStatesBusinessMessages.ApplicationStateExists);
+    }
+
+    public async Task ApplicationStateShouldNotExistWhenUpdate(ApplicationState applicationState)
+    {
+        bool isExistName = false;
+
+        if (applicationState.Name is not null)
+            isExistName =
+                await _applicationStateRepository.GetAsync(x => x.Id != applicationState.Id && x.Name.Trim() == applicationState.Name.Trim())
+                    is not null;
+
+        if (isExistName)
+            await throwBusinessException(ApplicationStatesBusinessMessages.ApplicationStateExists);
     }
 }

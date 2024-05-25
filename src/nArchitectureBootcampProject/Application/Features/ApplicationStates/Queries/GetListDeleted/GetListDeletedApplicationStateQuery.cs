@@ -9,9 +9,9 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.ApplicationStates.Constants.ApplicationStatesOperationClaims;
 
-namespace Application.Features.ApplicationStates.Queries.GetList;
+namespace Application.Features.ApplicationStates.Queries.GetListDeleted;
 
-public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListApplicationStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedApplicationStateQuery : IRequest<GetListResponse<GetListDeletedApplicationStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -23,7 +23,7 @@ public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListAppl
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListApplicationStateQueryHandler
-        : IRequestHandler<GetListApplicationStateQuery, GetListResponse<GetListApplicationStateListItemDto>>
+        : IRequestHandler<GetListDeletedApplicationStateQuery, GetListResponse<GetListDeletedApplicationStateListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationStateService _applicationStateService;
@@ -34,19 +34,21 @@ public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListAppl
             _applicationStateService = applicationStateService;
         }
 
-        public async Task<GetListResponse<GetListApplicationStateListItemDto>> Handle(
-            GetListApplicationStateQuery request,
+        public async Task<GetListResponse<GetListDeletedApplicationStateListItemDto>> Handle(
+            GetListDeletedApplicationStateQuery request,
             CancellationToken cancellationToken
         )
         {
             IPaginate<ApplicationState>? applicationStates = await _applicationStateService.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true,
+                predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListApplicationStateListItemDto> response = _mapper.Map<
-                GetListResponse<GetListApplicationStateListItemDto>
+            GetListResponse<GetListDeletedApplicationStateListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedApplicationStateListItemDto>
             >(applicationStates);
             return response;
         }

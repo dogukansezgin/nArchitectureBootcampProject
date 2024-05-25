@@ -14,11 +14,12 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 namespace Application.Features.ApplicationStates.Commands.Update;
 
 public class UpdateApplicationStateCommand
-    : IRequest<UpdatedApplicationStateResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<UpdatedApplicationStateResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
