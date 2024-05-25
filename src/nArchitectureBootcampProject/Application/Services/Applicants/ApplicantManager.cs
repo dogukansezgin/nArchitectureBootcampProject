@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Application.Features.Applicants.Rules;
+using Application.Features.Applicants.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
@@ -73,6 +74,7 @@ public class ApplicantManager : IApplicantService
     {
         await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
         await _applicantBusinessRules.ApplicantIdShouldExistWhenSelected(applicant.Id);
+        await _applicantBusinessRules.ApplicantShouldNotExistWhenUpdate(applicant);
 
         Applicant updatedApplicant = await _applicantRepository.UpdateAsync(applicant);
 
@@ -86,6 +88,39 @@ public class ApplicantManager : IApplicantService
         Applicant deletedApplicant = await _applicantRepository.DeleteAsync(applicant, permanent);
 
         return deletedApplicant;
+    }
+
+    public async Task<ICollection<Applicant>> DeleteRangeAsync(ICollection<Applicant> applicants, bool permanent = false)
+    {
+        foreach (Applicant applicant in applicants)
+        {
+            await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+        }
+
+        ICollection<Applicant> deletedApplicants = await _applicantRepository.DeleteRangeCustomAsync(applicants, permanent);
+
+        return deletedApplicants;
+    }
+
+    public async Task<Applicant> RestoreAsync(Applicant applicant)
+    {
+        await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+
+        Applicant restoredApplicant = await _applicantRepository.RestoreAsync(applicant);
+
+        return restoredApplicant;
+    }
+
+    public async Task<ICollection<Applicant>> RestoreRangeAsync(ICollection<Applicant> applicants)
+    {
+        foreach (Applicant applicant in applicants)
+        {
+            await _applicantBusinessRules.ApplicantShouldExistWhenSelected(applicant);
+        }
+
+        ICollection<Applicant> deletedApplicants = await _applicantRepository.RestoreRangeCustomAsync(applicants);
+
+        return deletedApplicants;
     }
 
     public async Task<Applicant> GetByIdAsync(Guid id)

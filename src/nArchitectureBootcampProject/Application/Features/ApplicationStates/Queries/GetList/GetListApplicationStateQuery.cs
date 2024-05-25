@@ -11,8 +11,7 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Queries.GetList;
 
-public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListApplicationStateListItemDto>>, ISecuredRequest
-//ICachableRequest
+public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListApplicationStateListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

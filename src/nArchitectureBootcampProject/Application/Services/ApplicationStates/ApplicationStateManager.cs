@@ -65,7 +65,7 @@ public class ApplicationStateManager : IApplicationStateService
 
     public async Task<ApplicationState> AddAsync(ApplicationState applicationState)
     {
-        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
+        await _applicationStateBusinessRules.ApplicationStateShouldNotExist(applicationState);
 
         ApplicationState addedApplicationState = await _applicationStateRepository.AddAsync(applicationState);
 
@@ -76,6 +76,7 @@ public class ApplicationStateManager : IApplicationStateService
     {
         await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationState);
         await _applicationStateBusinessRules.ApplicationStateIdShouldExistWhenSelected(applicationState.Id);
+        await _applicationStateBusinessRules.ApplicationStateShouldNotExistWhenUpdate(applicationState);
 
         ApplicationState updatedApplicationState = await _applicationStateRepository.UpdateAsync(applicationState);
 
@@ -89,6 +90,39 @@ public class ApplicationStateManager : IApplicationStateService
         ApplicationState deletedApplicationState = await _applicationStateRepository.DeleteAsync(applicationState, permanent);
 
         return deletedApplicationState;
+    }
+
+    public async Task<ICollection<ApplicationState>> DeleteRangeAsync(ICollection<ApplicationState> applicationstates, bool permanent = false)
+    {
+        foreach (ApplicationState applicationstate in applicationstates)
+        {
+            await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationstate);
+        }
+
+        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.DeleteRangeCustomAsync(applicationstates, permanent);
+
+        return deletedApplicationStates;
+    }
+
+    public async Task<ApplicationState> RestoreAsync(ApplicationState applicationstate)
+    {
+        await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationstate);
+
+        ApplicationState restoredApplicationState = await _applicationStateRepository.RestoreAsync(applicationstate);
+
+        return restoredApplicationState;
+    }
+
+    public async Task<ICollection<ApplicationState>> RestoreRangeAsync(ICollection<ApplicationState> applicationstates)
+    {
+        foreach (ApplicationState applicationstate in applicationstates)
+        {
+            await _applicationStateBusinessRules.ApplicationStateShouldExistWhenSelected(applicationstate);
+        }
+
+        ICollection<ApplicationState> deletedApplicationStates = await _applicationStateRepository.RestoreRangeCustomAsync(applicationstates);
+
+        return deletedApplicationStates;
     }
 
     public async Task<ApplicationState> GetByIdAsync(Guid id)

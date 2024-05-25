@@ -12,11 +12,12 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 namespace Application.Features.Employees.Commands.Delete;
 
 public class DeleteEmployeeCommand
-    : IRequest<DeletedEmployeeResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedEmployeeResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -42,13 +43,15 @@ public class DeleteEmployeeCommand
         {
             Employee? employee = await _employeeService.GetAsync(
                 predicate: e => e.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             employee = await _employeeService.DeleteAsync(employee!);
 
             DeletedEmployeeResponse response = _mapper.Map<DeletedEmployeeResponse>(employee);
             response.IsPermament = request.IsPermament;
+            response.DeletedDate = request.IsPermament ? DateTime.UtcNow : response.DeletedDate;
             return response;
         }
     }

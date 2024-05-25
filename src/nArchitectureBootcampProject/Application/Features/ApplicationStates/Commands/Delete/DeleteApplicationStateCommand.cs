@@ -12,11 +12,12 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 namespace Application.Features.ApplicationStates.Commands.Delete;
 
 public class DeleteApplicationStateCommand
-    : IRequest<DeletedApplicationStateResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedApplicationStateResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -46,13 +47,15 @@ public class DeleteApplicationStateCommand
         {
             ApplicationState? applicationState = await _applicationStateService.GetAsync(
                 predicate: a => a.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             await _applicationStateService.DeleteAsync(applicationState!, request.IsPermament);
 
             DeletedApplicationStateResponse response = _mapper.Map<DeletedApplicationStateResponse>(applicationState);
             response.IsPermament = request.IsPermament;
+            response.DeletedDate = request.IsPermament ? DateTime.UtcNow : response.DeletedDate;
             return response;
         }
     }

@@ -37,13 +37,6 @@ public class ApplicantBusinessRules : BaseBusinessRules
         await ApplicantShouldExistWhenSelected(applicant);
     }
 
-    public async Task ApplicantShouldExist(Guid id)
-    {
-        Applicant? applicant = await _applicantRepository.GetAsync(x => x.Id == id);
-        if (applicant == null)
-            await throwBusinessException(ApplicantsBusinessMessages.ApplicantNotExists);
-    }
-
     public async Task ApplicantShouldNotExist(Applicant applicant)
     {
         var isExistId = await _applicantRepository.GetAsync(x => x.Id == applicant.Id) is not null;
@@ -64,7 +57,7 @@ public class ApplicantBusinessRules : BaseBusinessRules
             await throwBusinessException(ApplicantsBusinessMessages.ApplicantExists);
     }
 
-    public async Task ApplicantShouldNotExistUpdate(Applicant applicant)
+    public async Task ApplicantShouldNotExistWhenUpdate(Applicant applicant)
     {
         bool isExistUserName = false;
         bool isExistNationalId = false;

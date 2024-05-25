@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
 using Application.Features.Applications.Rules;
+using Application.Features.Applications.Rules;
 using Application.Services.Repositories;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 using ApplicationEntity = Domain.Entities.Application;
@@ -64,6 +66,7 @@ public class ApplicationManager : IApplicationService
     {
         await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
         await _applicationBusinessRules.ApplicationApplicantShouldNotExistInBlacklist(application);
+        await _applicationBusinessRules.ApplicationShouldNotExist(application);
 
         ApplicationEntity addedApplication = await _applicationRepository.AddAsync(application);
 
@@ -73,8 +76,8 @@ public class ApplicationManager : IApplicationService
     public async Task<ApplicationEntity> UpdateAsync(ApplicationEntity application)
     {
         await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
-        //await _applicationBusinessRules.ApplicationShouldNotExist(application);
         await _applicationBusinessRules.ApplicationIdShouldExistWhenSelected(application.Id);
+        await _applicationBusinessRules.ApplicationShouldNotExist(application);
 
         ApplicationEntity updatedApplication = await _applicationRepository.UpdateAsync(application);
 
@@ -90,6 +93,39 @@ public class ApplicationManager : IApplicationService
         return deletedApplication;
     }
 
+    public async Task<ICollection<ApplicationEntity>> DeleteRangeAsync(ICollection<ApplicationEntity> applications, bool permanent = false)
+    {
+        foreach (ApplicationEntity application in applications)
+        {
+            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+        }
+
+        ICollection<ApplicationEntity> deletedApplications = await _applicationRepository.DeleteRangeCustomAsync(applications, permanent);
+
+        return deletedApplications;
+    }
+
+    public async Task<ApplicationEntity> RestoreAsync(ApplicationEntity application)
+    {
+        await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+
+        ApplicationEntity restoredApplication = await _applicationRepository.RestoreAsync(application);
+
+        return restoredApplication;
+    }
+
+    public async Task<ICollection<ApplicationEntity>> RestoreRangeAsync(ICollection<ApplicationEntity> applications)
+    {
+        foreach (ApplicationEntity application in applications)
+        {
+            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+        }
+
+        ICollection<ApplicationEntity> deletedApplications = await _applicationRepository.RestoreRangeCustomAsync(applications);
+
+        return deletedApplications;
+    }
+
     public async Task<ApplicationEntity> GetByIdAsync(Guid id)
     {
         ApplicationEntity? application = await _applicationRepository.GetAsync(x => x.Id == id);
@@ -99,19 +135,4 @@ public class ApplicationManager : IApplicationService
         return application;
     }
 
-    public async Task<ICollection<ApplicationEntity>> DeleteRangeAsync(
-        ICollection<ApplicationEntity> applications,
-        bool permanent = false
-    )
-    {
-        foreach (ApplicationEntity application in applications)
-        {
-            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
-        }
-        ICollection<ApplicationEntity> deletedApplications = await _applicationRepository.DeleteRangeCustomAsync(
-            applications,
-            permanent
-        );
-        return deletedApplications;
-    }
 }

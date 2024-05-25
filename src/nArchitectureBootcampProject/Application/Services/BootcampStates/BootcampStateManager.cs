@@ -65,7 +65,7 @@ public class BootcampStateManager : IBootcampStateService
 
     public async Task<BootcampState> AddAsync(BootcampState bootcampState)
     {
-        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+        await _bootcampStateBusinessRules.BootcampStateShouldNotExist(bootcampState);
 
         BootcampState addedBootcampState = await _bootcampStateRepository.AddAsync(bootcampState);
 
@@ -76,6 +76,7 @@ public class BootcampStateManager : IBootcampStateService
     {
         await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
         await _bootcampStateBusinessRules.BootcampStateIdShouldExistWhenSelected(bootcampState.Id);
+        await _bootcampStateBusinessRules.BootcampStateShouldNotExistWhenUpdate(bootcampState);
 
         BootcampState updatedBootcampState = await _bootcampStateRepository.UpdateAsync(bootcampState);
 
@@ -89,6 +90,39 @@ public class BootcampStateManager : IBootcampStateService
         BootcampState deletedBootcampState = await _bootcampStateRepository.DeleteAsync(bootcampState, permanent);
 
         return deletedBootcampState;
+    }
+
+    public async Task<ICollection<BootcampState>> DeleteRangeAsync(ICollection<BootcampState> bootcampstates, bool permanent = false)
+    {
+        foreach (BootcampState bootcampstate in bootcampstates)
+        {
+            await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampstate);
+        }
+
+        ICollection<BootcampState> deletedBootcampStates = await _bootcampStateRepository.DeleteRangeCustomAsync(bootcampstates, permanent);
+
+        return deletedBootcampStates;
+    }
+
+    public async Task<BootcampState> RestoreAsync(BootcampState bootcampstate)
+    {
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampstate);
+
+        BootcampState restoredBootcampState = await _bootcampStateRepository.RestoreAsync(bootcampstate);
+
+        return restoredBootcampState;
+    }
+
+    public async Task<ICollection<BootcampState>> RestoreRangeAsync(ICollection<BootcampState> bootcampstates)
+    {
+        foreach (BootcampState bootcampstate in bootcampstates)
+        {
+            await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampstate);
+        }
+
+        ICollection<BootcampState> deletedBootcampStates = await _bootcampStateRepository.RestoreRangeCustomAsync(bootcampstates);
+
+        return deletedBootcampStates;
     }
 
     public async Task<BootcampState> GetByIdAsync(Guid id)

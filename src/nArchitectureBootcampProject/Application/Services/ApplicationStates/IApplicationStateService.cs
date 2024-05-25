@@ -27,6 +27,9 @@ public interface IApplicationStateService
     Task<ApplicationState> AddAsync(ApplicationState applicationState);
     Task<ApplicationState> UpdateAsync(ApplicationState applicationState);
     Task<ApplicationState> DeleteAsync(ApplicationState applicationState, bool permanent = false);
+    Task<ICollection<ApplicationState>> DeleteRangeAsync(ICollection<ApplicationState> applicationStates, bool permanent = false);
+    Task<ApplicationState> RestoreAsync(ApplicationState applicationState);
+    Task<ICollection<ApplicationState>> RestoreRangeAsync(ICollection<ApplicationState> applicationStates);
     Task<ApplicationState> GetByIdAsync(Guid id);
     Task<ApplicationState> GetByNameAsync(string name);
 }

@@ -27,5 +27,8 @@ public interface IApplicantService
     Task<Applicant> AddAsync(Applicant applicant);
     Task<Applicant> UpdateAsync(Applicant applicant);
     Task<Applicant> DeleteAsync(Applicant applicant, bool permanent = false);
+    Task<ICollection<Applicant>> DeleteRangeAsync(ICollection<Applicant> applicants, bool permanent = false);
+    Task<Applicant> RestoreAsync(Applicant applicant);
+    Task<ICollection<Applicant>> RestoreRangeAsync(ICollection<Applicant> applicants);
     Task<Applicant> GetByIdAsync(Guid id);
 }

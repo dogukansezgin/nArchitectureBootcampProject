@@ -1,8 +1,10 @@
 using Application.Features.BootcampStates.Commands.Create;
 using Application.Features.BootcampStates.Commands.Delete;
+using Application.Features.BootcampStates.Commands.Restore;
 using Application.Features.BootcampStates.Commands.Update;
 using Application.Features.BootcampStates.Queries.GetById;
 using Application.Features.BootcampStates.Queries.GetList;
+using Application.Features.BootcampStates.Queries.GetListDeleted;
 using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
@@ -23,5 +25,11 @@ public class MappingProfiles : Profile
         CreateMap<BootcampState, GetByIdBootcampStateResponse>().ReverseMap();
         CreateMap<BootcampState, GetListBootcampStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<BootcampState>, GetListResponse<GetListBootcampStateListItemDto>>().ReverseMap();
+
+        CreateMap<BootcampState, RestoreBootcampStateCommand>().ReverseMap();
+        CreateMap<BootcampState, RestoredBootcampStateResponse>().ReverseMap();
+
+        CreateMap<BootcampState, GetListDeletedBootcampStateListItemDto>().ReverseMap();
+        CreateMap<IPaginate<BootcampState>, GetListResponse<GetListDeletedBootcampStateListItemDto>>().ReverseMap();
     }
 }

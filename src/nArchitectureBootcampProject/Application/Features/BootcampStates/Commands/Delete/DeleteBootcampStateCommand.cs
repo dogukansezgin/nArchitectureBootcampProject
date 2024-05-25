@@ -12,11 +12,12 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 namespace Application.Features.BootcampStates.Commands.Delete;
 
 public class DeleteBootcampStateCommand
-    : IRequest<DeletedBootcampStateResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedBootcampStateResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -45,7 +46,8 @@ public class DeleteBootcampStateCommand
         {
             BootcampState? bootcampState = await _bootcampStateService.GetAsync(
                 predicate: bs => bs.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             await _bootcampStateService.DeleteAsync(bootcampState!, request.IsPermament);

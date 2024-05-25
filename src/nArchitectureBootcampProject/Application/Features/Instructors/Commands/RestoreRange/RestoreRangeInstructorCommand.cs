@@ -50,7 +50,7 @@ public class RestoreRangeInstructorCommand : IRequest<RestoredRangeInstructorRes
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(instructors.Items);
+
             await _instructorService.RestoreRangeAsync(instructors.Items);
 
             RestoredRangeInstructorResponse response = new RestoredRangeInstructorResponse

@@ -84,8 +84,8 @@ public class InstructorsController : BaseController
     [HttpGet("getDeleted")]
     public async Task<IActionResult> GetListDeleted([FromQuery] PageRequest pageRequest)
     {
-        GetListDeletedInstructorQuery getListInstructorQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListDeletedInstructorListItemDto> response = await Mediator.Send(getListInstructorQuery);
+        GetListDeletedInstructorQuery getListDeletedInstructorQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetListDeletedInstructorListItemDto> response = await Mediator.Send(getListDeletedInstructorQuery);
         return Ok(response);
     }
 

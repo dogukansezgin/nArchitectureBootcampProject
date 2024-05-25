@@ -1,3 +1,7 @@
+using Application.Features.BootcampStates.Commands.DeleteRange;
+using Application.Features.BootcampStates.Commands.Restore;
+using Application.Features.BootcampStates.Commands.RestoreRange;
+using Application.Features.BootcampStates.Queries.GetListDeleted;
 using Application.Features.BootcampStates.Commands.Create;
 using Application.Features.BootcampStates.Commands.Delete;
 using Application.Features.BootcampStates.Commands.Update;
@@ -13,7 +17,7 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class BootcampStatesController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Add([FromBody] CreateBootcampStateCommand createBootcampStateCommand)
     {
         CreatedBootcampStateResponse response = await Mediator.Send(createBootcampStateCommand);
@@ -21,7 +25,7 @@ public class BootcampStatesController : BaseController
         return Created(uri: "", response);
     }
 
-    [HttpPut]
+    [HttpPut("update")]
     public async Task<IActionResult> Update([FromBody] UpdateBootcampStateCommand updateBootcampStateCommand)
     {
         UpdatedBootcampStateResponse response = await Mediator.Send(updateBootcampStateCommand);
@@ -29,10 +33,34 @@ public class BootcampStatesController : BaseController
         return Ok(response);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    [HttpPost("delete")]
+    public async Task<IActionResult> Delete([FromBody] DeleteBootcampStateCommand deleteBootcampStateCommand)
     {
-        DeletedBootcampStateResponse response = await Mediator.Send(new DeleteBootcampStateCommand { Id = id });
+        DeletedBootcampStateResponse response = await Mediator.Send(deleteBootcampStateCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPost("deleteRange")]
+    public async Task<IActionResult> DeleteRange([FromBody] DeleteRangeBootcampStateCommand deleteRangeBootcampStateCommand)
+    {
+        DeletedRangeBootcampStateResponse response = await Mediator.Send(deleteRangeBootcampStateCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPost("restore")]
+    public async Task<IActionResult> Restore([FromBody] RestoreBootcampStateCommand restoreBootcampStateCommand)
+    {
+        RestoredBootcampStateResponse response = await Mediator.Send(restoreBootcampStateCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPost("restoreRange")]
+    public async Task<IActionResult> RestoreRange([FromBody] RestoreRangeBootcampStateCommand restoreRangeBootcampStateCommand)
+    {
+        RestoredRangeBootcampStateResponse response = await Mediator.Send(restoreRangeBootcampStateCommand);
 
         return Ok(response);
     }
@@ -44,11 +72,19 @@ public class BootcampStatesController : BaseController
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet("get")]
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListBootcampStateQuery getListBootcampStateQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListBootcampStateListItemDto> response = await Mediator.Send(getListBootcampStateQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getDeleted")]
+    public async Task<IActionResult> GetListDeleted([FromQuery] PageRequest pageRequest)
+    {
+        GetListDeletedBootcampStateQuery getListDeletedBootcampStateQuery = new() { PageRequest = pageRequest };
+        GetListResponse<GetListDeletedBootcampStateListItemDto> response = await Mediator.Send(getListDeletedBootcampStateQuery);
         return Ok(response);
     }
 }

@@ -2,6 +2,7 @@ using Application.Features.Bootcamps.Commands.Create;
 using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.Restore;
 using Application.Features.Bootcamps.Commands.Update;
+using Application.Features.Bootcamps.Queries.GetBasicInfoList;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
 using Application.Features.Bootcamps.Queries.GetListDeleted;
@@ -29,6 +30,9 @@ public class MappingProfiles : Profile
 
         CreateMap<Bootcamp, GetListDeletedBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListDeletedBootcampListItemDto>>().ReverseMap();
+
+        CreateMap<Bootcamp, GetBasicInfoBootcampListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Bootcamp>, GetListResponse<GetBasicInfoBootcampListItemDto>>().ReverseMap();
 
         CreateMap<Bootcamp, SearchAllBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<SearchAllBootcampListItemDto>>().ReverseMap();

@@ -11,10 +11,12 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.Update;
 
-public class UpdateApplicationCommand : IRequest<UpdatedApplicationResponse>, ISecuredRequest
-//,ICacheRemoverRequest,
-//ILoggableRequest,
-//ITransactionalRequest
+public class UpdateApplicationCommand : IRequest<UpdatedApplicationResponse>
+    //, 
+    //ISecuredRequest,
+    //ICacheRemoverRequest,
+    //ILoggableRequest,
+    //ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid ApplicantId { get; set; }

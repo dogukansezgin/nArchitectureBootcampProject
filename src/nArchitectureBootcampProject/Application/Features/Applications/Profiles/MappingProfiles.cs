@@ -1,5 +1,6 @@
 using Application.Features.Applications.Commands.Create;
 using Application.Features.Applications.Commands.Delete;
+using Application.Features.Applications.Commands.Restore;
 using Application.Features.Applications.Commands.Update;
 using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
@@ -7,6 +8,8 @@ using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
 using Application.Features.Applications.Queries.GetListByJoin;
 using Application.Features.Applications.Queries.GetListByState;
+using Application.Features.Applications.Queries.GetListByUserName;
+using Application.Features.Applications.Queries.GetListDeleted;
 using AutoMapper;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
@@ -27,6 +30,16 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetByIdApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, GetListApplicationListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, RestoreApplicationCommand>().ReverseMap();
+        CreateMap<ApplicationEntity, RestoredApplicationResponse>().ReverseMap();
+
+        CreateMap<ApplicationEntity, GetListDeletedApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListDeletedApplicationListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, GetListByUserNameApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByUserNameApplicationListItemDto>>().ReverseMap();
+
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByJoinApplicationListItemDto>>().ReverseMap();
 
         CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
@@ -35,6 +48,8 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetListApplicationByStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationByStateListItemDto>>().ReverseMap();
 
+
         CreateMap<ApplicationEntity, GetListByJoinApplicationListItemDto>().ReverseMap();
+
     }
 }

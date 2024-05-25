@@ -50,7 +50,7 @@ public class DeleteRangeBootcampCommand : IRequest<DeletedRangeBootcampResponse>
                 cancellationToken: cancellationToken,
                 withDeleted: true
             );
-            Console.WriteLine(bootcamps.Items);
+
             await _bootcampService.DeleteRangeAsync(bootcamps.Items, request.IsPermament);
 
             DeletedRangeBootcampResponse response = new DeletedRangeBootcampResponse

@@ -5,7 +5,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
     public string UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public DateTime? DateOfBirth { get; set; } = new DateTime(1, 1, 1);
+    public DateTime? DateOfBirth { get; set; } = null;
     public string? NationalIdentity { get; set; } = null;
 
     public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; } = default!;

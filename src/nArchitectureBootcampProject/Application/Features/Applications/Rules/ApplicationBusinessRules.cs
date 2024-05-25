@@ -4,6 +4,7 @@ using Application.Features.ApplicationStates.Rules;
 using Application.Features.Blacklists.Rules;
 using Application.Features.Bootcamps.Rules;
 using Application.Services.Repositories;
+using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
@@ -66,10 +67,9 @@ public class ApplicationBusinessRules : BaseBusinessRules
 
     public async Task ApplicationShouldNotExist(ApplicationEntity? application)
     {
-        var isExistApplicantId = _applicationRepository.Get(x => x.ApplicantId == application.ApplicantId) is not null;
-        var isExistBootcampId = _applicationRepository.Get(x => x.BootcampId == application.BootcampId) is not null;
+        var isExistSameApplication = _applicationRepository.Get(x => x.Id != application.Id && x.BootcampId == application.BootcampId && x.ApplicantId == application.ApplicantId) is not null;
 
-        if (isExistApplicantId && isExistBootcampId)
+        if (isExistSameApplication)
             await throwBusinessException(ApplicationsBusinessMessages.ApplicationExists);
     }
 

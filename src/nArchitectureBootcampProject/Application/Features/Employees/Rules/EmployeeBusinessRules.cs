@@ -1,4 +1,5 @@
 using Application.Features.Employees.Constants;
+using Application.Features.Employees.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
 using NArchitecture.Core.Application.Rules;
@@ -36,22 +37,48 @@ public class EmployeeBusinessRules : BaseBusinessRules
         await EmployeeShouldExistWhenSelected(employee);
     }
 
-    public async Task EmployeeShouldExist(Guid id)
-    {
-        var isExist = _employeeRepository.Get(x => x.Id == id) is null;
-        if (isExist)
-            await throwBusinessException(EmployeesBusinessMessages.EmployeeNotExists);
-    }
-
     public async Task EmployeeShouldNotExist(Employee employee)
     {
         var isExistId = await _employeeRepository.GetAsync(x => x.Id == employee.Id) is not null;
         var isExistUserName = await _employeeRepository.GetAsync(x => x.UserName.Trim() == employee.UserName.Trim()) is not null;
-        var isExistNationalId =
+
+        bool isExistNationalId = false;
+        if (employee.NationalIdentity != null)
+        {
+        isExistNationalId =
             await _employeeRepository.GetAsync(x => x.NationalIdentity.Trim() == employee.NationalIdentity.Trim()) is not null;
+        }
+
         var isExistEmail = await _employeeRepository.GetAsync(x => x.Email.Trim() == employee.Email.Trim()) is not null;
 
         if (isExistId || isExistUserName || isExistNationalId || isExistEmail)
+            await throwBusinessException(EmployeesBusinessMessages.EmployeeExists);
+    }
+
+    public async Task EmployeeShouldNotExistWhenUpdate(Employee employee)
+    {
+        bool isExistUserName = false;
+        bool isExistNationalId = false;
+        bool isExistEmail = false;
+
+        if (employee.UserName is not null)
+            isExistUserName =
+                await _employeeRepository.GetAsync(x => x.Id != employee.Id && x.UserName.Trim() == employee.UserName.Trim())
+                    is not null;
+
+        if (employee.NationalIdentity is not null)
+            isExistNationalId =
+                await _employeeRepository.GetAsync(x =>
+                    x.Id != employee.Id && x.NationalIdentity.Trim() == employee.NationalIdentity.Trim()
+                )
+                    is not null;
+
+        if (employee.Email is not null)
+            isExistEmail =
+                await _employeeRepository.GetAsync(x => x.Id != employee.Id && x.Email.Trim() == employee.Email.Trim())
+                    is not null;
+
+        if (isExistUserName || isExistNationalId || isExistEmail)
             await throwBusinessException(EmployeesBusinessMessages.EmployeeExists);
     }
 }

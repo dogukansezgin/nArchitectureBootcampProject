@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Application.Features.Employees.Rules;
+using Application.Features.Employees.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
@@ -73,6 +74,7 @@ public class EmployeeManager : IEmployeeService
     {
         await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
         await _employeeBusinessRules.EmployeeIdShouldExistWhenSelected(employee.Id);
+        await _employeeBusinessRules.EmployeeShouldNotExistWhenUpdate(employee);
 
         Employee updatedEmployee = await _employeeRepository.UpdateAsync(employee);
 
@@ -86,6 +88,39 @@ public class EmployeeManager : IEmployeeService
         Employee deletedEmployee = await _employeeRepository.DeleteAsync(employee, permanent);
 
         return deletedEmployee;
+    }
+
+    public async Task<ICollection<Employee>> DeleteRangeAsync(ICollection<Employee> employees, bool permanent = false)
+    {
+        foreach (Employee employee in employees)
+        {
+            await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+        }
+
+        ICollection<Employee> deletedEmployees = await _employeeRepository.DeleteRangeCustomAsync(employees, permanent);
+
+        return deletedEmployees;
+    }
+
+    public async Task<Employee> RestoreAsync(Employee employee)
+    {
+        await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+
+        Employee restoredEmployee = await _employeeRepository.RestoreAsync(employee);
+
+        return restoredEmployee;
+    }
+
+    public async Task<ICollection<Employee>> RestoreRangeAsync(ICollection<Employee> employees)
+    {
+        foreach (Employee employee in employees)
+        {
+            await _employeeBusinessRules.EmployeeShouldExistWhenSelected(employee);
+        }
+
+        ICollection<Employee> deletedEmployees = await _employeeRepository.RestoreRangeCustomAsync(employees);
+
+        return deletedEmployees;
     }
 
     public async Task<Employee> GetByIdAsync(Guid id)

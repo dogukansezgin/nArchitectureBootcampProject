@@ -14,20 +14,17 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 namespace Application.Features.Employees.Commands.Update;
 
 public class UpdateEmployeeCommand
-    : IRequest<UpdatedEmployeeResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<UpdatedEmployeeResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
-
-    //public string NewPassword { get; set; } // D�zenlenecek
-    public string UserName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? NationalIdentity { get; set; }
     public string Position { get; set; }
@@ -57,6 +54,7 @@ public class UpdateEmployeeCommand
             );
 
             employee = _mapper.Map(request, employee);
+            employee.UserName = $"{request.FirstName} {request.LastName}";
 
             employee = await _employeeService.UpdateAsync(employee!);
 
