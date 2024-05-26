@@ -8,7 +8,8 @@ public class UpdateApplicantCommandValidator : AbstractValidator<UpdateApplicant
     public UpdateApplicantCommandValidator()
     {
         RuleFor(c => c.Id).NotEmpty();
-        RuleFor(c => c.NationalIdentity).MinimumLength(11).MaximumLength(11);
+        RuleFor(c => c.NationalIdentity)
+            .Length(11).When(c => c.NationalIdentity != null && c.NationalIdentity.Length > 0);
         RuleFor(c => c.Email)
             .NotEmpty()
             .EmailAddress()
