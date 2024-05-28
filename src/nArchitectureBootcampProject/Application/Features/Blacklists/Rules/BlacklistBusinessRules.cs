@@ -57,4 +57,12 @@ public class BlacklistBusinessRules : BaseBusinessRules
         if (blacklist != null)
             await throwBusinessException(BlacklistsBusinessMessages.ApplicantBlacklisted);
     }
+
+    public async Task BlacklistApplicantCheckUpdate(Blacklist blacklist)
+    {
+        var isExist = await _blacklistRepository.GetAsync(x => x.ApplicantId == blacklist.ApplicantId && x.Id != blacklist.Id);
+
+        if (isExist != null)
+            await throwBusinessException(BlacklistsBusinessMessages.ApplicantBlacklisted);
+    }
 }

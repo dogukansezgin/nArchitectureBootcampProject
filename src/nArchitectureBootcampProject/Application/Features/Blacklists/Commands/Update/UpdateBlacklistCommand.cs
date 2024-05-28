@@ -12,16 +12,17 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 namespace Application.Features.Blacklists.Commands.Update;
 
 public class UpdateBlacklistCommand
-    : IRequest<UpdatedBlacklistResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<UpdatedBlacklistResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid ApplicantId { get; set; }
     public string Reason { get; set; }
-    public DateTime Date { get; set; }
+    //public DateTime Date { get; set; }
 
     public string[] Roles => [Admin, Write, BlacklistsOperationClaims.Update];
 

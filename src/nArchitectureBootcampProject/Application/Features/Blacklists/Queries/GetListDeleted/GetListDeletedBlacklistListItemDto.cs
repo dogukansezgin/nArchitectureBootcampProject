@@ -1,8 +1,8 @@
 using NArchitecture.Core.Application.Dtos;
 
-namespace Application.Features.Blacklists.Queries.GetList;
+namespace Application.Features.Blacklists.Queries.GetListDeleted;
 
-public class GetListBlacklistListItemDto : IDto
+public class GetListDeletedBlacklistListItemDto : IDto
 {
     public Guid Id { get; set; }
 
@@ -13,4 +13,5 @@ public class GetListBlacklistListItemDto : IDto
     public string Reason { get; set; }
     public DateTime Date { get; set; }
     public DateTime CreatedDate { get; set; }
+    public DateTime DeletedDate { get; set; }
 }

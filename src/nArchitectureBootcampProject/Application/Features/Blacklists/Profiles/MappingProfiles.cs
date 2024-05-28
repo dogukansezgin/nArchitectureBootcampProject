@@ -1,8 +1,10 @@
+using Application.Features.Blacklists.Commands.Restore;
 using Application.Features.Blacklists.Commands.Create;
 using Application.Features.Blacklists.Commands.Delete;
 using Application.Features.Blacklists.Commands.Update;
 using Application.Features.Blacklists.Queries.GetById;
 using Application.Features.Blacklists.Queries.GetList;
+using Application.Features.Blacklists.Queries.GetListDeleted;
 using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
@@ -23,5 +25,11 @@ public class MappingProfiles : Profile
         CreateMap<Blacklist, GetByIdBlacklistResponse>().ReverseMap();
         CreateMap<Blacklist, GetListBlacklistListItemDto>().ReverseMap();
         CreateMap<IPaginate<Blacklist>, GetListResponse<GetListBlacklistListItemDto>>().ReverseMap();
+
+        CreateMap<Blacklist, RestoreBlacklistCommand>().ReverseMap();
+        CreateMap<Blacklist, RestoredBlacklistResponse>().ReverseMap();
+
+        CreateMap<Blacklist, GetListDeletedBlacklistListItemDto>().ReverseMap();
+        CreateMap<IPaginate<Blacklist>, GetListResponse<GetListDeletedBlacklistListItemDto>>().ReverseMap();
     }
 }

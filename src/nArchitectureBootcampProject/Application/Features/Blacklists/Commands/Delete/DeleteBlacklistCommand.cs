@@ -12,11 +12,12 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 namespace Application.Features.Blacklists.Commands.Delete;
 
 public class DeleteBlacklistCommand
-    : IRequest<DeletedBlacklistResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedBlacklistResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
@@ -42,13 +43,15 @@ public class DeleteBlacklistCommand
         {
             Blacklist? blacklist = await _blacklistService.GetAsync(
                 predicate: b => b.Id == request.Id,
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken,
+                withDeleted: true
             );
 
             await _blacklistService.DeleteAsync(blacklist!, request.IsPermament);
 
             DeletedBlacklistResponse response = _mapper.Map<DeletedBlacklistResponse>(blacklist);
             response.IsPermament = request.IsPermament;
+            response.DeletedDate = request.IsPermament ? DateTime.UtcNow : response.DeletedDate;
             return response;
         }
     }

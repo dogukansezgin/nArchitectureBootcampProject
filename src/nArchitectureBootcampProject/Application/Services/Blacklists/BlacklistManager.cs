@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Application.Features.Blacklists.Rules;
+using Application.Features.Blacklists.Rules;
 using Application.Services.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Query;
@@ -63,7 +64,7 @@ public class BlacklistManager : IBlacklistService
     public async Task<Blacklist> AddAsync(Blacklist blacklist)
     {
         await _blacklistBusinessRules.BlacklistForeignKeysShouldExist(blacklist);
-        await _blacklistBusinessRules.BlacklistApplicantCheck(blacklist.Id);
+        await _blacklistBusinessRules.BlacklistApplicantCheck(blacklist.ApplicantId);
 
         Blacklist addedBlacklist = await _blacklistRepository.AddAsync(blacklist);
 
@@ -73,7 +74,7 @@ public class BlacklistManager : IBlacklistService
     public async Task<Blacklist> UpdateAsync(Blacklist blacklist)
     {
         await _blacklistBusinessRules.BlacklistForeignKeysShouldExist(blacklist);
-        await _blacklistBusinessRules.BlacklistApplicantCheck(blacklist.Id);
+        await _blacklistBusinessRules.BlacklistApplicantCheckUpdate(blacklist);
         await _blacklistBusinessRules.BlacklistIdShouldExistWhenSelected(blacklist.Id);
 
         Blacklist updatedBlacklist = await _blacklistRepository.UpdateAsync(blacklist);
@@ -88,6 +89,39 @@ public class BlacklistManager : IBlacklistService
         Blacklist deletedBlacklist = await _blacklistRepository.DeleteAsync(blacklist, permanent);
 
         return deletedBlacklist;
+    }
+
+    public async Task<ICollection<Blacklist>> DeleteRangeAsync(ICollection<Blacklist> blacklists, bool permanent = false)
+    {
+        foreach (Blacklist blacklist in blacklists)
+        {
+            await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+        }
+
+        ICollection<Blacklist> deletedBlacklists = await _blacklistRepository.DeleteRangeCustomAsync(blacklists, permanent);
+
+        return deletedBlacklists;
+    }
+
+    public async Task<Blacklist> RestoreAsync(Blacklist blacklist)
+    {
+        await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+
+        Blacklist restoredBlacklist = await _blacklistRepository.RestoreAsync(blacklist);
+
+        return restoredBlacklist;
+    }
+
+    public async Task<ICollection<Blacklist>> RestoreRangeAsync(ICollection<Blacklist> blacklists)
+    {
+        foreach (Blacklist blacklist in blacklists)
+        {
+            await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+        }
+
+        ICollection<Blacklist> deletedBlacklists = await _blacklistRepository.RestoreRangeCustomAsync(blacklists);
+
+        return deletedBlacklists;
     }
 
     public async Task<Blacklist> GetByIdAsync(Guid id)

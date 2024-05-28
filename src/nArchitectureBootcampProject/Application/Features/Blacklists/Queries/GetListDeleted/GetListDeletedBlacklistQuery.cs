@@ -10,9 +10,9 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims;
 
-namespace Application.Features.Blacklists.Queries.GetList;
+namespace Application.Features.Blacklists.Queries.GetListDeleted;
 
-public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedBlacklistQuery : IRequest<GetListResponse<GetListDeletedBlacklistListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -24,7 +24,7 @@ public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistLi
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListBlacklistQueryHandler
-        : IRequestHandler<GetListBlacklistQuery, GetListResponse<GetListBlacklistListItemDto>>
+        : IRequestHandler<GetListDeletedBlacklistQuery, GetListResponse<GetListDeletedBlacklistListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBlacklistService _blacklistService;
@@ -35,8 +35,8 @@ public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistLi
             _blacklistService = blacklistService;
         }
 
-        public async Task<GetListResponse<GetListBlacklistListItemDto>> Handle(
-            GetListBlacklistQuery request,
+        public async Task<GetListResponse<GetListDeletedBlacklistListItemDto>> Handle(
+            GetListDeletedBlacklistQuery request,
             CancellationToken cancellationToken
         )
         {
@@ -44,10 +44,12 @@ public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistLi
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                include: x => x.Include(x => x.Applicant)
+                include: x => x.Include(x => x.Applicant),
+                withDeleted: true,
+                predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListBlacklistListItemDto> response = _mapper.Map<GetListResponse<GetListBlacklistListItemDto>>(
+            GetListResponse<GetListDeletedBlacklistListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedBlacklistListItemDto>>(
                 blacklists
             );
             return response;

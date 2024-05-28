@@ -27,5 +27,8 @@ public interface IBlacklistService
     Task<Blacklist> AddAsync(Blacklist blacklist);
     Task<Blacklist> UpdateAsync(Blacklist blacklist);
     Task<Blacklist> DeleteAsync(Blacklist blacklist, bool permanent = false);
+    Task<ICollection<Blacklist>> DeleteRangeAsync(ICollection<Blacklist> blacklists, bool permanent = false);
+    Task<Blacklist> RestoreAsync(Blacklist blacklist);
+    Task<ICollection<Blacklist>> RestoreRangeAsync(ICollection<Blacklist> blacklists);
     Task<Blacklist> GetByIdAsync(Guid id);
 }

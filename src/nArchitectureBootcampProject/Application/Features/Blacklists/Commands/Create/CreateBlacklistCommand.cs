@@ -12,15 +12,16 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 namespace Application.Features.Blacklists.Commands.Create;
 
 public class CreateBlacklistCommand
-    : IRequest<CreatedBlacklistResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<CreatedBlacklistResponse>
+    //,
+    //    ISecuredRequest,
+    //    ICacheRemoverRequest,
+    //    ILoggableRequest,
+    //    ITransactionalRequest
 {
     public Guid ApplicantId { get; set; }
     public string Reason { get; set; }
-    public DateTime Date { get; set; }
+    //public DateTime Date { get; set; }
 
     public string[] Roles => [Admin, Write, BlacklistsOperationClaims.Create];
 
@@ -42,6 +43,7 @@ public class CreateBlacklistCommand
         public async Task<CreatedBlacklistResponse> Handle(CreateBlacklistCommand request, CancellationToken cancellationToken)
         {
             Blacklist blacklist = _mapper.Map<Blacklist>(request);
+            blacklist.Date = DateTime.UtcNow;
 
             await _blacklistService.AddAsync(blacklist);
 
