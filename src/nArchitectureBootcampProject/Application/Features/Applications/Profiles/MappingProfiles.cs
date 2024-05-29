@@ -6,8 +6,10 @@ using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
 using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
+using Application.Features.Applications.Queries.GetListByInstructor;
+using Application.Features.Applications.Queries.GetListByInstructorByState;
+using Application.Features.Applications.Queries.GetListByInstructorDeleted;
 using Application.Features.Applications.Queries.GetListByJoin;
-using Application.Features.Applications.Queries.GetListByState;
 using Application.Features.Applications.Queries.GetListDeleted;
 using AutoMapper;
 using NArchitecture.Core.Application.Responses;
@@ -36,14 +38,20 @@ public class MappingProfiles : Profile
         CreateMap<ApplicationEntity, GetListDeletedApplicationListItemDto>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListDeletedApplicationListItemDto>>().ReverseMap();
 
-        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByJoinApplicationListItemDto>>().ReverseMap();
-
         CreateMap<ApplicationEntity, CheckApplicationResponse>().ReverseMap();
         CreateMap<ApplicationEntity, AppliedBootcampsResponse>().ReverseMap();
         CreateMap<IPaginate<ApplicationEntity>, GetListResponse<AppliedBootcampsResponse>>().ReverseMap();
-        CreateMap<ApplicationEntity, GetListApplicationByStateListItemDto>().ReverseMap();
-        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListApplicationByStateListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, GetListByInstructorApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByInstructorApplicationListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, GetListByInstructorByStateApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByInstructorByStateApplicationListItemDto>>().ReverseMap();
+
+        CreateMap<ApplicationEntity, GetListByInstructorDeletedApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByInstructorDeletedApplicationListItemDto>>().ReverseMap();
 
         CreateMap<ApplicationEntity, GetListByJoinApplicationListItemDto>().ReverseMap();
+        CreateMap<IPaginate<ApplicationEntity>, GetListResponse<GetListByJoinApplicationListItemDto>>().ReverseMap();
     }
 }

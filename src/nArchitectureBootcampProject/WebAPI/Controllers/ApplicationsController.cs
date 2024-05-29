@@ -1,16 +1,18 @@
 using Application.Features.Applications.Commands.Create;
 using Application.Features.Applications.Commands.Delete;
 using Application.Features.Applications.Commands.DeleteRange;
-using Application.Features.Applications.Commands.DeleteSelected;
 using Application.Features.Applications.Commands.Restore;
 using Application.Features.Applications.Commands.RestoreRange;
 using Application.Features.Applications.Commands.Update;
+using Application.Features.Applications.Commands.UpdateRange;
 using Application.Features.Applications.Queries.AppliedBootcamps;
 using Application.Features.Applications.Queries.CheckApplication;
 using Application.Features.Applications.Queries.GetById;
 using Application.Features.Applications.Queries.GetList;
+using Application.Features.Applications.Queries.GetListByInstructor;
+using Application.Features.Applications.Queries.GetListByInstructorByState;
+using Application.Features.Applications.Queries.GetListByInstructorDeleted;
 using Application.Features.Applications.Queries.GetListByJoin;
-using Application.Features.Applications.Queries.GetListByState;
 using Application.Features.Applications.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
@@ -34,6 +36,14 @@ public class ApplicationsController : BaseController
     public async Task<IActionResult> Update([FromBody] UpdateApplicationCommand updateApplicationCommand)
     {
         UpdatedApplicationResponse response = await Mediator.Send(updateApplicationCommand);
+
+        return Ok(response);
+    }
+
+    [HttpPut("updateRange")]
+    public async Task<IActionResult> UpdateeRange([FromBody] UpdateRangeApplicationCommand updateRangeApplicationCommand)
+    {
+        UpdatedRangeApplicationResponse response = await Mediator.Send(updateRangeApplicationCommand);
 
         return Ok(response);
     }
@@ -70,13 +80,6 @@ public class ApplicationsController : BaseController
         return Ok(response);
     }
 
-    [HttpPost("deleteSelected")]
-    public async Task<IActionResult> DeleteSelected([FromBody] DeleteSelectedApplicationCommand deleteSelectedApplicationCommand)
-    {
-        DeletedSelectedApplicationResponse response = await Mediator.Send(deleteSelectedApplicationCommand);
-        return Ok(response);
-    }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
@@ -100,11 +103,27 @@ public class ApplicationsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet("getByState")]
-    public async Task<IActionResult> GetListByState([FromQuery] PageRequest pageRequest)
+    [HttpGet("getByInstructor")]
+    public async Task<IActionResult> GetListByInstructor([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
     {
-        GetListApplicationByStateQuery getListApplicationByStateQuery = new() { PageRequest = pageRequest };
-        GetListResponse<GetListApplicationByStateListItemDto> response = await Mediator.Send(getListApplicationByStateQuery);
+        GetListByInstructorApplicationQuery getListByInstructorApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorApplicationListItemDto> response = await Mediator.Send(getListByInstructorApplicationQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getByInstructorDeleted")]
+    public async Task<IActionResult> GetListByInstructorDeleted([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
+    {
+        GetListByInstructorDeletedApplicationQuery getListByInstructorDeletedApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorDeletedApplicationListItemDto> response = await Mediator.Send(getListByInstructorDeletedApplicationQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getByInstructorByState")]
+    public async Task<IActionResult> GetListByInstructorByState([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
+    {
+        GetListByInstructorByStateApplicationQuery getListByInstructorByStateApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorByStateApplicationListItemDto> response = await Mediator.Send(getListByInstructorByStateApplicationQuery);
         return Ok(response);
     }
 

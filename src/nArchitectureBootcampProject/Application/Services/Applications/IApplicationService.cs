@@ -27,6 +27,7 @@ public interface IApplicationService
     );
     Task<ApplicationEntity> AddAsync(ApplicationEntity application);
     Task<ApplicationEntity> UpdateAsync(ApplicationEntity application);
+    Task<ICollection<ApplicationEntity>> UpdateRangeAsync(ICollection<ApplicationEntity> applications);
     Task<ApplicationEntity> DeleteAsync(ApplicationEntity application, bool permanent = false);
     Task<ICollection<ApplicationEntity>> DeleteRangeAsync(ICollection<ApplicationEntity> applications, bool permanent = false);
     Task<ApplicationEntity> RestoreAsync(ApplicationEntity application);

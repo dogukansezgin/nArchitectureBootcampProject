@@ -9,11 +9,12 @@ using NArchitecture.Core.Persistence.Paging;
 using static Application.Features.Applications.Constants.ApplicationsOperationClaims;
 using ApplicationEntity = Domain.Entities.Application;
 
-namespace Application.Features.Applications.Queries.GetListByState;
+namespace Application.Features.Applications.Queries.GetListByInstructorDeleted;
 
-public class GetListApplicationByStateQuery : IRequest<GetListResponse<GetListApplicationByStateListItemDto>>, ISecuredRequest /*, ICachableRequest*/
+public class GetListByInstructorDeletedApplicationQuery : IRequest<GetListResponse<GetListByInstructorDeletedApplicationListItemDto>>/*, ISecuredRequest , ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
+    public Guid InstructorId { get; set; }
 
     public string[] Roles => [Admin, Read];
 
@@ -22,20 +23,20 @@ public class GetListApplicationByStateQuery : IRequest<GetListResponse<GetListAp
     public string? CacheGroupKey => "GetApplications";
     public TimeSpan? SlidingExpiration { get; }
 
-    public class GetListApplicationByStateQueryHandler
-        : IRequestHandler<GetListApplicationByStateQuery, GetListResponse<GetListApplicationByStateListItemDto>>
+    public class GetListByInstructorApplicationQueryHandler
+        : IRequestHandler<GetListByInstructorDeletedApplicationQuery, GetListResponse<GetListByInstructorDeletedApplicationListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;
 
-        public GetListApplicationByStateQueryHandler(IMapper mapper, IApplicationService applicationService)
+        public GetListByInstructorApplicationQueryHandler(IMapper mapper, IApplicationService applicationService)
         {
             _mapper = mapper;
             _applicationService = applicationService;
         }
 
-        public async Task<GetListResponse<GetListApplicationByStateListItemDto>> Handle(
-            GetListApplicationByStateQuery request,
+        public async Task<GetListResponse<GetListByInstructorDeletedApplicationListItemDto>> Handle(
+            GetListByInstructorDeletedApplicationQuery request,
             CancellationToken cancellationToken
         )
         {
@@ -43,12 +44,16 @@ public class GetListApplicationByStateQuery : IRequest<GetListResponse<GetListAp
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                predicate: x => x.ApplicationState.Name == "Degerlendirme",
-                include: x => x.Include(x => x.Applicant).Include(x => x.Bootcamp).Include(x => x.ApplicationState)
+                include: x => 
+                    x.Include(x => x.Applicant)
+                      .Include(x => x.Bootcamp).ThenInclude(x => x.Instructor)
+                      .Include(x => x.ApplicationState),
+                withDeleted: true,
+                predicate: x => x.Bootcamp.InstructorId == request.InstructorId && x.DeletedDate != null
             );
 
-            GetListResponse<GetListApplicationByStateListItemDto> response = _mapper.Map<
-                GetListResponse<GetListApplicationByStateListItemDto>
+            GetListResponse<GetListByInstructorDeletedApplicationListItemDto> response = _mapper.Map<
+                GetListResponse<GetListByInstructorDeletedApplicationListItemDto>
             >(applications);
             return response;
         }

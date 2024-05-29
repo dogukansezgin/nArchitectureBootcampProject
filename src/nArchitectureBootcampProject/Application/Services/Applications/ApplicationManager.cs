@@ -84,6 +84,24 @@ public class ApplicationManager : IApplicationService
         return updatedApplication;
     }
 
+    public async Task<ICollection<ApplicationEntity>> UpdateRangeAsync(
+    ICollection<ApplicationEntity> applications
+    )
+    {
+        foreach (ApplicationEntity application in applications)
+        {
+            await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
+            await _applicationBusinessRules.ApplicationForeignKeysShouldExist(application);
+            await _applicationBusinessRules.ApplicationShouldNotExist(application);
+        }
+
+        ICollection<ApplicationEntity> updatedApplications = await _applicationRepository.UpdateRangeAsync(
+            applications
+        );
+
+        return updatedApplications;
+    }
+
     public async Task<ApplicationEntity> DeleteAsync(ApplicationEntity application, bool permanent = false)
     {
         await _applicationBusinessRules.ApplicationShouldExistWhenSelected(application);
