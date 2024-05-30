@@ -1,5 +1,8 @@
 ﻿using Application.Features.Applicants.Constants;
 using Application.Features.Applicants.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.UserOperationClaims.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applicants;
 using Application.Services.AuthService;
 using AutoMapper;
@@ -27,7 +30,7 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
     public string? NationalIdentity { get; set; }
     public string? About { get; set; }
 
-    public string[] Roles => [Admin, ApplicantsOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

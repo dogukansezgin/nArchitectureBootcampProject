@@ -1,4 +1,6 @@
 ﻿using Application.Features.Blacklists.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
@@ -12,9 +14,7 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Commands.DeleteRange;
 
-public class DeleteRangeBlacklistCommand : IRequest<DeletedRangeBlacklistResponse>
-//,
-//    ISecuredRequest,
+public class DeleteRangeBlacklistCommand : IRequest<DeletedRangeBlacklistResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -22,7 +22,7 @@ public class DeleteRangeBlacklistCommand : IRequest<DeletedRangeBlacklistRespons
     public List<Guid> Ids { get; set; }
     public bool IsPermament { get; set; }
 
-    public string[] Roles => [Admin, Write, BlacklistsOperationClaims.Delete];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

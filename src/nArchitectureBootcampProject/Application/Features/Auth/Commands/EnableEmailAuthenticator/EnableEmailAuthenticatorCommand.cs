@@ -1,5 +1,9 @@
 ﻿using System.Web;
+using Application.Features.Applicants.Constants;
 using Application.Features.Auth.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.AuthenticatorService;
 using Application.Services.Repositories;
 using Application.Services.UsersService;
@@ -17,7 +21,7 @@ public class EnableEmailAuthenticatorCommand : IRequest, ISecuredRequest
     public Guid UserId { get; set; }
     public string VerifyEmailUrlPrefix { get; set; }
 
-    public string[] Roles => [];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
 
     public EnableEmailAuthenticatorCommand()
     {

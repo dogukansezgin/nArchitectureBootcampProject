@@ -1,5 +1,7 @@
 using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
 using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applicants;
 using Application.Services.OperationClaims;
 using Application.Services.UserOperationClaims;
@@ -16,9 +18,7 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Commands.Create;
 
-public class CreateApplicantCommand : IRequest<CreatedApplicantResponse>
-//,
-//    ISecuredRequest,
+public class CreateApplicantCommand : IRequest<CreatedApplicantResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -31,7 +31,7 @@ public class CreateApplicantCommand : IRequest<CreatedApplicantResponse>
     public string? NationalIdentity { get; set; }
     public string? About { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicantsOperationClaims.Create];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

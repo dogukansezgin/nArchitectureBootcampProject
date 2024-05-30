@@ -1,4 +1,7 @@
 ﻿using Application.Features.Bootcamps.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -12,16 +15,14 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Commands.RestoreRange;
 
-public class RestoreRangeBootcampCommand : IRequest<RestoredRangeBootcampResponse>
-//,
-//    ISecuredRequest,
+public class RestoreRangeBootcampCommand : IRequest<RestoredRangeBootcampResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public List<Guid> Ids { get; set; }
 
-    public string[] Roles => [Admin, Write];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

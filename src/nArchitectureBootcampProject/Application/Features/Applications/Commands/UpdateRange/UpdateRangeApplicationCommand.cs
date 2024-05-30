@@ -1,6 +1,9 @@
 using Application.Features.Applications.Commands.DeleteRange;
 using Application.Features.Applications.Commands.Update;
 using Application.Features.Applications.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
@@ -14,16 +17,14 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.UpdateRange;
 
-public class UpdateRangeApplicationCommand : IRequest<UpdatedRangeApplicationResponse>
-//,
-//ISecuredRequest,
+public class UpdateRangeApplicationCommand : IRequest<UpdatedRangeApplicationResponse>, ISecuredRequest
 //ICacheRemoverRequest,
 //ILoggableRequest,
 //ITransactionalRequest
 {
     public List<UpdateApplicationCommand> Applications { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicationsOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

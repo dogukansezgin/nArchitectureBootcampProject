@@ -1,3 +1,7 @@
+using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -15,11 +19,11 @@ namespace Application.Features.Bootcamps.Queries.GetList;
 public class GetListBootcampQuery
     : IRequest<
         GetListResponse<GetListBootcampListItemDto>
-    > /*, ISecuredRequest*/ /*, ICachableRequest*/
+    >/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListBootcamps({PageRequest.PageIndex},{PageRequest.PageSize})";

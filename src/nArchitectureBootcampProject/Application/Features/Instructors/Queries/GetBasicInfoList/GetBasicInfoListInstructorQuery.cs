@@ -1,4 +1,6 @@
-﻿using Application.Services.Instructors;
+﻿using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
+using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -11,11 +13,11 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>> /*, ISecuredRequest, ICachableRequest*/
+public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListInstructors({PageRequest.PageIndex},{PageRequest.PageSize})";

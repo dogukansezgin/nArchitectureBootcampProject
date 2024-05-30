@@ -13,7 +13,7 @@ public class DeleteUserCommand : IRequest<DeletedUserResponse>, ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Delete };
+    public string[] Roles => new[] { UsersOperationClaims.Admin };
 
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeletedUserResponse>
     {

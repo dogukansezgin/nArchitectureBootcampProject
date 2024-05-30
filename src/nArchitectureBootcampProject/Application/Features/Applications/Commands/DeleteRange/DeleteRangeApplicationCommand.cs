@@ -1,4 +1,6 @@
 ﻿using Application.Features.Applications.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
@@ -12,9 +14,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.DeleteRange;
 
-public class DeleteRangeApplicationCommand : IRequest<DeletedRangeApplicationResponse>
-//,
-//    ISecuredRequest,
+public class DeleteRangeApplicationCommand : IRequest<DeletedRangeApplicationResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -22,7 +22,7 @@ public class DeleteRangeApplicationCommand : IRequest<DeletedRangeApplicationRes
     public List<Guid> Ids { get; set; }
     public bool IsPermament { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicationsOperationClaims.Delete];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

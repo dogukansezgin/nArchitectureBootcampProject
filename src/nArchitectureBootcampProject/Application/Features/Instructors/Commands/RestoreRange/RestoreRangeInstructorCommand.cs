@@ -1,4 +1,6 @@
-﻿using Application.Features.Instructors.Constants;
+﻿using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
@@ -12,16 +14,14 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.RestoreRange;
 
-public class RestoreRangeInstructorCommand : IRequest<RestoredRangeInstructorResponse>
-//,
-//    ISecuredRequest,
+public class RestoreRangeInstructorCommand : IRequest<RestoredRangeInstructorResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public List<Guid> Ids { get; set; }
 
-    public string[] Roles => [Admin, Write];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

@@ -1,5 +1,7 @@
 using Application.Features.ApplicationStates.Constants;
 using Application.Features.ApplicationStates.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.ApplicationStates;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -13,9 +15,7 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Commands.Update;
 
-public class UpdateApplicationStateCommand : IRequest<UpdatedApplicationStateResponse>
-//,
-//    ISecuredRequest,
+public class UpdateApplicationStateCommand : IRequest<UpdatedApplicationStateResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -23,7 +23,7 @@ public class UpdateApplicationStateCommand : IRequest<UpdatedApplicationStateRes
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicationStatesOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

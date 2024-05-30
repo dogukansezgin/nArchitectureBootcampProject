@@ -1,4 +1,7 @@
 using Application.Features.Bootcamps.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -11,9 +14,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Commands.Delete;
 
-public class DeleteBootcampCommand : IRequest<DeletedBootcampResponse>
-//,
-//    ISecuredRequest,
+public class DeleteBootcampCommand : IRequest<DeletedBootcampResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -21,7 +22,7 @@ public class DeleteBootcampCommand : IRequest<DeletedBootcampResponse>
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
 
-    public string[] Roles => [Admin, Write, BootcampsOperationClaims.Delete];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

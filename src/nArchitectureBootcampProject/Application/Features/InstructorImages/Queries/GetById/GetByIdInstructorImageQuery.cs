@@ -1,5 +1,9 @@
+using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
 using Application.Features.InstructorImages.Constants;
 using Application.Features.InstructorImages.Rules;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -13,7 +17,7 @@ public class GetByIdInstructorImageQuery : IRequest<GetByIdInstructorImageRespon
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class GetByIdInstructorImageQueryHandler : IRequestHandler<GetByIdInstructorImageQuery, GetByIdInstructorImageResponse>
     {

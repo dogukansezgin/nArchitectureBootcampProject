@@ -1,3 +1,6 @@
+using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
@@ -11,7 +14,7 @@ public class GetByIdApplicationQuery : IRequest<GetByIdApplicationResponse>, ISe
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class GetByIdApplicationQueryHandler : IRequestHandler<GetByIdApplicationQuery, GetByIdApplicationResponse>
     {

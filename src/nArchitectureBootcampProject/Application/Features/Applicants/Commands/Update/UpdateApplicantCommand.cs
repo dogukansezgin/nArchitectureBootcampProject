@@ -1,5 +1,7 @@
 using Application.Features.Applicants.Constants;
 using Application.Features.Applicants.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applicants;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -13,9 +15,7 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Commands.Update;
 
-public class UpdateApplicantCommand : IRequest<UpdatedApplicantResponse>
-//,
-//    ISecuredRequest,
+public class UpdateApplicantCommand : IRequest<UpdatedApplicantResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -28,7 +28,7 @@ public class UpdateApplicantCommand : IRequest<UpdatedApplicantResponse>
     public string? NationalIdentity { get; set; }
     public string? About { get; set; }
 
-    public string[] Roles => [Admin];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

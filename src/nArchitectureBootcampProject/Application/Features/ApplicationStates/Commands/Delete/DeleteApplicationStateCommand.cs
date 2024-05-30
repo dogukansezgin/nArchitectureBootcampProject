@@ -1,4 +1,6 @@
 using Application.Features.ApplicationStates.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
@@ -11,9 +13,7 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Commands.Delete;
 
-public class DeleteApplicationStateCommand : IRequest<DeletedApplicationStateResponse>
-//,
-//    ISecuredRequest,
+public class DeleteApplicationStateCommand : IRequest<DeletedApplicationStateResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -21,7 +21,7 @@ public class DeleteApplicationStateCommand : IRequest<DeletedApplicationStateRes
     public Guid Id { get; set; }
     public bool IsPermament { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicationStatesOperationClaims.Delete];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

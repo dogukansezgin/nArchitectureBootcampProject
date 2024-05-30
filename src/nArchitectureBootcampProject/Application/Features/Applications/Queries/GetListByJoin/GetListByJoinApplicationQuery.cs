@@ -1,4 +1,7 @@
-﻿using Application.Services.Applications;
+﻿using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
+using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +15,11 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListByJoin;
 
-public class GetListByJoinApplicationQuery : IRequest<GetListResponse<GetListByJoinApplicationListItemDto>>, ISecuredRequest /*, ICachableRequest*/
+public class GetListByJoinApplicationQuery : IRequest<GetListResponse<GetListByJoinApplicationListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListByUserNameApplications({PageRequest.PageIndex},{PageRequest.PageSize})";

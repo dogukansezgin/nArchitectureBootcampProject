@@ -1,4 +1,8 @@
-﻿using Application.Features.Bootcamps.Queries.GetById;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Bootcamps.Queries.GetById;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -8,11 +12,11 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetByName;
 
-public class GetByNameBootcampQuery : IRequest<GetByIdBootcampResponse> /*, ISecuredRequest*/
+public class GetByNameBootcampQuery : IRequest<GetByIdBootcampResponse>/*, ISecuredRequest*/
 {
     public string Name { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [];
 
     public class GetByNameBootcampQueryHandler : IRequestHandler<GetByNameBootcampQuery, GetByIdBootcampResponse>
     {

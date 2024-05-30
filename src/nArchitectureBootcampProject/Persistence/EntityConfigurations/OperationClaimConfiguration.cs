@@ -38,14 +38,14 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         builder.HasBaseType((string)null!);
     }
 
-    public static int AdminId => 1;
+    //public static int AdminId => 1;
     private IEnumerable<OperationClaim> _seeds
     {
         get
         {
-            yield return new() { Id = AdminId, Name = GeneralOperationClaims.Admin };
+            //yield return new() { Id = AdminId, Name = GeneralOperationClaims.Admin };
 
-            IEnumerable<OperationClaim> featureOperationClaims = getFeatureOperationClaims(AdminId);
+            IEnumerable<OperationClaim> featureOperationClaims = getFeatureOperationClaims(1);
             foreach (OperationClaim claim in featureOperationClaims)
                 yield return claim;
         }
@@ -60,10 +60,10 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Auth
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = AuthOperationClaims.Admin },
-                new() { Id = ++lastId, Name = AuthOperationClaims.Read },
-                new() { Id = ++lastId, Name = AuthOperationClaims.Write },
-                new() { Id = ++lastId, Name = AuthOperationClaims.RevokeToken },
+                //new() { Id = ++lastId, Name = AuthOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = AuthOperationClaims.Read },
+                //new() { Id = ++lastId, Name = AuthOperationClaims.Write },
+                //new() { Id = ++lastId, Name = AuthOperationClaims.RevokeToken },
             ]
         );
         #endregion
@@ -71,12 +71,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region OperationClaims
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Read },
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Write },
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Create },
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Update },
-                new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = OperationClaimsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -84,12 +84,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region UserOperationClaims
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Read },
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Write },
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Create },
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Update },
-                new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = UserOperationClaimsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -98,11 +98,11 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         featureOperationClaims.AddRange(
             [
                 new() { Id = ++lastId, Name = UsersOperationClaims.Admin },
-                new() { Id = ++lastId, Name = UsersOperationClaims.Read },
-                new() { Id = ++lastId, Name = UsersOperationClaims.Write },
-                new() { Id = ++lastId, Name = UsersOperationClaims.Create },
-                new() { Id = ++lastId, Name = UsersOperationClaims.Update },
-                new() { Id = ++lastId, Name = UsersOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = UsersOperationClaims.Read },
+                //new() { Id = ++lastId, Name = UsersOperationClaims.Write },
+                //new() { Id = ++lastId, Name = UsersOperationClaims.Create },
+                //new() { Id = ++lastId, Name = UsersOperationClaims.Update },
+                //new() { Id = ++lastId, Name = UsersOperationClaims.Delete },
             ]
         );
         #endregion
@@ -111,13 +111,13 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Applicants
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Admin },
                 new() { Id = ++lastId, Name = ApplicantsOperationClaims.User },
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Read },
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Write },
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Create },
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Update },
-                new() { Id = ++lastId, Name = ApplicantsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = ApplicantsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -126,12 +126,13 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Employees
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Admin },
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Read },
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Write },
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Create },
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Update },
-                new() { Id = ++lastId, Name = EmployeesOperationClaims.Delete },
+                new() { Id = ++lastId, Name = ApplicantsOperationClaims.User },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Read },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Write },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Create },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Update },
+                //new() { Id = ++lastId, Name = EmployeesOperationClaims.Delete },
             ]
         );
         #endregion
@@ -140,12 +141,13 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Instructors
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Read },
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Write },
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Create },
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Update },
-                new() { Id = ++lastId, Name = InstructorsOperationClaims.Delete },
+                new() { Id = ++lastId, Name = ApplicantsOperationClaims.User },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = InstructorsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -154,12 +156,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Applications
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Read },
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Write },
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Create },
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Update },
-                new() { Id = ++lastId, Name = ApplicationsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = ApplicationsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -168,12 +170,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region ApplicationStates
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Admin },
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Read },
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Write },
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Create },
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Update },
-                new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Read },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Write },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Create },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Update },
+                //new() { Id = ++lastId, Name = ApplicationStatesOperationClaims.Delete },
             ]
         );
         #endregion
@@ -182,12 +184,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Blacklists
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Read },
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Write },
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Create },
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Update },
-                new() { Id = ++lastId, Name = BlacklistsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = BlacklistsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -196,12 +198,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region InstructorImages
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Admin },
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Read },
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Write },
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Create },
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Update },
-                new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Read },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Write },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Create },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Update },
+                //new() { Id = ++lastId, Name = InstructorImagesOperationClaims.Delete },
             ]
         );
         #endregion
@@ -210,12 +212,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region Bootcamps
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Admin },
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Read },
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Write },
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Create },
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Update },
-                new() { Id = ++lastId, Name = BootcampsOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Read },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Write },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Create },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Update },
+                //new() { Id = ++lastId, Name = BootcampsOperationClaims.Delete },
             ]
         );
         #endregion
@@ -224,12 +226,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region BootcampImages
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Admin },
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Read },
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Write },
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Create },
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Update },
-                new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Read },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Write },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Create },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Update },
+                //new() { Id = ++lastId, Name = BootcampImagesOperationClaims.Delete },
             ]
         );
         #endregion
@@ -238,12 +240,12 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #region BootcampStates
         featureOperationClaims.AddRange(
             [
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Admin },
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Read },
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Write },
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Create },
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Update },
-                new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Delete },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Admin },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Read },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Write },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Create },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Update },
+                //new() { Id = ++lastId, Name = BootcampStatesOperationClaims.Delete },
             ]
         );
         #endregion

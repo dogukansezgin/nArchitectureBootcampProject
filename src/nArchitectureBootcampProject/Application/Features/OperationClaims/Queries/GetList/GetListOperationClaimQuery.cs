@@ -1,4 +1,6 @@
+using Application.Features.Employees.Constants;
 using Application.Features.OperationClaims.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -14,7 +16,7 @@ public class GetListOperationClaimQuery : IRequest<GetListResponse<GetListOperat
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [OperationClaimsOperationClaims.Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public GetListOperationClaimQuery()
     {

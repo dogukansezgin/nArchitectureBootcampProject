@@ -1,4 +1,6 @@
 ﻿using Application.Features.Blacklists.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
@@ -12,16 +14,14 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Commands.RestoreRange;
 
-public class RestoreRangeBlacklistCommand : IRequest<RestoredRangeBlacklistResponse>
-//,
-//    ISecuredRequest,
+public class RestoreRangeBlacklistCommand : IRequest<RestoredRangeBlacklistResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public List<Guid> Ids { get; set; }
 
-    public string[] Roles => [Admin, Write];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

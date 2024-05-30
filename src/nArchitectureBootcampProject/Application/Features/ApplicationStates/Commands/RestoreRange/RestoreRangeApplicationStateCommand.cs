@@ -1,4 +1,6 @@
 ﻿using Application.Features.ApplicationStates.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
@@ -12,16 +14,14 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Commands.RestoreRange;
 
-public class RestoreRangeApplicationStateCommand : IRequest<RestoredRangeApplicationStateResponse>
-//,
-//    ISecuredRequest,
+public class RestoreRangeApplicationStateCommand : IRequest<RestoredRangeApplicationStateResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public List<Guid> Ids { get; set; }
 
-    public string[] Roles => [Admin, Write];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

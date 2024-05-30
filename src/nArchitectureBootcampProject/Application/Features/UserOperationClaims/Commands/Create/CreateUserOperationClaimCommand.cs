@@ -1,5 +1,7 @@
+using Application.Features.Employees.Constants;
 using Application.Features.UserOperationClaims.Constants;
 using Application.Features.UserOperationClaims.Rules;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -14,7 +16,7 @@ public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClai
     public Guid UserId { get; set; }
     public int OperationClaimId { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, UserOperationClaimsOperationClaims.Create };
+    public string[] Roles => new[] { UsersOperationClaims.Admin, EmployeesOperationClaims.User };
 
     public class CreateUserOperationClaimCommandHandler
         : IRequestHandler<CreateUserOperationClaimCommand, CreatedUserOperationClaimResponse>

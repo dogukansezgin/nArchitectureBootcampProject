@@ -1,4 +1,7 @@
-﻿using Application.Services.Applicants;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
+using Application.Services.Applicants;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -11,11 +14,11 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListApplicantQuery : IRequest<GetListResponse<GetBasicInfoApplicantListItemDto>> /*, ISecuredRequest, ICachableRequest*/
+public class GetBasicInfoListApplicantQuery : IRequest<GetListResponse<GetBasicInfoApplicantListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListApplicants({PageRequest.PageIndex},{PageRequest.PageSize})";

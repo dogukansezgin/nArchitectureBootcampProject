@@ -1,5 +1,6 @@
 using Application.Features.Employees.Constants;
 using Application.Features.Employees.Rules;
+using Application.Features.Users.Constants;
 using Application.Services.Employees;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -14,7 +15,7 @@ public class GetByIdEmployeeQuery : IRequest<GetByIdEmployeeResponse>, ISecuredR
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin];
 
     public class GetByIdEmployeeQueryHandler : IRequestHandler<GetByIdEmployeeQuery, GetByIdEmployeeResponse>
     {

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Applications.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
@@ -11,16 +12,14 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.Restore;
 
-public class RestoreApplicationCommand : IRequest<RestoredApplicationResponse>
-//,
-//    ISecuredRequest,
+public class RestoreApplicationCommand : IRequest<RestoredApplicationResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Write];
+    public string[] Roles => [UsersOperationClaims.Admin];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

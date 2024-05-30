@@ -1,5 +1,7 @@
+using Application.Features.Employees.Constants;
 using Application.Features.OperationClaims.Constants;
 using Application.Features.OperationClaims.Rules;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -12,7 +14,7 @@ public class GetByIdOperationClaimQuery : IRequest<GetByIdOperationClaimResponse
 {
     public int Id { get; set; }
 
-    public string[] Roles => [OperationClaimsOperationClaims.Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public class GetByIdOperationClaimQueryHandler : IRequestHandler<GetByIdOperationClaimQuery, GetByIdOperationClaimResponse>
     {

@@ -1,3 +1,6 @@
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.BootcampStates;
 using AutoMapper;
 using Domain.Entities;
@@ -11,11 +14,11 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 
 namespace Application.Features.BootcampStates.Queries.GetListDeleted;
 
-public class GetListDeletedBootcampStateQuery : IRequest<GetListResponse<GetListDeletedBootcampStateListItemDto>> /*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedBootcampStateQuery : IRequest<GetListResponse<GetListDeletedBootcampStateListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListBootcampStates({PageRequest.PageIndex},{PageRequest.PageSize})";

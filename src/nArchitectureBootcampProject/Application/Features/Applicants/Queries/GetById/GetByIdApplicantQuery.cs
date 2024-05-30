@@ -1,3 +1,6 @@
+using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applicants;
 using AutoMapper;
 using Domain.Entities;
@@ -11,7 +14,7 @@ public class GetByIdApplicantQuery : IRequest<GetByIdApplicantResponse>, ISecure
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class GetByIdApplicantQueryHandler : IRequestHandler<GetByIdApplicantQuery, GetByIdApplicantResponse>
     {

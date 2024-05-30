@@ -1,3 +1,5 @@
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
@@ -11,7 +13,7 @@ public class GetByIdInstructorQuery : IRequest<GetByIdInstructorResponse>, ISecu
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public class GetByIdInstructorQueryHandler : IRequestHandler<GetByIdInstructorQuery, GetByIdInstructorResponse>
     {

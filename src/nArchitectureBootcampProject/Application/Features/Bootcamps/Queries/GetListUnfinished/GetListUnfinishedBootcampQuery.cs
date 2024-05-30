@@ -1,9 +1,14 @@
-﻿using Application.Features.Bootcamps.Queries.GetList;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
@@ -14,11 +19,11 @@ namespace Application.Features.Bootcamps.Queries.GetAllList;
 public class GetListUnfinishedBootcampQuery
     : IRequest<
         GetListResponse<GetListBootcampListItemDto>
-    > /*, ISecuredRequest*/ /*, ICachableRequest*/
+    >/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListBootcamps({PageRequest.PageIndex},{PageRequest.PageSize})";

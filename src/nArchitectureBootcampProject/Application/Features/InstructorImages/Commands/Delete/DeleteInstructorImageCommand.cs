@@ -1,6 +1,9 @@
+using Application.Features.Employees.Constants;
 using Application.Features.InstructorImages.Constants;
 using Application.Features.InstructorImages.Constants;
 using Application.Features.InstructorImages.Rules;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -14,15 +17,14 @@ using static Application.Features.InstructorImages.Constants.InstructorImagesOpe
 namespace Application.Features.InstructorImages.Commands.Delete;
 
 public class DeleteInstructorImageCommand
-    : IRequest<DeletedInstructorImageResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<DeletedInstructorImageResponse>, ISecuredRequest
+        //ICacheRemoverRequest,
+        //ILoggableRequest,
+        //ITransactionalRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Write, InstructorImagesOperationClaims.Delete];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

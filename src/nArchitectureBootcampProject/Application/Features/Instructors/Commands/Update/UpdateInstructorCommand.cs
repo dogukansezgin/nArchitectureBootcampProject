@@ -1,4 +1,6 @@
+using Application.Features.Employees.Constants;
 using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Instructors;
 using AutoMapper;
 using Domain.Entities;
@@ -11,9 +13,7 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Commands.Update;
 
-public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
-//,
-//    ISecuredRequest,
+public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -26,7 +26,7 @@ public class UpdateInstructorCommand : IRequest<UpdatedInstructorResponse>
     public string? NationalIdentity { get; set; }
     public string CompanyName { get; set; }
 
-    public string[] Roles => [Admin, Write, InstructorsOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

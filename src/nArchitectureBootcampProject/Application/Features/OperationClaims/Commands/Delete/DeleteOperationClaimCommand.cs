@@ -1,5 +1,7 @@
+using Application.Features.Employees.Constants;
 using Application.Features.OperationClaims.Constants;
 using Application.Features.OperationClaims.Rules;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -13,7 +15,7 @@ public class DeleteOperationClaimCommand : IRequest<DeletedOperationClaimRespons
 {
     public int Id { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, OperationClaimsOperationClaims.Delete };
+    public string[] Roles => new[] { UsersOperationClaims.Admin, EmployeesOperationClaims.User };
 
     public class DeleteOperationClaimCommandHandler : IRequestHandler<DeleteOperationClaimCommand, DeletedOperationClaimResponse>
     {

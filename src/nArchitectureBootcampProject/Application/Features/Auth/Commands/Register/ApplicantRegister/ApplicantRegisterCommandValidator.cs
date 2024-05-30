@@ -15,6 +15,8 @@ public class ApplicantRegisterCommandValidator : AbstractValidator<ApplicantRegi
             .WithMessage(
                 "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character."
             );
+        RuleFor(c => c.ApplicantForRegisterDto.FirstName.Trim()).NotEmpty();
+        RuleFor(c => c.ApplicantForRegisterDto.LastName.Trim()).NotEmpty();
     }
 
     private bool StrongPassword(string value)

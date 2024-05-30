@@ -1,3 +1,6 @@
+using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applicants;
 using AutoMapper;
 using Domain.Entities;
@@ -15,7 +18,7 @@ public class GetListApplicantQuery : IRequest<GetListResponse<GetListApplicantLi
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListApplicants({PageRequest.PageIndex},{PageRequest.PageSize})";

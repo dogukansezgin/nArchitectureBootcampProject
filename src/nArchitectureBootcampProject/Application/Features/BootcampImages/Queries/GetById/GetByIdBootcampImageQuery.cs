@@ -1,5 +1,8 @@
 using Application.Features.BootcampImages.Constants;
 using Application.Features.BootcampImages.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -9,11 +12,11 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 
 namespace Application.Features.BootcampImages.Queries.GetById;
 
-public class GetByIdBootcampImageQuery : IRequest<GetByIdBootcampImageResponse>, ISecuredRequest
+public class GetByIdBootcampImageQuery : IRequest<GetByIdBootcampImageResponse>/*, ISecuredRequest*/
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [];
 
     public class GetByIdBootcampImageQueryHandler : IRequestHandler<GetByIdBootcampImageQuery, GetByIdBootcampImageResponse>
     {

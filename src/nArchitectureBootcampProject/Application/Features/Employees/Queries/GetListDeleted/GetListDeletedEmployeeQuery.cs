@@ -1,4 +1,5 @@
 using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Employees;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -13,11 +14,11 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
 namespace Application.Features.Employees.Queries.GetListDeleted;
 
-public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>> /*, ISecuredRequest, ICachableRequest*/
+public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListEmployees({PageRequest.PageIndex},{PageRequest.PageSize})";

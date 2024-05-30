@@ -1,5 +1,8 @@
 using Application.Features.BootcampImages.Constants;
 using Application.Features.BootcampImages.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -13,17 +16,16 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 namespace Application.Features.BootcampImages.Commands.Update;
 
 public class UpdateBootcampImageCommand
-    : IRequest<UpdatedBootcampImageResponse>,
-        ISecuredRequest,
-        ICacheRemoverRequest,
-        ILoggableRequest,
-        ITransactionalRequest
+    : IRequest<UpdatedBootcampImageResponse>, ISecuredRequest
+        //ICacheRemoverRequest,
+        //ILoggableRequest,
+        //ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid BootcampId { get; set; }
     public string ImagePath { get; set; }
 
-    public string[] Roles => [Admin, Write, BootcampImagesOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

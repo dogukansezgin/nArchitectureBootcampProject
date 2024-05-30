@@ -1,3 +1,6 @@
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.ApplicationStates;
 using AutoMapper;
 using Domain.Entities;
@@ -11,11 +14,11 @@ using static Application.Features.ApplicationStates.Constants.ApplicationStatesO
 
 namespace Application.Features.ApplicationStates.Queries.GetList;
 
-public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListApplicationStateListItemDto>> /*, ISecuredRequest, ICachableRequest*/
+public class GetListApplicationStateQuery : IRequest<GetListResponse<GetListApplicationStateListItemDto>>, ISecuredRequest/*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListApplicationStates({PageRequest.PageIndex},{PageRequest.PageSize})";

@@ -1,4 +1,8 @@
-﻿using Application.Features.Auth.Rules;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Auth.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.AuthenticatorService;
 using Application.Services.Repositories;
 using Application.Services.UsersService;
@@ -12,7 +16,7 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
 {
     public Guid UserId { get; set; }
 
-    public string[] Roles => [];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class EnableOtpAuthenticatorCommandHandler
         : IRequestHandler<EnableOtpAuthenticatorCommand, EnabledOtpAuthenticatorResponse>

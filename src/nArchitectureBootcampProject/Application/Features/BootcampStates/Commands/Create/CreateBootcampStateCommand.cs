@@ -1,5 +1,7 @@
 using Application.Features.BootcampStates.Constants;
 using Application.Features.BootcampStates.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.BootcampStates;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -13,16 +15,14 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 
 namespace Application.Features.BootcampStates.Commands.Create;
 
-public class CreateBootcampStateCommand : IRequest<CreatedBootcampStateResponse>
-//,
-//    ISecuredRequest,
+public class CreateBootcampStateCommand : IRequest<CreatedBootcampStateResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, BootcampStatesOperationClaims.Create];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

@@ -1,4 +1,7 @@
 using Application.Features.Bootcamps.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -11,9 +14,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Commands.Update;
 
-public class UpdateBootcampCommand : IRequest<UpdatedBootcampResponse>
-//,
-//    ISecuredRequest,
+public class UpdateBootcampCommand : IRequest<UpdatedBootcampResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
@@ -25,7 +26,7 @@ public class UpdateBootcampCommand : IRequest<UpdatedBootcampResponse>
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
 
-    public string[] Roles => [Admin, Write, BootcampsOperationClaims.Update];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

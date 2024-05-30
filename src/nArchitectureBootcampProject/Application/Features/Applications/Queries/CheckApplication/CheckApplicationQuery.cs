@@ -1,16 +1,22 @@
-﻿using Application.Features.Applications.Rules;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Applications.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.CheckApplication;
 
-public class CheckApplicationQuery : IRequest<CheckApplicationResponse>
+public class CheckApplicationQuery : IRequest<CheckApplicationResponse>, ISecuredRequest
 {
     public Guid ApplicantId { get; set; }
     public Guid BootcampId { get; set; }
+
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class CheckApplicationQueryHandler : IRequestHandler<CheckApplicationQuery, CheckApplicationResponse>
     {

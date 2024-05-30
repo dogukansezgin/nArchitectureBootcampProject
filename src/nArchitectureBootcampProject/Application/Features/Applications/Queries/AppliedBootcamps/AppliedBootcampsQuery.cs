@@ -1,8 +1,12 @@
-﻿using Application.Features.Applications.Rules;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Applications.Rules;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
@@ -10,10 +14,12 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.AppliedBootcamps;
 
-public class AppliedBootcampsQuery : IRequest<GetListResponse<AppliedBootcampsResponse>>
+public class AppliedBootcampsQuery : IRequest<GetListResponse<AppliedBootcampsResponse>>, ISecuredRequest
 {
     public Guid ApplicantId { get; set; }
     public PageRequest PageRequest { get; set; }
+
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public class AppliedBootcampsQueryHandler : IRequestHandler<AppliedBootcampsQuery, GetListResponse<AppliedBootcampsResponse>>
     {

@@ -1,4 +1,7 @@
+using Application.Features.Applicants.Constants;
 using Application.Features.Applications.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Applications;
 using AutoMapper;
 using MediatR;
@@ -11,9 +14,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Commands.Create;
 
-public class CreateApplicationCommand : IRequest<CreatedApplicationResponse>
-//,
-//ISecuredRequest,
+public class CreateApplicationCommand : IRequest<CreatedApplicationResponse>, ISecuredRequest
 //ICacheRemoverRequest,
 //ILoggableRequest,
 //ITransactionalRequest
@@ -22,7 +23,7 @@ public class CreateApplicationCommand : IRequest<CreatedApplicationResponse>
     public Guid BootcampId { get; set; }
     public Guid ApplicationStateId { get; set; }
 
-    public string[] Roles => [Admin, Write, ApplicationsOperationClaims.Create];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, ApplicantsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

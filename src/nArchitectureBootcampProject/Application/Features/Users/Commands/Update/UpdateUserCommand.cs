@@ -35,7 +35,7 @@ public class UpdateUserCommand : IRequest<UpdatedUserResponse>, ISecuredRequest
         Password = password;
     }
 
-    public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Update };
+    public string[] Roles => new[] { UsersOperationClaims.Admin };
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdatedUserResponse>
     {

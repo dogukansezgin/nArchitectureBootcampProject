@@ -1,4 +1,8 @@
-﻿using Application.Services.Bootcamps;
+﻿using Application.Features.Applicants.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
+using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -15,11 +19,11 @@ namespace Application.Features.Bootcamps.Queries.SearchAll;
 public class SearchAllBootcampQuery
     : IRequest<
         GetListResponse<SearchAllBootcampListItemDto>
-    > /*, ISecuredRequest*/ /*, ICachableRequest*/
+    >/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"SearchAllBootcamps({PageRequest.PageIndex},{PageRequest.PageSize})";

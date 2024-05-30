@@ -33,7 +33,7 @@ public class CreateUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
         Password = password;
     }
 
-    public string[] Roles => new[] { Admin, Write, UsersOperationClaims.Create };
+    public string[] Roles => new[] { UsersOperationClaims.Admin };
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreatedUserResponse>
     {

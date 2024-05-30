@@ -1,4 +1,6 @@
 using Application.Features.Blacklists.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Blacklists;
 using AutoMapper;
 using Domain.Entities;
@@ -12,18 +14,16 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 namespace Application.Features.Blacklists.Commands.Create;
 
 public class CreateBlacklistCommand
-    : IRequest<CreatedBlacklistResponse>
-    //,
-    //    ISecuredRequest,
-    //    ICacheRemoverRequest,
-    //    ILoggableRequest,
-    //    ITransactionalRequest
+    : IRequest<CreatedBlacklistResponse>, ISecuredRequest
+//    ICacheRemoverRequest,
+//    ILoggableRequest,
+//    ITransactionalRequest
 {
     public Guid ApplicantId { get; set; }
     public string Reason { get; set; }
     //public DateTime Date { get; set; }
 
-    public string[] Roles => [Admin, Write, BlacklistsOperationClaims.Create];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey { get; }

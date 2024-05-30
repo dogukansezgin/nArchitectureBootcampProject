@@ -1,4 +1,7 @@
 using Application.Features.BootcampImages.Constants;
+using Application.Features.Employees.Constants;
+using Application.Features.Instructors.Constants;
+using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -13,13 +16,11 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 namespace Application.Features.BootcampImages.Queries.GetList;
 
 public class GetListBootcampImageQuery
-    : IRequest<GetListResponse<GetListBootcampImageListItemDto>>,
-        ISecuredRequest,
-        ICachableRequest
+    : IRequest<GetListResponse<GetListBootcampImageListItemDto>>/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListBootcampImages({PageRequest.PageIndex},{PageRequest.PageSize})";
