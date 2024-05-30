@@ -1,3 +1,4 @@
+using Application.Features.Bootcamps.Queries.GetListByInstructor;
 using Application.Features.Bootcamps.Commands.Create;
 using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.DeleteRange;
@@ -97,6 +98,14 @@ public class BootcampsController : BaseController
     {
         GetListDeletedBootcampQuery getListDeletedBootcampQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListDeletedBootcampListItemDto> response = await Mediator.Send(getListDeletedBootcampQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("getByInstructor")]
+    public async Task<IActionResult> GetListByInstructor([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
+    {
+        GetListByInstructorBootcampQuery getListByInstructorBootcampQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorBootcampListItemDto> response = await Mediator.Send(getListByInstructorBootcampQuery);
         return Ok(response);
     }
 

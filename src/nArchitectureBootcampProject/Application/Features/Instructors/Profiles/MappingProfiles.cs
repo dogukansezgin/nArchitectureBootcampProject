@@ -2,6 +2,7 @@ using Application.Features.Instructors.Commands.Create;
 using Application.Features.Instructors.Commands.Delete;
 using Application.Features.Instructors.Commands.Restore;
 using Application.Features.Instructors.Commands.Update;
+using Application.Features.Instructors.Queries.GetBasicInfoById;
 using Application.Features.Instructors.Queries.GetBasicInfoList;
 using Application.Features.Instructors.Queries.GetById;
 using Application.Features.Instructors.Queries.GetList;
@@ -24,6 +25,7 @@ public class MappingProfiles : Profile
         CreateMap<Instructor, DeleteInstructorCommand>().ReverseMap();
         CreateMap<Instructor, DeletedInstructorResponse>().ReverseMap();
         CreateMap<Instructor, GetByIdInstructorResponse>().ReverseMap();
+        CreateMap<Instructor, GetBasicInfoByIdInstructorResponse>().ReverseMap();
         CreateMap<Instructor, GetListInstructorListItemDto>().ReverseMap();
         CreateMap<IPaginate<Instructor>, GetListResponse<GetListInstructorListItemDto>>().ReverseMap();
 

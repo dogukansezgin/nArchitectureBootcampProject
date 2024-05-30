@@ -4,6 +4,7 @@ using Application.Features.Instructors.Commands.DeleteRange;
 using Application.Features.Instructors.Commands.Restore;
 using Application.Features.Instructors.Commands.RestoreRange;
 using Application.Features.Instructors.Commands.Update;
+using Application.Features.Instructors.Queries.GetBasicInfoById;
 using Application.Features.Instructors.Queries.GetBasicInfoList;
 using Application.Features.Instructors.Queries.GetById;
 using Application.Features.Instructors.Queries.GetList;
@@ -66,10 +67,17 @@ public class InstructorsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("getById/{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         GetByIdInstructorResponse response = await Mediator.Send(new GetByIdInstructorQuery { Id = id });
+        return Ok(response);
+    }
+
+    [HttpGet("getBasicInfoById/{id}")]
+    public async Task<IActionResult> GetBasicInfoById([FromRoute] Guid id)
+    {
+        GetBasicInfoByIdInstructorResponse response = await Mediator.Send(new GetBasicInfoByIdInstructorQuery { Id = id });
         return Ok(response);
     }
 
