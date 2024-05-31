@@ -20,7 +20,7 @@ namespace Application.Features.Bootcamps.Queries.GetListFinished;
 public class GetListFinishedBootcampQuery
     : IRequest<
         GetListResponse<GetListBootcampListItemDto>
-    >/*, ISecuredRequest, ICachableRequest*/
+    > /*, ISecuredRequest*/ /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -32,7 +32,7 @@ public class GetListFinishedBootcampQuery
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListFinishedBootcampQueryHandler
-        : IRequestHandler<GetListFinishedBootcampQuery, GetListResponse<GetListBootcampListItemDto>>
+        : IRequestHandler<GetListFinishedBootcampQuery, GetListResponse<GetListFinishedBootcampListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampService _bootcampService;
@@ -43,7 +43,7 @@ public class GetListFinishedBootcampQuery
             _bootcampService = bootcampService;
         }
 
-        public async Task<GetListResponse<GetListBootcampListItemDto>> Handle(
+        public async Task<GetListResponse<GetListFinishedBootcampListItemDto>> Handle(
             GetListFinishedBootcampQuery request,
             CancellationToken cancellationToken
         )
@@ -53,12 +53,12 @@ public class GetListFinishedBootcampQuery
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
                 predicate: x => x.StartDate < DateTime.Now.AddDays(15),
-                include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
+                include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState).Include(x => x.BootcampImages)
             );
 
-            GetListResponse<GetListBootcampListItemDto> response = _mapper.Map<GetListResponse<GetListBootcampListItemDto>>(
-                bootcamps
-            );
+            GetListResponse<GetListFinishedBootcampListItemDto> response = _mapper.Map<
+                GetListResponse<GetListFinishedBootcampListItemDto>
+            >(bootcamps);
             return response;
         }
     }

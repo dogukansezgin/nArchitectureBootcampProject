@@ -1,7 +1,10 @@
 using System.Linq.Expressions;
 using Application.Features.BootcampImages.Rules;
+using Application.Services.ImageService;
 using Application.Services.Repositories;
+using AutoMapper;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 
@@ -11,14 +14,20 @@ public class BootcampImageManager : IBootcampImageService
 {
     private readonly IBootcampImageRepository _bootcampImageRepository;
     private readonly BootcampImageBusinessRules _bootcampImageBusinessRules;
+    private readonly ImageServiceBase _imageService;
+    private readonly IMapper _mapper;
 
     public BootcampImageManager(
         IBootcampImageRepository bootcampImageRepository,
-        BootcampImageBusinessRules bootcampImageBusinessRules
+        BootcampImageBusinessRules bootcampImageBusinessRules,
+        ImageServiceBase imageService,
+        IMapper mapper
     )
     {
         _bootcampImageRepository = bootcampImageRepository;
         _bootcampImageBusinessRules = bootcampImageBusinessRules;
+        _imageService = imageService;
+        _mapper = mapper;
     }
 
     public async Task<BootcampImage?> GetAsync(
@@ -63,16 +72,19 @@ public class BootcampImageManager : IBootcampImageService
         return bootcampImageList;
     }
 
-    public async Task<BootcampImage> AddAsync(BootcampImage bootcampImage)
+    public async Task<BootcampImage> AddAsync(IFormFile file, BootcampImageRequest request)
     {
-        BootcampImage addedBootcampImage = await _bootcampImageRepository.AddAsync(bootcampImage);
+        BootcampImage addedBootcampImage = new BootcampImage() { BootcampId = request.BootcampId };
+        addedBootcampImage = _mapper.Map(request, addedBootcampImage);
+        addedBootcampImage.ImagePath = await _imageService.UploadAsync(file);
 
-        return addedBootcampImage;
+        return await _bootcampImageRepository.AddAsync(addedBootcampImage);
     }
 
-    public async Task<BootcampImage> UpdateAsync(BootcampImage bootcampImage)
+    public async Task<BootcampImage> UpdateAsync(IFormFile file, UpdateBootcampImageRequest request)
     {
-        BootcampImage updatedBootcampImage = await _bootcampImageRepository.UpdateAsync(bootcampImage);
+        BootcampImage updatedBootcampImage = await _bootcampImageRepository.GetAsync(x => x.Id == request.Id);
+        //updatedBootcampImage
 
         return updatedBootcampImage;
     }
