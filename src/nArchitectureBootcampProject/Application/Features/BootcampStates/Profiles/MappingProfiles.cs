@@ -3,6 +3,7 @@ using Application.Features.BootcampStates.Commands.Delete;
 using Application.Features.BootcampStates.Commands.Restore;
 using Application.Features.BootcampStates.Commands.Update;
 using Application.Features.BootcampStates.Queries.GetById;
+using Application.Features.BootcampStates.Queries.GetByName;
 using Application.Features.BootcampStates.Queries.GetList;
 using Application.Features.BootcampStates.Queries.GetListDeleted;
 using AutoMapper;
@@ -23,6 +24,7 @@ public class MappingProfiles : Profile
         CreateMap<BootcampState, DeleteBootcampStateCommand>().ReverseMap();
         CreateMap<BootcampState, DeletedBootcampStateResponse>().ReverseMap();
         CreateMap<BootcampState, GetByIdBootcampStateResponse>().ReverseMap();
+        CreateMap<BootcampState, GetByNameBootcampStateResponse>().ReverseMap();
         CreateMap<BootcampState, GetListBootcampStateListItemDto>().ReverseMap();
         CreateMap<IPaginate<BootcampState>, GetListResponse<GetListBootcampStateListItemDto>>().ReverseMap();
 

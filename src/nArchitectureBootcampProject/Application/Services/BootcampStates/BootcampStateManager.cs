@@ -139,4 +139,13 @@ public class BootcampStateManager : IBootcampStateService
 
         return bootcampState;
     }
+
+    public async Task<BootcampState> GetByNameAsync(string name)
+    {
+        BootcampState? bootcampState = await _bootcampStateRepository.GetAsync(x => x.Name == name);
+
+        await _bootcampStateBusinessRules.BootcampStateShouldExistWhenSelected(bootcampState);
+
+        return bootcampState;
+    }
 }

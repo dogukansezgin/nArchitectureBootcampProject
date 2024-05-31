@@ -5,6 +5,7 @@ using Application.Features.BootcampStates.Commands.Restore;
 using Application.Features.BootcampStates.Commands.RestoreRange;
 using Application.Features.BootcampStates.Commands.Update;
 using Application.Features.BootcampStates.Queries.GetById;
+using Application.Features.BootcampStates.Queries.GetByName;
 using Application.Features.BootcampStates.Queries.GetList;
 using Application.Features.BootcampStates.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,13 @@ public class BootcampStatesController : BaseController
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         GetByIdBootcampStateResponse response = await Mediator.Send(new GetByIdBootcampStateQuery { Id = id });
+        return Ok(response);
+    }
+
+    [HttpGet("getByName/{name}")]
+    public async Task<IActionResult> GetByName([FromRoute] String name)
+    {
+        GetByNameBootcampStateResponse response = await Mediator.Send(new GetByNameBootcampStateQuery { Name = name });
         return Ok(response);
     }
 

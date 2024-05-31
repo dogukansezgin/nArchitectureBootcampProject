@@ -31,4 +31,5 @@ public interface IBootcampStateService
     Task<BootcampState> RestoreAsync(BootcampState bootcampState);
     Task<ICollection<BootcampState>> RestoreRangeAsync(ICollection<BootcampState> bootcampStates);
     Task<BootcampState> GetByIdAsync(Guid id);
+    Task<BootcampState> GetByNameAsync(string name);
 }
