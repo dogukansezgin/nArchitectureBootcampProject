@@ -19,8 +19,7 @@ public class CreateApplicantCommandValidator : AbstractValidator<CreateApplicant
             .WithMessage(
                 "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character."
             );
-        RuleFor(c => c.NationalIdentity)
-            .Length(11).When(c => c.NationalIdentity != null && c.NationalIdentity.Length > 0);
+        RuleFor(c => c.NationalIdentity).Length(11).When(c => c.NationalIdentity != null && c.NationalIdentity.Length > 0);
     }
 
     private bool StrongPassword(string value)

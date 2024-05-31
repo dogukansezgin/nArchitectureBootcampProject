@@ -9,8 +9,7 @@ public class UpdateInstructorCommandValidator : AbstractValidator<UpdateInstruct
     {
         RuleFor(c => c.Id).NotEmpty();
         RuleFor(c => c.CompanyName).NotEmpty();
-        RuleFor(c => c.NationalIdentity)
-            .Length(11).When(c => c.NationalIdentity != null && c.NationalIdentity.Length > 0);
+        RuleFor(c => c.NationalIdentity).Length(11).When(c => c.NationalIdentity != null && c.NationalIdentity.Length > 0);
         RuleFor(c => c.Email)
             .NotEmpty()
             .EmailAddress()

@@ -6,6 +6,8 @@ using Application.Features.Bootcamps.Queries.GetBasicInfoList;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetList;
 using Application.Features.Bootcamps.Queries.GetListDeleted;
+using Application.Features.Bootcamps.Queries.GetListFinished;
+using Application.Features.Bootcamps.Queries.GetListUnfinished;
 using Application.Features.Bootcamps.Queries.SearchAll;
 using AutoMapper;
 using Domain.Entities;
@@ -27,6 +29,28 @@ public class MappingProfiles : Profile
         CreateMap<Bootcamp, GetByIdBootcampResponse>().ReverseMap();
         CreateMap<Bootcamp, GetListBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListBootcampListItemDto>>().ReverseMap();
+
+        CreateMap<Bootcamp, GetListFinishedBootcampListItemDto>()
+            .ForMember(
+                destinationMember: x => x.BootcampImageId,
+                memberOptions: opt => opt.MapFrom(x => x.BootcampImages.FirstOrDefault().Id)
+            )
+            .ForMember(
+                destinationMember: x => x.BootcampImagePath,
+                memberOptions: opt => opt.MapFrom(x => x.BootcampImages.FirstOrDefault().ImagePath)
+            );
+        CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListFinishedBootcampListItemDto>>().ReverseMap();
+
+        CreateMap<Bootcamp, GetListUnfinishedBootcampListItemDto>()
+            .ForMember(
+                destinationMember: x => x.BootcampImageId,
+                memberOptions: opt => opt.MapFrom(x => x.BootcampImages.FirstOrDefault().Id)
+            )
+            .ForMember(
+                destinationMember: x => x.BootcampImagePath,
+                memberOptions: opt => opt.MapFrom(x => x.BootcampImages.FirstOrDefault().ImagePath)
+            );
+        CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListUnfinishedBootcampListItemDto>>().ReverseMap();
 
         CreateMap<Bootcamp, GetListDeletedBootcampListItemDto>().ReverseMap();
         CreateMap<IPaginate<Bootcamp>, GetListResponse<GetListDeletedBootcampListItemDto>>().ReverseMap();

@@ -1,4 +1,4 @@
-﻿using Application.Features.Bootcamps.Queries.GetList;
+﻿using Application.Features.Bootcamps.Queries.GetListUnfinished;
 using Application.Services.Bootcamps;
 using AutoMapper;
 using Domain.Entities;
@@ -13,7 +13,7 @@ namespace Application.Features.Bootcamps.Queries.GetAllList;
 
 public class GetListUnfinishedBootcampQuery
     : IRequest<
-        GetListResponse<GetListBootcampListItemDto>
+        GetListResponse<GetListUnfinishedBootcampListItemDto>
     > /*, ISecuredRequest*/ /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
@@ -26,7 +26,7 @@ public class GetListUnfinishedBootcampQuery
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListUnfinishedBootcampQueryHandler
-        : IRequestHandler<GetListUnfinishedBootcampQuery, GetListResponse<GetListBootcampListItemDto>>
+        : IRequestHandler<GetListUnfinishedBootcampQuery, GetListResponse<GetListUnfinishedBootcampListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampService _bootcampService;
@@ -37,7 +37,7 @@ public class GetListUnfinishedBootcampQuery
             _bootcampService = bootcampService;
         }
 
-        public async Task<GetListResponse<GetListBootcampListItemDto>> Handle(
+        public async Task<GetListResponse<GetListUnfinishedBootcampListItemDto>> Handle(
             GetListUnfinishedBootcampQuery request,
             CancellationToken cancellationToken
         )
@@ -47,12 +47,12 @@ public class GetListUnfinishedBootcampQuery
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
                 predicate: x => x.StartDate >= DateTime.Now.AddDays(15),
-                include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState)
+                include: x => x.Include(x => x.Instructor).Include(x => x.BootcampState).Include(x => x.BootcampImages)
             );
 
-            GetListResponse<GetListBootcampListItemDto> response = _mapper.Map<GetListResponse<GetListBootcampListItemDto>>(
-                bootcamps
-            );
+            GetListResponse<GetListUnfinishedBootcampListItemDto> response = _mapper.Map<
+                GetListResponse<GetListUnfinishedBootcampListItemDto>
+            >(bootcamps);
             return response;
         }
     }
