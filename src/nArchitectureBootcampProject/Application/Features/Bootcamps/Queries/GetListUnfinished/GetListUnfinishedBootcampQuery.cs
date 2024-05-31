@@ -1,5 +1,6 @@
 ﻿using Application.Features.Applicants.Constants;
 using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Bootcamps.Queries.GetListUnfinished;
 using Application.Features.Employees.Constants;
 using Application.Features.Instructors.Constants;
 using Application.Features.Users.Constants;
@@ -18,7 +19,7 @@ namespace Application.Features.Bootcamps.Queries.GetAllList;
 
 public class GetListUnfinishedBootcampQuery
     : IRequest<
-        GetListResponse<GetListBootcampListItemDto>
+        GetListResponse<GetListUnfinishedBootcampListItemDto>
     >/*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }

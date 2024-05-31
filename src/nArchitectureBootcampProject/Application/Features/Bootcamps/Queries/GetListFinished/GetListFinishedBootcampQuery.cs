@@ -19,7 +19,7 @@ namespace Application.Features.Bootcamps.Queries.GetListFinished;
 
 public class GetListFinishedBootcampQuery
     : IRequest<
-        GetListResponse<GetListBootcampListItemDto>
+        GetListResponse<GetListFinishedBootcampListItemDto>
     > /*, ISecuredRequest*/ /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
