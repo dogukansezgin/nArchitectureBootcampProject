@@ -13,7 +13,7 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Queries.GetListDeleted;
 
-public class GetListDeletedInstructorQuery : IRequest<GetListResponse<GetListDeletedInstructorListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListDeletedInstructorQuery : IRequest<GetListResponse<GetListDeletedInstructorListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

@@ -13,8 +13,7 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Commands.Delete;
 
-public class DeleteBlacklistCommand
-    : IRequest<DeletedBlacklistResponse>, ISecuredRequest
+public class DeleteBlacklistCommand : IRequest<DeletedBlacklistResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest

@@ -13,7 +13,9 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListByInstructor;
 
-public class GetListByInstructorApplicationQuery : IRequest<GetListResponse<GetListByInstructorApplicationListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListByInstructorApplicationQuery
+    : IRequest<GetListResponse<GetListByInstructorApplicationListItemDto>>,
+        ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
     public Guid InstructorId { get; set; }
@@ -46,12 +48,13 @@ public class GetListByInstructorApplicationQuery : IRequest<GetListResponse<GetL
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                include: x => 
+                include: x =>
                     x.Include(x => x.Applicant)
-                      .Include(x => x.Bootcamp).ThenInclude(x => x.Instructor)
-                      .Include(x => x.ApplicationState),
-                predicate: x => x.Bootcamp.InstructorId == request.InstructorId && x.ApplicationState.Name != "Deðerlendirme"
-            );  // Except data with status "Deðerlendirme".
+                        .Include(x => x.Bootcamp)
+                        .ThenInclude(x => x.Instructor)
+                        .Include(x => x.ApplicationState),
+                predicate: x => x.Bootcamp.InstructorId == request.InstructorId && x.ApplicationState.Name != "Deï¿½erlendirme"
+            ); // Except data with status "Deï¿½erlendirme".
 
             GetListResponse<GetListByInstructorApplicationListItemDto> response = _mapper.Map<
                 GetListResponse<GetListByInstructorApplicationListItemDto>

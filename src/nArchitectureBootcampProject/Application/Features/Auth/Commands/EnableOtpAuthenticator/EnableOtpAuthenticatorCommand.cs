@@ -16,7 +16,13 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
 {
     public Guid UserId { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public class EnableOtpAuthenticatorCommandHandler
         : IRequestHandler<EnableOtpAuthenticatorCommand, EnabledOtpAuthenticatorResponse>

@@ -13,7 +13,9 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListByInstructorByState;
 
-public class GetListByInstructorByStateApplicationQuery : IRequest<GetListResponse<GetListByInstructorByStateApplicationListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListByInstructorByStateApplicationQuery
+    : IRequest<GetListResponse<GetListByInstructorByStateApplicationListItemDto>>,
+        ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
     public Guid InstructorId { get; set; }
@@ -26,7 +28,10 @@ public class GetListByInstructorByStateApplicationQuery : IRequest<GetListRespon
     public TimeSpan? SlidingExpiration { get; }
 
     public class GetListByInstructorByStateApplicationQueryHandler
-        : IRequestHandler<GetListByInstructorByStateApplicationQuery, GetListResponse<GetListByInstructorByStateApplicationListItemDto>>
+        : IRequestHandler<
+            GetListByInstructorByStateApplicationQuery,
+            GetListResponse<GetListByInstructorByStateApplicationListItemDto>
+        >
     {
         private readonly IMapper _mapper;
         private readonly IApplicationService _applicationService;
@@ -46,12 +51,13 @@ public class GetListByInstructorByStateApplicationQuery : IRequest<GetListRespon
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 cancellationToken: cancellationToken,
-                include: x => 
+                include: x =>
                     x.Include(x => x.Applicant)
-                      .Include(x => x.Bootcamp).ThenInclude(x => x.Instructor)
-                      .Include(x => x.ApplicationState),
-                predicate: x => x.Bootcamp.InstructorId == request.InstructorId && x.ApplicationState.Name == "Deðerlendirme"
-            );  // Only data in "Deðerlendirme" status.
+                        .Include(x => x.Bootcamp)
+                        .ThenInclude(x => x.Instructor)
+                        .Include(x => x.ApplicationState),
+                predicate: x => x.Bootcamp.InstructorId == request.InstructorId && x.ApplicationState.Name == "Deï¿½erlendirme"
+            ); // Only data in "Deï¿½erlendirme" status.
 
             GetListResponse<GetListByInstructorByStateApplicationListItemDto> response = _mapper.Map<
                 GetListResponse<GetListByInstructorByStateApplicationListItemDto>

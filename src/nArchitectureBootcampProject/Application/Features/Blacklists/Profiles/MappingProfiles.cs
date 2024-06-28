@@ -1,7 +1,8 @@
-using Application.Features.Blacklists.Commands.Restore;
 using Application.Features.Blacklists.Commands.Create;
 using Application.Features.Blacklists.Commands.Delete;
+using Application.Features.Blacklists.Commands.Restore;
 using Application.Features.Blacklists.Commands.Update;
+using Application.Features.Blacklists.Queries.GetByApplicantId;
 using Application.Features.Blacklists.Queries.GetById;
 using Application.Features.Blacklists.Queries.GetList;
 using Application.Features.Blacklists.Queries.GetListDeleted;
@@ -9,7 +10,6 @@ using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
-using Application.Features.Blacklists.Queries.GetByApplicantId;
 
 namespace Application.Features.Blacklists.Profiles;
 

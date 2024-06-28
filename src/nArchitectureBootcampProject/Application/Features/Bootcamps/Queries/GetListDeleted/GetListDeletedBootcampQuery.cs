@@ -15,10 +15,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetListDeleted;
 
-public class GetListDeletedBootcampQuery
-    : IRequest<
-        GetListResponse<GetListDeletedBootcampListItemDto>
-    >, ISecuredRequest/*, ICachableRequest*/
+public class GetListDeletedBootcampQuery : IRequest<GetListResponse<GetListDeletedBootcampListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

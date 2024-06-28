@@ -15,11 +15,10 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 
 namespace Application.Features.BootcampImages.Commands.Update;
 
-public class UpdateBootcampImageCommand
-    : IRequest<UpdatedBootcampImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class UpdateBootcampImageCommand : IRequest<UpdatedBootcampImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid BootcampId { get; set; }

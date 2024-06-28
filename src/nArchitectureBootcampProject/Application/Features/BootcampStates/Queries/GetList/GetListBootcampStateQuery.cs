@@ -15,11 +15,17 @@ using static Application.Features.BootcampStates.Constants.BootcampStatesOperati
 
 namespace Application.Features.BootcampStates.Queries.GetList;
 
-public class GetListBootcampStateQuery : IRequest<GetListResponse<GetListBootcampStateListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListBootcampStateQuery : IRequest<GetListResponse<GetListBootcampStateListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListBootcampStates({PageRequest.PageIndex},{PageRequest.PageSize})";

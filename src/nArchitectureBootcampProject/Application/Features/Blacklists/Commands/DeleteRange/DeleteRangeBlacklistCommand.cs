@@ -28,8 +28,7 @@ public class DeleteRangeBlacklistCommand : IRequest<DeletedRangeBlacklistRespons
     public string? CacheKey { get; }
     public string[]? CacheGroupKey => new[] { "GetBlacklists" };
 
-    public class DeleteRangeBlacklistCommandHandler
-        : IRequestHandler<DeleteRangeBlacklistCommand, DeletedRangeBlacklistResponse>
+    public class DeleteRangeBlacklistCommandHandler : IRequestHandler<DeleteRangeBlacklistCommand, DeletedRangeBlacklistResponse>
     {
         private readonly IMapper _mapper;
         private readonly IBlacklistService _blacklistService;

@@ -16,11 +16,10 @@ using static Application.Features.InstructorImages.Constants.InstructorImagesOpe
 
 namespace Application.Features.InstructorImages.Commands.Delete;
 
-public class DeleteInstructorImageCommand
-    : IRequest<DeletedInstructorImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class DeleteInstructorImageCommand : IRequest<DeletedInstructorImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
 

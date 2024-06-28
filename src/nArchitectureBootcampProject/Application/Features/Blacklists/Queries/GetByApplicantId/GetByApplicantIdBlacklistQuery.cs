@@ -27,7 +27,10 @@ public class GetByApplicantIdBlacklistQuery : IRequest<GetByApplicantIdBlacklist
             _blacklistService = blacklistService;
         }
 
-        public async Task<GetByApplicantIdBlacklistResponse> Handle(GetByApplicantIdBlacklistQuery request, CancellationToken cancellationToken)
+        public async Task<GetByApplicantIdBlacklistResponse> Handle(
+            GetByApplicantIdBlacklistQuery request,
+            CancellationToken cancellationToken
+        )
         {
             Blacklist? blacklist = await _blacklistService.GetByApplicantIdAsync(request.Id);
 

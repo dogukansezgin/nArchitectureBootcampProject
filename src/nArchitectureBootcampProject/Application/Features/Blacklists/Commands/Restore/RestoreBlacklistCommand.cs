@@ -37,10 +37,7 @@ public class RestoreBlacklistCommand : IRequest<RestoredBlacklistResponse>, ISec
             _blacklistService = blacklistService;
         }
 
-        public async Task<RestoredBlacklistResponse> Handle(
-            RestoreBlacklistCommand request,
-            CancellationToken cancellationToken
-        )
+        public async Task<RestoredBlacklistResponse> Handle(RestoreBlacklistCommand request, CancellationToken cancellationToken)
         {
             Blacklist? blacklist = await _blacklistService.GetAsync(
                 predicate: b => b.Id == request.Id && b.DeletedDate != null,

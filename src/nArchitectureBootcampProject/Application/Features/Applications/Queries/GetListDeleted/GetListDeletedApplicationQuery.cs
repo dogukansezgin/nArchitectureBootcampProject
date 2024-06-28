@@ -14,7 +14,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListDeleted;
 
-public class GetListDeletedApplicationQuery : IRequest<GetListResponse<GetListDeletedApplicationListItemDto>>, ISecuredRequest/*,ICachableRequest*/
+public class GetListDeletedApplicationQuery : IRequest<GetListResponse<GetListDeletedApplicationListItemDto>>, ISecuredRequest /*,ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

@@ -12,7 +12,7 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 
 namespace Application.Features.BootcampImages.Queries.GetById;
 
-public class GetByIdBootcampImageQuery : IRequest<GetByIdBootcampImageResponse>/*, ISecuredRequest*/
+public class GetByIdBootcampImageQuery : IRequest<GetByIdBootcampImageResponse> /*, ISecuredRequest*/
 {
     public Guid Id { get; set; }
 

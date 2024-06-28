@@ -15,7 +15,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListBootcampQuery : IRequest<GetListResponse<GetBasicInfoBootcampListItemDto>>/*, ISecuredRequest, ICachableRequest*/
+public class GetBasicInfoListBootcampQuery : IRequest<GetListResponse<GetBasicInfoBootcampListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

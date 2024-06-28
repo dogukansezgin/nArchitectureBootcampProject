@@ -19,10 +19,7 @@ public static class EmployeesOperationClaims
     //public const string Update = $"{_section}.Update";
     //public const string Delete = $"{_section}.Delete";
 
-    public static readonly string[] InitialRolesArray =
-    {
-        User
-    };
+    public static readonly string[] InitialRolesArray = { User };
 
     public static readonly string[] InitialRoles = InitialRolesArray;
 }

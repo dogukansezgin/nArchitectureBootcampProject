@@ -16,11 +16,10 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 
 namespace Application.Features.BootcampImages.Commands.Delete;
 
-public class DeleteBootcampImageCommand
-    : IRequest<DeletedBootcampImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class DeleteBootcampImageCommand : IRequest<DeletedBootcampImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
 

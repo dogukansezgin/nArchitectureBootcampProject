@@ -1,4 +1,3 @@
-using Application.Features.Bootcamps.Queries.GetListByInstructor;
 using Application.Features.Bootcamps.Commands.Create;
 using Application.Features.Bootcamps.Commands.Delete;
 using Application.Features.Bootcamps.Commands.DeleteRange;
@@ -10,6 +9,7 @@ using Application.Features.Bootcamps.Queries.GetBasicInfoList;
 using Application.Features.Bootcamps.Queries.GetById;
 using Application.Features.Bootcamps.Queries.GetByName;
 using Application.Features.Bootcamps.Queries.GetList;
+using Application.Features.Bootcamps.Queries.GetListByInstructor;
 using Application.Features.Bootcamps.Queries.GetListDeleted;
 using Application.Features.Bootcamps.Queries.GetListFinished;
 using Application.Features.Bootcamps.Queries.GetListUnfinished;
@@ -105,7 +105,8 @@ public class BootcampsController : BaseController
     [HttpGet("getByInstructor")]
     public async Task<IActionResult> GetListByInstructor([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
     {
-        GetListByInstructorBootcampQuery getListByInstructorBootcampQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListByInstructorBootcampQuery getListByInstructorBootcampQuery =
+            new() { PageRequest = pageRequest, InstructorId = instructorId };
         GetListResponse<GetListByInstructorBootcampListItemDto> response = await Mediator.Send(getListByInstructorBootcampQuery);
         return Ok(response);
     }

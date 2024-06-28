@@ -16,12 +16,17 @@ using static Application.Features.InstructorImages.Constants.InstructorImagesOpe
 
 namespace Application.Features.InstructorImages.Queries.GetList;
 
-public class GetListInstructorImageQuery
-    : IRequest<GetListResponse<GetListInstructorImageListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListInstructorImageQuery : IRequest<GetListResponse<GetListInstructorImageListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public bool BypassCache { get; }
     public string? CacheKey => $"GetListInstructorImages({PageRequest.PageIndex},{PageRequest.PageSize})";

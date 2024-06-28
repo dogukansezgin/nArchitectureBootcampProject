@@ -15,7 +15,7 @@ using ApplicationEntity = Domain.Entities.Application;
 
 namespace Application.Features.Applications.Queries.GetListByJoin;
 
-public class GetListByJoinApplicationQuery : IRequest<GetListResponse<GetListByJoinApplicationListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListByJoinApplicationQuery : IRequest<GetListResponse<GetListByJoinApplicationListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

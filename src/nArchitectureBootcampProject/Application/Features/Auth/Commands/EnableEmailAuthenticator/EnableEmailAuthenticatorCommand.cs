@@ -21,7 +21,13 @@ public class EnableEmailAuthenticatorCommand : IRequest, ISecuredRequest
     public Guid UserId { get; set; }
     public string VerifyEmailUrlPrefix { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public EnableEmailAuthenticatorCommand()
     {

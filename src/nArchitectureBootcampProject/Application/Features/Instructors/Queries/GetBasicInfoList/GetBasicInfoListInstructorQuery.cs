@@ -13,7 +13,7 @@ using static Application.Features.Instructors.Constants.InstructorsOperationClai
 
 namespace Application.Features.Instructors.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetBasicInfoListInstructorQuery : IRequest<GetListResponse<GetBasicInfoInstructorListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

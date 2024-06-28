@@ -14,7 +14,7 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Queries.GetBasicInfoList;
 
-public class GetBasicInfoListApplicantQuery : IRequest<GetListResponse<GetBasicInfoApplicantListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetBasicInfoListApplicantQuery : IRequest<GetListResponse<GetBasicInfoApplicantListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

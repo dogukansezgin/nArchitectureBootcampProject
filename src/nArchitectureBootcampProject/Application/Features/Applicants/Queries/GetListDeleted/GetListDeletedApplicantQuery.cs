@@ -13,7 +13,7 @@ using static Application.Features.Applicants.Constants.ApplicantsOperationClaims
 
 namespace Application.Features.Applicants.Queries.GetListDeleted;
 
-public class GetListDeletedApplicantQuery : IRequest<GetListResponse<GetListDeletedApplicantListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListDeletedApplicantQuery : IRequest<GetListResponse<GetListDeletedApplicantListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

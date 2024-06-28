@@ -16,10 +16,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetListByInstructor;
 
-public class GetListByInstructorBootcampQuery
-    : IRequest<
-        GetListResponse<GetListByInstructorBootcampListItemDto>
-    >/*, ISecuredRequest, ICachableRequest*/
+public class GetListByInstructorBootcampQuery : IRequest<GetListResponse<GetListByInstructorBootcampListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
     public Guid InstructorId { get; set; }
@@ -31,7 +28,8 @@ public class GetListByInstructorBootcampQuery
     public string? CacheGroupKey => "GetBootcamps";
     public TimeSpan? SlidingExpiration { get; }
 
-    public class GetListBootcampQueryHandler : IRequestHandler<GetListByInstructorBootcampQuery, GetListResponse<GetListByInstructorBootcampListItemDto>>
+    public class GetListBootcampQueryHandler
+        : IRequestHandler<GetListByInstructorBootcampQuery, GetListResponse<GetListByInstructorBootcampListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBootcampService _bootcampService;
@@ -56,9 +54,9 @@ public class GetListByInstructorBootcampQuery
                 predicate: x => x.InstructorId == request.InstructorId
             );
 
-            GetListResponse<GetListByInstructorBootcampListItemDto> response = _mapper.Map<GetListResponse<GetListByInstructorBootcampListItemDto>>(
-                bootcamps
-            );
+            GetListResponse<GetListByInstructorBootcampListItemDto> response = _mapper.Map<
+                GetListResponse<GetListByInstructorBootcampListItemDto>
+            >(bootcamps);
             return response;
         }
     }

@@ -84,9 +84,7 @@ public class ApplicationManager : IApplicationService
         return updatedApplication;
     }
 
-    public async Task<ICollection<ApplicationEntity>> UpdateRangeAsync(
-    ICollection<ApplicationEntity> applications
-    )
+    public async Task<ICollection<ApplicationEntity>> UpdateRangeAsync(ICollection<ApplicationEntity> applications)
     {
         foreach (ApplicationEntity application in applications)
         {
@@ -95,9 +93,7 @@ public class ApplicationManager : IApplicationService
             await _applicationBusinessRules.ApplicationShouldNotExist(application);
         }
 
-        ICollection<ApplicationEntity> updatedApplications = await _applicationRepository.UpdateRangeAsync(
-            applications
-        );
+        ICollection<ApplicationEntity> updatedApplications = await _applicationRepository.UpdateRangeAsync(applications);
 
         return updatedApplications;
     }

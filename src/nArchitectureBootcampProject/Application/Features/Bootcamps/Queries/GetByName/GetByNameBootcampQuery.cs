@@ -12,7 +12,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetByName;
 
-public class GetByNameBootcampQuery : IRequest<GetByIdBootcampResponse>/*, ISecuredRequest*/
+public class GetByNameBootcampQuery : IRequest<GetByIdBootcampResponse> /*, ISecuredRequest*/
 {
     public string Name { get; set; }
 

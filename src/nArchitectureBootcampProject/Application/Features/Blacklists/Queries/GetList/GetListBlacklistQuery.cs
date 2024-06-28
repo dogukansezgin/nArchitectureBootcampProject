@@ -14,7 +14,7 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Queries.GetList;
 
-public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListBlacklistQuery : IRequest<GetListResponse<GetListBlacklistListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

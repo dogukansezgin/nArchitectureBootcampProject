@@ -106,24 +106,39 @@ public class ApplicationsController : BaseController
     [HttpGet("getByInstructor")]
     public async Task<IActionResult> GetListByInstructor([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
     {
-        GetListByInstructorApplicationQuery getListByInstructorApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
-        GetListResponse<GetListByInstructorApplicationListItemDto> response = await Mediator.Send(getListByInstructorApplicationQuery);
+        GetListByInstructorApplicationQuery getListByInstructorApplicationQuery =
+            new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorApplicationListItemDto> response = await Mediator.Send(
+            getListByInstructorApplicationQuery
+        );
         return Ok(response);
     }
 
     [HttpGet("getByInstructorDeleted")]
-    public async Task<IActionResult> GetListByInstructorDeleted([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
+    public async Task<IActionResult> GetListByInstructorDeleted(
+        [FromQuery] PageRequest pageRequest,
+        [FromQuery] Guid instructorId
+    )
     {
-        GetListByInstructorDeletedApplicationQuery getListByInstructorDeletedApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
-        GetListResponse<GetListByInstructorDeletedApplicationListItemDto> response = await Mediator.Send(getListByInstructorDeletedApplicationQuery);
+        GetListByInstructorDeletedApplicationQuery getListByInstructorDeletedApplicationQuery =
+            new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorDeletedApplicationListItemDto> response = await Mediator.Send(
+            getListByInstructorDeletedApplicationQuery
+        );
         return Ok(response);
     }
 
     [HttpGet("getByInstructorByState")]
-    public async Task<IActionResult> GetListByInstructorByState([FromQuery] PageRequest pageRequest, [FromQuery] Guid instructorId)
+    public async Task<IActionResult> GetListByInstructorByState(
+        [FromQuery] PageRequest pageRequest,
+        [FromQuery] Guid instructorId
+    )
     {
-        GetListByInstructorByStateApplicationQuery getListByInstructorByStateApplicationQuery = new() { PageRequest = pageRequest, InstructorId = instructorId };
-        GetListResponse<GetListByInstructorByStateApplicationListItemDto> response = await Mediator.Send(getListByInstructorByStateApplicationQuery);
+        GetListByInstructorByStateApplicationQuery getListByInstructorByStateApplicationQuery =
+            new() { PageRequest = pageRequest, InstructorId = instructorId };
+        GetListResponse<GetListByInstructorByStateApplicationListItemDto> response = await Mediator.Send(
+            getListByInstructorByStateApplicationQuery
+        );
         return Ok(response);
     }
 

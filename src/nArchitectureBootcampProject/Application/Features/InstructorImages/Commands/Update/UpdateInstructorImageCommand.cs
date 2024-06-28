@@ -15,11 +15,10 @@ using static Application.Features.InstructorImages.Constants.InstructorImagesOpe
 
 namespace Application.Features.InstructorImages.Commands.Update;
 
-public class UpdateInstructorImageCommand
-    : IRequest<UpdatedInstructorImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class UpdateInstructorImageCommand : IRequest<UpdatedInstructorImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid Id { get; set; }
     public Guid InstructorId { get; set; }

@@ -1,16 +1,16 @@
+using Application.Features.Blacklists.Commands.Create;
+using Application.Features.Blacklists.Commands.Delete;
 using Application.Features.Blacklists.Commands.DeleteRange;
 using Application.Features.Blacklists.Commands.Restore;
 using Application.Features.Blacklists.Commands.RestoreRange;
-using Application.Features.Blacklists.Commands.Create;
-using Application.Features.Blacklists.Commands.Delete;
 using Application.Features.Blacklists.Commands.Update;
+using Application.Features.Blacklists.Queries.GetByApplicantId;
 using Application.Features.Blacklists.Queries.GetById;
 using Application.Features.Blacklists.Queries.GetList;
 using Application.Features.Blacklists.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
-using Application.Features.Blacklists.Queries.GetByApplicantId;
 
 namespace WebAPI.Controllers;
 

@@ -18,7 +18,13 @@ public class VerifyOtpAuthenticatorCommand : IRequest, ISecuredRequest
     public Guid UserId { get; set; }
     public string ActivationCode { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public VerifyOtpAuthenticatorCommand()
     {

@@ -15,11 +15,10 @@ using static Application.Features.InstructorImages.Constants.InstructorImagesOpe
 
 namespace Application.Features.InstructorImages.Commands.Create;
 
-public class CreateInstructorImageCommand
-    : IRequest<CreatedInstructorImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class CreateInstructorImageCommand : IRequest<CreatedInstructorImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid InstructorId { get; set; }
     public string ImagePath { get; set; }

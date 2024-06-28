@@ -14,7 +14,7 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Queries.GetListDeleted;
 
-public class GetListDeletedBlacklistQuery : IRequest<GetListResponse<GetListDeletedBlacklistListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListDeletedBlacklistQuery : IRequest<GetListResponse<GetListDeletedBlacklistListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
@@ -51,9 +51,9 @@ public class GetListDeletedBlacklistQuery : IRequest<GetListResponse<GetListDele
                 predicate: x => x.DeletedDate != null
             );
 
-            GetListResponse<GetListDeletedBlacklistListItemDto> response = _mapper.Map<GetListResponse<GetListDeletedBlacklistListItemDto>>(
-                blacklists
-            );
+            GetListResponse<GetListDeletedBlacklistListItemDto> response = _mapper.Map<
+                GetListResponse<GetListDeletedBlacklistListItemDto>
+            >(blacklists);
             return response;
         }
     }

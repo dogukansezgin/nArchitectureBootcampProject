@@ -13,14 +13,14 @@ using static Application.Features.Blacklists.Constants.BlacklistsOperationClaims
 
 namespace Application.Features.Blacklists.Commands.Create;
 
-public class CreateBlacklistCommand
-    : IRequest<CreatedBlacklistResponse>, ISecuredRequest
+public class CreateBlacklistCommand : IRequest<CreatedBlacklistResponse>, ISecuredRequest
 //    ICacheRemoverRequest,
 //    ILoggableRequest,
 //    ITransactionalRequest
 {
     public Guid ApplicantId { get; set; }
     public string Reason { get; set; }
+
     //public DateTime Date { get; set; }
 
     public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User];

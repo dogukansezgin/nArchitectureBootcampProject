@@ -16,7 +16,8 @@ public class GetBasicInfoByIdInstructorQuery : IRequest<GetBasicInfoByIdInstruct
 
     public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User];
 
-    public class GetByIdInstructorQueryHandler : IRequestHandler<GetBasicInfoByIdInstructorQuery, GetBasicInfoByIdInstructorResponse>
+    public class GetByIdInstructorQueryHandler
+        : IRequestHandler<GetBasicInfoByIdInstructorQuery, GetBasicInfoByIdInstructorResponse>
     {
         private readonly IMapper _mapper;
         private readonly IInstructorService _instructorService;
@@ -27,7 +28,10 @@ public class GetBasicInfoByIdInstructorQuery : IRequest<GetBasicInfoByIdInstruct
             _instructorService = instructorService;
         }
 
-        public async Task<GetBasicInfoByIdInstructorResponse> Handle(GetBasicInfoByIdInstructorQuery request, CancellationToken cancellationToken)
+        public async Task<GetBasicInfoByIdInstructorResponse> Handle(
+            GetBasicInfoByIdInstructorQuery request,
+            CancellationToken cancellationToken
+        )
         {
             Instructor? instructor = await _instructorService.GetByIdAsync(request.Id);
 

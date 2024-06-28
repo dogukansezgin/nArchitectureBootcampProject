@@ -15,7 +15,13 @@ public class GetByNameApplicationStateQuery : IRequest<GetByNameApplicationState
 {
     public string Name { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, EmployeesOperationClaims.User, InstructorsOperationClaims.User, ApplicantsOperationClaims.User];
+    public string[] Roles =>
+        [
+            UsersOperationClaims.Admin,
+            EmployeesOperationClaims.User,
+            InstructorsOperationClaims.User,
+            ApplicantsOperationClaims.User
+        ];
 
     public class GetByNameApplicationStateQueryHandler
         : IRequestHandler<GetByNameApplicationStateQuery, GetByNameApplicationStateResponse>

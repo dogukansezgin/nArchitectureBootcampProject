@@ -16,10 +16,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.SearchAll;
 
-public class SearchAllBootcampQuery
-    : IRequest<
-        GetListResponse<SearchAllBootcampListItemDto>
-    >/*, ISecuredRequest, ICachableRequest*/
+public class SearchAllBootcampQuery : IRequest<GetListResponse<SearchAllBootcampListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

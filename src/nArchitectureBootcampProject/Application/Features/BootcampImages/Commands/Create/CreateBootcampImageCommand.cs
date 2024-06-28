@@ -15,11 +15,10 @@ using static Application.Features.BootcampImages.Constants.BootcampImagesOperati
 
 namespace Application.Features.BootcampImages.Commands.Create;
 
-public class CreateBootcampImageCommand
-    : IRequest<CreatedBootcampImageResponse>, ISecuredRequest
-        //ICacheRemoverRequest,
-        //ILoggableRequest,
-        //ITransactionalRequest
+public class CreateBootcampImageCommand : IRequest<CreatedBootcampImageResponse>, ISecuredRequest
+//ICacheRemoverRequest,
+//ILoggableRequest,
+//ITransactionalRequest
 {
     public Guid BootcampId { get; set; }
     public string ImagePath { get; set; }

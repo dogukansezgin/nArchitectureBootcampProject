@@ -17,10 +17,7 @@ using static Application.Features.Bootcamps.Constants.BootcampsOperationClaims;
 
 namespace Application.Features.Bootcamps.Queries.GetAllList;
 
-public class GetListUnfinishedBootcampQuery
-    : IRequest<
-        GetListResponse<GetListUnfinishedBootcampListItemDto>
-    >/*, ISecuredRequest, ICachableRequest*/
+public class GetListUnfinishedBootcampQuery : IRequest<GetListResponse<GetListUnfinishedBootcampListItemDto>> /*, ISecuredRequest, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 

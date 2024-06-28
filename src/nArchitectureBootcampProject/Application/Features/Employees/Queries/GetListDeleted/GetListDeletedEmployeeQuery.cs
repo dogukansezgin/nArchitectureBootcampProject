@@ -14,7 +14,7 @@ using static Application.Features.Employees.Constants.EmployeesOperationClaims;
 
 namespace Application.Features.Employees.Queries.GetListDeleted;
 
-public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>>, ISecuredRequest/*, ICachableRequest*/
+public class GetListDeletedEmployeeQuery : IRequest<GetListResponse<GetListDeletedEmployeeListItemDto>>, ISecuredRequest /*, ICachableRequest*/
 {
     public PageRequest PageRequest { get; set; }
 
