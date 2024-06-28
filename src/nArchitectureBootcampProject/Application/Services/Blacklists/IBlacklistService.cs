@@ -31,4 +31,5 @@ public interface IBlacklistService
     Task<Blacklist> RestoreAsync(Blacklist blacklist);
     Task<ICollection<Blacklist>> RestoreRangeAsync(ICollection<Blacklist> blacklists);
     Task<Blacklist> GetByIdAsync(Guid id);
+    Task<Blacklist> GetByApplicantIdAsync(Guid id);
 }

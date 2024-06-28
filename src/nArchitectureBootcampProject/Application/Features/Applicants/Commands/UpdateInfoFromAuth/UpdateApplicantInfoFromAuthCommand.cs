@@ -91,6 +91,8 @@ public class UpdateApplicantInfoFromAuthCommand : IRequest<UpdatedApplicantInfoF
             await _applicantBusinessRules.ApplicantShouldNotExistWhenUpdate(applicant!);
 
             applicant = _mapper.Map(request, applicant);
+            applicant.NationalIdentity = request.NationalIdentity;
+            applicant.DateOfBirth = request.DateOfBirth;
 
             Applicant updatedApplicant = await _applicantService.UpdateAsync(applicant!);
 

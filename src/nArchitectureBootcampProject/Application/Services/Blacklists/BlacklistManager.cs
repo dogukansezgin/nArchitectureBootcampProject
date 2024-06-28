@@ -132,4 +132,13 @@ public class BlacklistManager : IBlacklistService
 
         return blacklist;
     }
+
+    public async Task<Blacklist> GetByApplicantIdAsync(Guid id)
+    {
+        Blacklist? blacklist = await _blacklistRepository.GetAsync(x => x.ApplicantId == id);
+
+        await _blacklistBusinessRules.BlacklistShouldExistWhenSelected(blacklist);
+
+        return blacklist;
+    }
 }

@@ -9,6 +9,7 @@ using AutoMapper;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
+using Application.Features.Blacklists.Queries.GetByApplicantId;
 
 namespace Application.Features.Blacklists.Profiles;
 
@@ -23,6 +24,7 @@ public class MappingProfiles : Profile
         CreateMap<Blacklist, DeleteBlacklistCommand>().ReverseMap();
         CreateMap<Blacklist, DeletedBlacklistResponse>().ReverseMap();
         CreateMap<Blacklist, GetByIdBlacklistResponse>().ReverseMap();
+        CreateMap<Blacklist, GetByApplicantIdBlacklistResponse>().ReverseMap();
         CreateMap<Blacklist, GetListBlacklistListItemDto>().ReverseMap();
         CreateMap<IPaginate<Blacklist>, GetListResponse<GetListBlacklistListItemDto>>().ReverseMap();
 

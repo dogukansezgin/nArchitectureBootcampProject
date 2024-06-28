@@ -10,6 +10,7 @@ using Application.Features.Blacklists.Queries.GetListDeleted;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
+using Application.Features.Blacklists.Queries.GetByApplicantId;
 
 namespace WebAPI.Controllers;
 
@@ -69,6 +70,13 @@ public class BlacklistsController : BaseController
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         GetByIdBlacklistResponse response = await Mediator.Send(new GetByIdBlacklistQuery { Id = id });
+        return Ok(response);
+    }
+
+    [HttpGet("applicantId/{id}")]
+    public async Task<IActionResult> GetByApplicantId([FromRoute] Guid id)
+    {
+        GetByApplicantIdBlacklistResponse response = await Mediator.Send(new GetByApplicantIdBlacklistQuery { Id = id });
         return Ok(response);
     }
 
