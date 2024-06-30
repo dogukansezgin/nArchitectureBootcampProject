@@ -3,6 +3,7 @@ using Application.Features.Applicants.Commands.Delete;
 using Application.Features.Applicants.Commands.Restore;
 using Application.Features.Applicants.Commands.Update;
 using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
+using Application.Features.Applicants.Commands.UpdatePasswordFromAuth;
 using Application.Features.Applicants.Queries.GetBasicInfoList;
 using Application.Features.Applicants.Queries.GetById;
 using Application.Features.Applicants.Queries.GetList;
@@ -42,5 +43,8 @@ public class MappingProfiles : Profile
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
         CreateMap<Applicant, UpdatedApplicantInfoFromAuthResponse>().ReverseMap();
+
+        CreateMap<Applicant, UpdateApplicantPasswordFromAuthCommand>().ReverseMap();
+        CreateMap<Applicant, UpdatedApplicantPasswordFromAuthResponse>().ReverseMap();
     }
 }

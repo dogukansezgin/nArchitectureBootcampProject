@@ -5,6 +5,7 @@ using Application.Features.Applicants.Commands.Restore;
 using Application.Features.Applicants.Commands.RestoreRange;
 using Application.Features.Applicants.Commands.Update;
 using Application.Features.Applicants.Commands.UpdateInfoFromAuth;
+using Application.Features.Applicants.Commands.UpdatePasswordFromAuth;
 using Application.Features.Applicants.Queries.GetBasicInfoList;
 using Application.Features.Applicants.Queries.GetById;
 using Application.Features.Applicants.Queries.GetList;
@@ -42,6 +43,15 @@ public class ApplicantsController : BaseController
     {
         UpdatedApplicantInfoFromAuthResponse response = await Mediator.Send(updateApplicantInfoFromAuthCommand);
 
+        return Ok(response);
+    }
+
+    [HttpPut("UpdatePasswordFromAuth")]
+    public async Task<IActionResult> UpdatePassword(
+        [FromBody] UpdateApplicantPasswordFromAuthCommand updateApplicantPasswordFromAuthCommand
+    )
+    {
+        UpdatedApplicantPasswordFromAuthResponse response = await Mediator.Send(updateApplicantPasswordFromAuthCommand);
         return Ok(response);
     }
 

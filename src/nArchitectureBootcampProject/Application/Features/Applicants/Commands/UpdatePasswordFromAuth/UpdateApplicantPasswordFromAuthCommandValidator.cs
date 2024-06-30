@@ -1,22 +1,20 @@
 ﻿using System.Text.RegularExpressions;
 using FluentValidation;
 
-namespace Application.Features.Auth.Commands.Register.ApplicantRegister;
+namespace Application.Features.Applicants.Commands.UpdatePasswordFromAuth;
 
-public class ApplicantRegisterCommandValidator : AbstractValidator<ApplicantRegisterCommand>
+public class UpdateApplicantPasswordFromAuthCommandValidator : AbstractValidator<UpdateApplicantPasswordFromAuthCommand>
 {
-    public ApplicantRegisterCommandValidator()
+    public UpdateApplicantPasswordFromAuthCommandValidator()
     {
-        RuleFor(c => c.ApplicantForRegisterDto.Email).NotEmpty().EmailAddress();
-        RuleFor(c => c.ApplicantForRegisterDto.Password)
+        RuleFor(x => x.NewPassword)
             .NotEmpty()
             .MinimumLength(8)
             .Must(StrongPassword)
             .WithMessage(
                 "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character."
             );
-        RuleFor(c => c.ApplicantForRegisterDto.FirstName.Trim()).NotEmpty().MinimumLength(3).MaximumLength(30);
-        RuleFor(c => c.ApplicantForRegisterDto.LastName.Trim()).NotEmpty().MinimumLength(2).MaximumLength(30);
+        RuleFor(x => x.CurrentPassword).NotEmpty();
     }
 
     private bool StrongPassword(string value)
